@@ -1,19 +1,46 @@
-{\rtf1\ansi\ansicpg949\cocoartf2822
-\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
-{\colortbl;\red255\green255\blue255;}
-{\*\expandedcolortbl;;}
-\paperw11900\paperh16840\margl1440\margr1440\vieww11520\viewh8400\viewkind0
-\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+// components/SiteFooter.tsx
+import Link from "next/link";
+import { SITE } from "@/lib/site";
 
-\f0\fs24 \cf0 // components/SiteFooter.tsx\
-import \{ SITE \} from "@/lib/site";\
-\
-export default function SiteFooter() \{\
-  return (\
-    <div>\
-      <div>Contact: <a href=\{`mailto:$\{SITE.email\}`\}>\{SITE.email\}</a></div>\
-      <div style=\{\{ marginTop: 6 \}\}>\'a9 \{new Date().getFullYear()\} \{SITE.name\}</div>\
-    </div>\
-  );\
-\}\
+export default function SiteFooter() {
+  return (
+    <footer className="footer-content">
+      <div className="footer-grid">
+        <div className="footer-section">
+          <h3 className="footer-title">
+            <span className="logo-icon">🎮</span>
+            {SITE.name}
+          </h3>
+          <p className="footer-desc">Building delightful indie games for everyone.</p>
+        </div>
+        
+        <div className="footer-section">
+          <h4 className="footer-heading">Links</h4>
+          <nav className="footer-links">
+            <Link href="/about">About</Link>
+            <Link href="/support">Support</Link>
+          </nav>
+        </div>
+        
+        <div className="footer-section">
+          <h4 className="footer-heading">Legal</h4>
+          <nav className="footer-links">
+            <Link href="/privacy">Privacy Policy</Link>
+            <Link href="/terms">Terms of Use</Link>
+          </nav>
+        </div>
+        
+        <div className="footer-section">
+          <h4 className="footer-heading">Contact</h4>
+          <a href={`mailto:${SITE.email}`} className="footer-email">
+            {SITE.email}
+          </a>
+        </div>
+      </div>
+      
+      <div className="footer-bottom">
+        <span>© {new Date().getFullYear()} {SITE.name}. All rights reserved.</span>
+      </div>
+    </footer>
+  );
 }
