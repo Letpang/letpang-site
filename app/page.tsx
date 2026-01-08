@@ -1,37 +1,35 @@
-export default function HomePage() {
-  return (
-    <main style={{ maxWidth: 860, margin: "0 auto", padding: "48px 20px", lineHeight: 1.6 }}>
-      <h1 style={{ marginBottom: 8 }}>Letpang Studio</h1>
-      <p style={{ marginTop: 0, color: "#444" }}>
-        We build delightful mobile games.<br />
-        우리는 즐겁고 완성도 있는 모바일 게임을 만듭니다.
-      </p>
+{\rtf1\ansi\ansicpg949\cocoartf2822
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
 
-      <hr style={{ margin: "28px 0" }} />
-
-      <h2 style={{ marginBottom: 8 }}>Mission / 미션</h2>
-      <p style={{ marginTop: 0 }}>
-        Create accessible, charming games with thoughtful UX for everyone.<br />
-        누구나 즐길 수 있는 매력적인 게임을, 좋은 사용자 경험과 함께 제공합니다.
-      </p>
-
-      <h2 style={{ marginTop: 28, marginBottom: 8 }}>Contact / 연락</h2>
-      <p style={{ marginTop: 0 }}>
-        Support: <a href="mailto:support@letpang.com">support@letpang.com</a><br />
-        Business: <a href="mailto:biz@letpang.com">biz@letpang.com</a>
-      </p>
-
-      <h2 style={{ marginTop: 28, marginBottom: 8 }}>Links / 링크</h2>
-      <ul>
-        <li><a href="/about">About / 소개</a></li>
-        <li><a href="/support">Support</a></li>
-        <li><a href="/privacy">Privacy Policy</a></li>
-        <li><a href="/terms">Terms of Use</a></li>
-      </ul>
-
-      <p style={{ marginTop: 36, fontSize: 12, color: "#666" }}>
-        © {new Date().getFullYear()} Letpang Studio. All rights reserved.
-      </p>
-    </main>
-  );
+\f0\fs24 \cf0 // app/page.tsx\
+import Link from "next/link";\
+import \{ SITE \} from "@/lib/site";\
+\
+export default function HomePage() \{\
+  return (\
+    <>\
+      <h1 className="h1">\{SITE.name\}</h1>\
+      <p className="p">\
+        We build and publish indie games. This site provides basic company information and support links.\
+      </p>\
+\
+      <div className="card">\
+        <div className="h2">Quick Links</div>\
+        <p className="p">\
+          Email: <a href=\{`mailto:$\{SITE.email\}`\}>\{SITE.email\}</a>\
+        </p>\
+        <div style=\{\{ display: "flex", gap: 10, flexWrap: "wrap" \}\}>\
+          <Link className="btn" href="/about">About</Link>\
+          <Link className="btn" href="/support">Support</Link>\
+          <Link className="btn" href="/privacy">Privacy Policy</Link>\
+          <Link className="btn" href="/terms">Terms</Link>\
+        </div>\
+      </div>\
+    </>\
+  );\
+\}\
 }
