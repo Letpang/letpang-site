@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="이애주, 춤으로 시대의 기억을 잇다 - 이애주문화재단 디지털 아카이브">
+        <title>이애주 아카이브 | 이애주문화재단</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Noto+Sans+KR:wght@300;400;500;700&family=Noto+Serif+KR:wght@400;700;900&display=swap"
+                rel="stylesheet">
+        <link rel="stylesheet" href="style.css?v=4">
+        <script type="importmap">
+        {
+          "imports": {
+            "three": "https://unpkg.com/three@0.150.1/build/three.module.js"
+          }
+        }
+        </script>
+</head>
+
+<body>
+        <!-- Header -->
+        <header class="header">
+                <div class="logo-container">
+                        <h1 class="logo-main">
+                                <span class="logo-highlight">이애주</span><span class="logo-normal">문화재단아카이브</span>
+                        </h1>
+                        <span class="logo-sub">Lee Ae-ju Cultural Foundation Archives</span>
+                </div>
+        </header>
+        
+        <div class="nav-buttons">
+                <a href="#archive" class="nav-btn nav-btn-primary">아카이브 게시판</a>
+                <a href="#home" class="nav-btn nav-btn-secondary">아카이브 홈</a>
+        </div>
+
+        <!-- Centered Title (Fixed overlaid) -->
+        <div class="hero-content">
+                <h1 class="hero-title" id="heroTitle">이애주, 춤, 기억</h1>
+        </div>
+
+        <!-- Panning Collage Container -->
+        <div class="collage-container" id="collageContainer">
+                <div class="collage-canvas" id="collageCanvas">
+                        <!-- Images will be injected by script.js -->
+                </div>
+        </div>
+
+        <!-- Explore Hint -->
+        <div class="explore-hint" id="exploreHint">
+                <span class="hint-icon">↔</span>
+                <span class="hint-text">드래그하여 탐색하세요</span>
+        </div>
+
+        <!-- Image Modal -->
+        <div id="imageModal" class="modal-overlay">
+                <div class="modal-content">
+                        <button class="modal-close" onclick="closeModal()">&times;</button>
+                        <div class="modal-image-container">
+                                <img id="modalImage" src="" alt="Expanded View">
+                        </div>
+                        <div class="modal-caption">
+                                <h2 id="modalTitle">Archive Title</h2>
+                                <p id="modalDesc">Details about this archival item will be displayed here.</p>
+                        </div>
+                </div>
+        </div>
+
+        <script src="data.js?v=2"></script>
+        <script type="module" src="script.js?v=8"></script>
+</body>
+
+</html>
