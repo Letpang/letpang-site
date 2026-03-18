@@ -23,15 +23,28 @@ export default function SiteHeader() {
       </Link>
 
       <nav className="navLinks" aria-label="Primary">
-        {navItems.map((item) => (
-          <Link 
-            key={item.href} 
-            href={item.href}
-            className={pathname === item.href ? "active" : ""}
-          >
-            {item.label}
-          </Link>
-        ))}
+        {navItems.map((item) => {
+          if (item.href === "/explore") {
+            return (
+              <a 
+                key={item.href} 
+                href="/explore/"
+                className={pathname === item.href ? "active" : ""}
+              >
+                {item.label}
+              </a>
+            );
+          }
+          return (
+            <Link 
+              key={item.href} 
+              href={item.href}
+              className={pathname === item.href ? "active" : ""}
+            >
+              {item.label}
+            </Link>
+          );
+        })}
       </nav>
     </div>
   );
