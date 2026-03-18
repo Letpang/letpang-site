@@ -33,12 +33,12 @@ export default function HomePage() {
           Creating fun experiences, one game at a time.
         </p>
         <div className="hero-buttons">
-          <Link href="/about" className="btn btn-primary">
-            <span>About Us</span>
+          <Link href="/explore" className="btn btn-primary">
+            <span>Explore (사진 보기)</span>
             <span>→</span>
           </Link>
-          <Link href="/support" className="btn btn-secondary">
-            <span>Get Support</span>
+          <Link href="/about" className="btn btn-secondary">
+            <span>About Us</span>
           </Link>
         </div>
       </section>
@@ -58,6 +58,14 @@ export default function HomePage() {
       <section className="quick-links-section">
         <h2 className="section-title">Quick Links</h2>
         <div className="quick-links-grid">
+          <Link href="/explore" className="quick-link-card">
+            <span className="quick-link-icon">🖼️</span>
+            <div>
+              <h3>Explore</h3>
+              <p>View the 3D Image Collage</p>
+            </div>
+            <span className="arrow">→</span>
+          </Link>
           <Link href="/about" className="quick-link-card">
             <span className="quick-link-icon">👋</span>
             <div>

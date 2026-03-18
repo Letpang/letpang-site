@@ -8,6 +8,7 @@ export default function SiteHeader() {
   const pathname = usePathname();
   
   const navItems = [
+    { href: "/explore", label: "Explore" },
     { href: "/about", label: "About" },
     { href: "/support", label: "Support" },
     { href: "/privacy", label: "Privacy" },
