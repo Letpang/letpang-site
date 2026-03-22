@@ -1,60 +1,32 @@
-# 이애주, 바람의 형상 — 인터랙티브 사진 갤러리
+# 이애주 갤러리 (Explore Gallery) 사용 가이드
 
-rauschenberg100.org/explore와 동일한 방식의 Three.js 기반 드래그 인터랙티브 콜라주 갤러리입니다.
+이 소스 코드를 다운로드하여 자신의 웹사이트에 업로드할 때 주의할 점입니다.
 
-## 폴더 구조
+## 1. 파일 구조
+- `index.html`: 메인 갤러리 페이지
+- `photos.js`: 사진 데이터 정보
+- `images/`: 사진 파일들이 들어있는 폴더
+  - `thumbs/`: 갤러리 메인용 (300px)
+  - `mid/`: 모달 상세 보기용 (800px)
+- `three/`: Three.js 관련 라이브러리
 
-```
-aeju-gallery/
-├── index.html       ← 메인 페이지 (이 파일을 브라우저에서 열면 됩니다)
-├── photos.js        ← 사진 데이터 (자동 생성됨)
-├── README.md        ← 이 파일
-└── images/          ← 사진 파일을 이 폴더에 넣으세요
-    ├── AEJ-R-000019-1145.jpg
-    ├── AEJ-R-000019-1192.jpg
-    └── ... (100장)
-```
+## 2. 경로 설정 (중요!)
+이 갤러리는 **상대 경로**로 작성되어 있어 어디든 업로드만 하면 바로 작동합니다. 하지만 서버의 특정 폴더(예: `/explore/`)에 넣을 경우 아래 사항을 꼭 확인하세요.
 
-## 사용 방법
+### 주소창 마지막 슬래시(`/`) 확인
+웹사이트 주소 끝에 반드시 슬래시를 붙여야 사진이 정상적으로 로드됩니다.
+- ✅ **정상**: `https://yourdomain.com/explore/`
+- ❌ **오류**: `https://yourdomain.com/explore` (사진이 안 뜰 수 있음)
 
-1. `images/` 폴더를 만들고, 리사이즈된 사진 100장을 모두 넣으세요.
-2. `index.html`을 브라우저에서 열거나, 웹 서버에 업로드하세요.
-
-> **주의**: 로컬에서 직접 `index.html`을 열면 보안 정책으로 이미지가 안 보일 수 있습니다.  
-> 로컬 테스트 시 아래 명령어로 간단한 서버를 실행하세요:
-> ```bash
-> python3 -m http.server 8080
-> ```
-> 그 후 브라우저에서 `http://localhost:8080` 접속
-
-## 기능
-
-- **드래그**: 마우스 또는 터치로 3D 공간을 자유롭게 탐색
-- **자동 회전**: 처음 로드 시 자동으로 천천히 회전
-- **사진 클릭**: 클릭하면 오른쪽에 상세 패널이 열림
-- **URL 공유**: 특정 사진을 열면 URL에 `?photo=파일명`이 추가되어 공유 가능
-- **반응형**: 모바일/태블릿 지원
-
-## 기술 스택
-
-- [Three.js r128](https://threejs.org/) — 3D 렌더링
-- [CSS2DRenderer](https://threejs.org/docs/#examples/en/renderers/CSS2DRenderer) — HTML 요소를 3D 공간에 배치
-- [OrbitControls](https://threejs.org/docs/#examples/en/controls/OrbitControls) — 드래그/회전 컨트롤
-- [TWEEN.js](https://github.com/tweenjs/tween.js) — 카메라 애니메이션
-- [Pretendard](https://github.com/orioncactus/pretendard) — 폰트
-
-## 커스터마이징
-
-`index.html` 상단의 설정값을 변경할 수 있습니다:
-
-```javascript
-const IMAGES_DIR = 'images/';   // 사진 폴더 경로
+### 특정 경로로 고정하고 싶은 경우
+만약 무조건 특정 폴더에서만 작동하게 하고 싶다면, `index.html` 상단의 `<base href="...">` 태그를 수정하세요.
+```html
+<!-- 예: /explore/ 폴더에서만 작동하게 고정할 경우 -->
+<base href="/explore/">
 ```
 
-제목, 색상 등은 CSS `:root` 변수에서 변경:
-
-```css
-:root {
-  --orange: #FF4500;   /* 강조 색상 */
-}
-```
+## 3. 사진 데이터 수정
+새로운 사진을 추가하거나 정보를 수정하려면 `photos.js` 파일을 수정하면 됩니다.
+- `id`: 고유 번호
+- `filename`: `images/` 폴더 내의 파일 이름
+- `renderW`: 화면에 표시될 기본 크기 (픽셀)
