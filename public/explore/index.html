@@ -1,76 +1,778 @@
 <!DOCTYPE html>
 <html lang="ko">
-
 <head>
-        <meta charset="UTF-8">
-        <base href="/explore/">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="description" content="이애주, 춤으로 시대의 기억을 잇다 - 이애주문화재단 디지털 아카이브">
-        <title>이애주 아카이브 | 이애주문화재단</title>
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Noto+Sans+KR:wght@300;400;500;700&family=Noto+Serif+KR:wght@400;700;900&display=swap"
-                rel="stylesheet">
-        <link rel="stylesheet" href="style.css?v=4">
-        <script type="importmap">
-        {
-          "imports": {
-            "three": "https://unpkg.com/three@0.150.1/build/three.module.js"
-          }
-        }
-        </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>이애주, 바람의 형상, 흩어지지 않는 춤</title>
+
+  <!-- Pretendard 폰트 (로컬 포함 - 오프라인 환경 지원) -->
+  <style>
+    @font-face {
+      font-family: 'Pretendard';
+      font-weight: 800;
+      font-display: swap;
+      src: local('Pretendard ExtraBold'),
+           url('fonts/Pretendard-ExtraBold.woff2') format('woff2');
+    }
+    @font-face {
+      font-family: 'Pretendard';
+      font-weight: 700;
+      font-display: swap;
+      src: local('Pretendard Bold'),
+           url('fonts/Pretendard-Bold.woff2') format('woff2');
+    }
+    @font-face {
+      font-family: 'Pretendard';
+      font-weight: 400;
+      font-display: swap;
+      src: local('Pretendard Regular'),
+           url('fonts/Pretendard-Regular.woff2') format('woff2');
+    }
+  </style>
+
+  <!-- Three.js r128 (안정 버전) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <!-- OrbitControls -->
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+  <!-- CSS2DRenderer -->
+  <!-- CSS2DRenderer: overflow:hidden → visible 패치 적용 버전 (가장자리 사진 잘림 방지) -->
+  <script src="three/CSS2DRenderer.js"></script>
+
+  <!-- 사진 데이터 -->
+  <script src="photos.js"></script>
+
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --font: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+      --orange: #ff591b;
+      --black: #000000;
+      --white: #FFFFFF;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      /* overflow: hidden 제거 → 사진이 화면 밖으로 나가도 잘리지 않음 */
+      overflow: visible;
+      background: var(--white);
+      font-family: var(--font);
+      cursor: grab;
+      /* iOS Safari 안전 영역 대응 */
+      padding-bottom: env(safe-area-inset-bottom);
+    }
+
+    body.dragging { cursor: grabbing; }
+
+    /* 탐색 컨테이너 */
+    #explore-container {
+      position: fixed;
+      inset: 0;
+      touch-action: none; /* 터치 스크롤 방지 - OrbitControls가 처리 */
+      /* overflow: visible 유지 - 사진이 컨테이너 밖으로 나가도 잘리지 않음 */
+      overflow: visible;
+    }
+
+    #explore-container canvas {
+      position: absolute;
+      top: 0; left: 0;
+    }
+
+    /* 각 사진 아이템 */
+    .explore-item {
+      display: block;
+      cursor: pointer;
+      pointer-events: all;
+      transition: opacity 0.35s ease;
+    }
+
+    .explore-item.inactive {
+      opacity: 0.15;
+      pointer-events: none;
+    }
+
+    .explore-item img {
+      display: block;
+      width: 100%;
+      /* 세로로 긴 사진이 화면 밖으로 나가지 않도록 최대 높이 제한 */
+      /* CSS2DObject는 translate(-50%,-50%)로 중심 배치하므로 사진 높이의 절반이 위아래로 나갈 수 있음 */
+      max-height: 280px;
+      object-fit: contain;
+      height: auto;
+      pointer-events: none;
+      user-select: none;
+      -webkit-user-drag: none;
+      /* 송도 약간 밝게 - 밀도감 완화 */
+      filter: saturate(0.82) brightness(1.06);
+    }
+
+    /* 호버 시 outline을 img가 아닌 컨테이너(.explore-item)에 적용 → 잘림 없음 */
+    .explore-item:hover {
+      outline: 2px solid var(--orange);
+    }
+
+    /* 네비게이션 숨김 */
+    #nav { display: none; }
+
+    /* 하단 대형 제목 */
+    #big-title {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 50;
+      pointer-events: none;
+      line-height: 1;
+      padding: 0;
+      margin: 0;
+      overflow: visible;
+      background: linear-gradient(to top, rgba(255,255,255,0.90) 0%, rgba(255,255,255,0.65) 55%, rgba(255,255,255,0) 100%);
+    }
+    /* 제목 텍스트 래퍼 */
+    #big-title-inner {
+      display: flex;
+      align-items: baseline;
+      white-space: nowrap;
+      transform-origin: left bottom;
+      /* scaleX(0.9): 가로 90% 축소(장평), scaleY(1.3): 세로 130% 확대(장체) */
+      transform: scale(0.9, 1.3);
+      line-height: 0.9;
+      padding-bottom: max(5px, env(safe-area-inset-bottom));
+      padding-top: 55px;
+      padding-left: 0;
+      padding-right: 0;
+      margin: 0;
+    }
+    #big-title-text-span {
+      font-family: 'Pretendard', sans-serif;
+      font-weight: 900;
+      font-size: 11.5vw;
+      color: #ff591b;
+      letter-spacing: -0.04em;
+      white-space: nowrap;
+      display: block;
+      opacity: 1;
+      mix-blend-mode: normal;
+    }
+    #big-100-span {
+      font-family: 'Pretendard', sans-serif;
+      font-weight: 900;
+      font-size: 11.5vw;
+      color: transparent;
+      -webkit-text-stroke: 0.04em #ff591b;
+      text-stroke: 0.04em #ff591b;
+      letter-spacing: -0.04em;
+      white-space: nowrap;
+      display: block;
+      margin-left: 0.05em;
+      opacity: 1;
+      mix-blend-mode: normal;
+    }
+
+    /* 드래그 안내 */
+    #instructions {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 200;
+      text-align: center;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+
+    body.instructions-open #instructions { opacity: 1; }
+
+    #instructions p {
+      font-size: clamp(11px, 2.5vw, 14px);
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      color: var(--orange);
+      background: rgba(255,255,255,0.9);
+      padding: clamp(6px, 1.5vw, 10px) clamp(12px, 3vw, 20px);
+      white-space: nowrap;
+    }
+
+    /* ── 중앙 모달 오버레이 ── */
+    #modal-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 400;
+      background: rgba(0, 0, 0, 0.55);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.35s ease;
+      padding: clamp(8px, 3vw, 20px);
+    }
+
+    #modal-overlay.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    #modal-box {
+      position: relative;
+      background: var(--white);
+      width: min(860px, 100%);
+      max-height: min(90vh, 700px);
+      overflow: hidden;
+      display: flex;
+      flex-direction: row;
+      gap: 0;
+      transform: translateY(24px) scale(0.97);
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    #modal-overlay.open #modal-box {
+      transform: translateY(0) scale(1);
+    }
+
+    /* 왼쪽: 이미지 */
+    #modal-img-wrap {
+      flex: 0 0 45%;
+      background: #fff;
+      overflow: hidden;
+      position: relative;
+      min-height: clamp(200px, 40vh, 500px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #modal-img-wrap img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: center center;
+    }
+
+    /* 오른쪽: 텍스트 */
+    #modal-text {
+      flex: 1;
+      padding: clamp(20px, 4vw, 36px) clamp(16px, 3.5vw, 32px);
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    #modal-era {
+      font-size: clamp(10px, 1.8vw, 12px);
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      color: var(--orange);
+      text-transform: uppercase;
+      margin-bottom: clamp(6px, 1.5vw, 10px);
+    }
+
+    #modal-title {
+      font-size: clamp(16px, 3vw, 22px);
+      font-weight: 800;
+      color: var(--black);
+      line-height: 1.3;
+      margin-bottom: clamp(4px, 1vw, 6px);
+      word-break: keep-all;
+    }
+
+    #modal-subtitle {
+      font-size: clamp(12px, 2vw, 14px);
+      font-weight: 500;
+      color: #555;
+      margin-bottom: clamp(12px, 3vw, 20px);
+      line-height: 1.5;
+    }
+
+    #modal-desc {
+      font-size: clamp(11px, 1.8vw, 13px);
+      color: #333;
+      line-height: 1.8;
+      flex: 1;
+      word-break: keep-all;
+    }
+
+    #modal-meta {
+      margin-top: clamp(14px, 3vw, 24px);
+      padding-top: clamp(12px, 2.5vw, 18px);
+      border-top: 1px solid #eee;
+      display: flex;
+      flex-direction: column;
+      gap: clamp(4px, 1vw, 6px);
+    }
+
+    .meta-row {
+      display: flex;
+      gap: clamp(6px, 1.5vw, 10px);
+      font-size: clamp(10px, 1.6vw, 12px);
+    }
+
+    .meta-label {
+      color: #aaa;
+      font-weight: 600;
+      min-width: clamp(36px, 6vw, 48px);
+      flex-shrink: 0;
+    }
+
+    .meta-value {
+      color: #555;
+    }
+
+    /* 닫기 버튼 */
+    #modal-close {
+      position: absolute;
+      top: clamp(10px, 2vw, 14px);
+      right: clamp(12px, 2.5vw, 16px);
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: clamp(20px, 4vw, 24px);
+      line-height: 1;
+      color: #888;
+      z-index: 10;
+      padding: 4px 8px;
+      transition: color 0.2s;
+      /* 터치 타겟 최소 44px */
+      min-width: 44px;
+      min-height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #modal-close:hover { color: var(--black); }
+
+    /* ── 모바일 (세로 레이아웃) ── */
+    @media (max-width: 600px) {
+      #modal-box {
+        flex-direction: column;
+        width: 100%;
+        max-height: min(92vh, 650px);
+      }
+
+      #modal-img-wrap {
+        flex: 0 0 auto;
+        min-height: 0;
+        height: clamp(160px, 35vw, 260px);
+      }
+
+      #modal-text {
+        flex: 1;
+        overflow-y: auto;
+      }
+    }
+
+    /* ── 태블릿 (가로 레이아웃 유지, 크기 조정) ── */
+    @media (min-width: 601px) and (max-width: 900px) {
+      #modal-box {
+        max-height: min(85vh, 560px);
+      }
+
+      #modal-img-wrap {
+        flex: 0 0 40%;
+        min-height: clamp(180px, 35vh, 400px);
+      }
+    }
+  </style>
 </head>
-
 <body>
-        <!-- Header -->
-        <header class="header">
-                <div class="logo-container">
-                        <h1 class="logo-main">
-                                <span class="logo-highlight">이애주</span><span class="logo-normal">문화재단아카이브</span>
-                        </h1>
-                        <span class="logo-sub">Lee Ae-ju Cultural Foundation Archives</span>
-                </div>
-        </header>
-        
-        <div class="nav-buttons">
-                <a href="#archive" class="nav-btn nav-btn-primary">아카이브 게시판</a>
-                <a href="#home" class="nav-btn nav-btn-secondary">아카이브 홈</a>
-        </div>
 
-        <!-- Centered Title (Fixed overlaid) -->
-        <div class="hero-content">
-                <h1 class="hero-title" id="heroTitle">이애주, 춤, 기억</h1>
-        </div>
+  <nav id="nav" style="display:none"></nav>
 
-        <!-- Panning Collage Container -->
-        <div class="collage-container" id="collageContainer">
-                <div class="collage-canvas" id="collageCanvas">
-                        <!-- Images will be injected by script.js -->
-                </div>
-        </div>
+  <!-- 드래그 안내 -->
+  <div id="instructions">
+    <p>클릭하고 드래그하여 탐색하세요</p>
+  </div>
 
-        <!-- Explore Hint -->
-        <div class="explore-hint" id="exploreHint">
-                <span class="hint-icon">↔</span>
-                <span class="hint-text">드래그하여 탐색하세요</span>
-        </div>
+  <!-- 탐색 컨테이너 -->
+  <div id="explore-container"></div>
 
-        <!-- Image Modal -->
-        <div id="imageModal" class="modal-overlay">
-                <div class="modal-content">
-                        <button class="modal-close" onclick="closeModal()">&times;</button>
-                        <div class="modal-image-container">
-                                <img id="modalImage" src="" alt="Expanded View">
-                        </div>
-                        <div class="modal-caption">
-                                <h2 id="modalTitle">Archive Title</h2>
-                                <p id="modalDesc">Details about this archival item will be displayed here.</p>
-                        </div>
-                </div>
-        </div>
+  <!-- 하단 대형 제목 (CSS vw + scaleX 방식) -->
+  <div id="big-title">
+    <div id="big-title-inner">
+      <span id="big-title-text-span">이애주, 바람의 형상, 흩어지지 않는 춤</span>
+      <span id="big-100-span">100</span>
+    </div>
+  </div>
 
-        <script src="data.js?v=2"></script>
-        <script type="module" src="script.js?v=8"></script>
+  <!-- 중앙 모달 -->
+  <div id="modal-overlay">
+    <div id="modal-box">
+      <button id="modal-close" aria-label="닫기">×</button>
+      <div id="modal-img-wrap">
+        <img id="modal-img" src="" alt="" />
+      </div>
+      <div id="modal-text">
+        <div id="modal-era"></div>
+        <div id="modal-title"></div>
+        <div id="modal-subtitle"></div>
+        <div id="modal-desc"></div>
+        <div id="modal-meta"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+  (function () {
+    'use strict';
+
+    const IMAGES_THUMB_DIR  = 'images/thumbs/'; // 콜라주용 썸네일 (300px)
+    const IMAGES_MID_DIR    = 'images/mid/';    // 모달용 중간 크기 (800px)
+
+    // 뷰포트 크기 기준 분기
+    const IS_LARGE   = window.matchMedia('(min-width: 1024px)').matches;
+    const IS_MOBILE  = window.matchMedia('(max-width: 600px)').matches;
+    const IS_TABLET  = !IS_LARGE && !IS_MOBILE;
+
+    // ── Three.js 초기화 ──────────────────────────────────────────────────────
+    const container = document.getElementById('explore-container');
+    let W = window.innerWidth;
+    let H = window.innerHeight;
+
+    const camera = new THREE.OrthographicCamera(-W/2, W/2, H/2, -H/2, 1, 1000000);
+    // 참조 사이트와 동일: 등각 시점(isometric) - 타원형 궤도 효과의 원인
+    // 카메라 거리를 매우 멀리 배치하여 사진이 카메라 렌즈 뒤로 넘어가 화면에서 갑자기 사라지는 현상 방지
+    camera.position.set(100000, 100000, 100000);
+    camera.lookAt(W/2, H/2, 0);
+
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0xffffff);
+
+    // WebGL 렌더러
+    const renderer = new THREE.WebGLRenderer({
+      antialias: false,
+      powerPreference: 'high-performance',
+      alpha: false
+    });
+    renderer.setSize(W, H);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, IS_MOBILE ? 1.5 : 2));
+    container.appendChild(renderer.domElement);
+
+    // CSS2D 렌더러
+    const labelRenderer = new THREE.CSS2DRenderer();
+    // 컨테이너가 뷰포트보다 160% 크므로 렌더러도 동일하게 설정
+    labelRenderer.setSize(W, H);
+    labelRenderer.domElement.style.position = 'absolute';
+    labelRenderer.domElement.style.top = '0';
+    labelRenderer.domElement.style.left = '0';
+    labelRenderer.domElement.style.overflow = 'visible';
+    container.appendChild(labelRenderer.domElement);
+
+    // ── OrbitControls ─────────────────────────────────────────────────────────
+    // 참조 사이트와 동일: rotateSpeed 0.05, autoRotateSpeed 0.07(데스크톱) / 0.12(모바일)
+    const controls = new THREE.OrbitControls(camera, labelRenderer.domElement);
+    controls.target.set(0, 0, 0);
+    controls.enablePan      = false;
+    controls.enableDamping  = false;
+    controls.enableZoom     = false;
+    controls.autoRotate     = true;
+
+    if (IS_MOBILE) {
+      controls.rotateSpeed    = 0.12;
+      controls.autoRotateSpeed = 0.50;
+    } else if (IS_TABLET) {
+      controls.rotateSpeed    = 0.08;
+      controls.autoRotateSpeed = 0.40;
+    } else {
+      controls.rotateSpeed    = 0.05;
+      controls.autoRotateSpeed = 0.30;
+    }
+
+    // ── 드래그 안내 ──────────────────────────────────────────────────────────
+    const COOKIE_KEY = 'aeju-seen';
+    function getCookie(n) { const m = document.cookie.match(new RegExp('(?:^|; )' + n + '=([^;]*)')); return m ? m[1] : null; }
+    function setCookie(n, v, d) { const e = new Date(Date.now() + d*86400000).toUTCString(); document.cookie = n + '=' + v + '; expires=' + e + '; path=/'; }
+
+    if (!getCookie(COOKIE_KEY)) {
+      setTimeout(() => document.body.classList.add('instructions-open'), 100);
+      controls.addEventListener('start', () => { document.body.classList.remove('instructions-open'); setCookie(COOKIE_KEY,'1',1); });
+      setTimeout(() => { document.body.classList.remove('instructions-open'); setCookie(COOKIE_KEY,'1',1); }, 4000);
+    }
+
+    // ── 사진 배치 ────────────────────────────────────────────────────────────
+    const blocks = [];
+    // SPREAD: 참조 사이트와 동일하게 뷰포트 크기 기반
+    // 참조 사이트: Math.random() * window.innerWidth → ±innerWidth/2 범위
+    const SPREAD = IS_MOBILE ? W * 0.8 : IS_TABLET ? W * 0.9 : W;
+
+    // 사진 크기: 참조 사이트와 동일한 renderW 원본값 사용
+    // (photos.js의 renderW 분포가 참조 사이트와 동일: min 51, median 170, max 298)
+    function getItemWidth(renderW) {
+      const base = renderW || 150;
+      if (IS_MOBILE) {
+        return Math.round(Math.max(28, Math.min(120, base * 0.40)));
+      } else if (IS_TABLET) {
+        return Math.round(Math.max(36, Math.min(200, base * 0.65)));
+      } else {
+        // 데스크톱: 참조 사이트와 동일한 원본값 그대로
+        return base;
+      }
+    }
+
+    // 시드 기반 의사난수 (매 로드마다 동일 배치)
+    let seed = 42;
+    function rand() { seed = (seed * 1664525 + 1013904223) & 0xffffffff; return (seed >>> 0) / 0xffffffff; }
+
+    // ── 균등 배열: 크기(S/M/L) × 밝기(B/D) 6그룹 라운드로빈 순서 ──
+    // 분석 결과: 소(≤133px), 중(133~197px), 대(>197px) / 밝기 중앙값 100
+    const ORDERED_IDS = [1,5,3,9,2,16,10,19,6,14,4,18,25,23,7,21,11,20,27,28,8,24,12,30,29,34,13,33,15,43,32,35,17,40,22,44,38,47,31,50,26,61,41,48,39,52,36,62,42,54,59,53,37,67,45,63,60,55,71,70,46,64,65,56,92,74,49,68,66,57,90,51,69,73,76,95,58,75,82,78,97,72,77,83,88,100,80,79,84,81,89,91,85,93,98,86,94,87,96,99];
+    const photoMap = {};
+    PHOTOS.forEach(p => photoMap[p.id] = p);
+    const orderedPhotos = ORDERED_IDS.map(id => photoMap[id]).filter(Boolean);
+
+    // 공간을 10×10 격자로 나눠 각 셀에 사진 1장씩 배치 → 균등 분포 보장
+    // y 범위에 패딩을 추가하여 사진이 화면 위아래로 잘리지 않도록
+    // 최대 사진 높이 약 200px → 위아래 각 100px 패딩 필요
+    const IMG_PAD_Y = 160; // 사진 절반 높이(최대 ~150px) + 여유
+    const GRID_COLS = 10;
+    const GRID_ROWS = 10;
+    const cellW = SPREAD / GRID_COLS;
+    const cellH = (H - IMG_PAD_Y * 2) / GRID_ROWS; // 패딩 제외한 높이로 셀 계산
+    const gridCells = [];
+    for (let row = 0; row < GRID_ROWS; row++) {
+      for (let col = 0; col < GRID_COLS; col++) {
+        gridCells.push({ col, row });
+      }
+    }
+    // 격자 순서를 시드 기반으로 섞기 (균등하되 랜덤)
+    for (let i = gridCells.length - 1; i > 0; i--) {
+      const j = Math.floor(rand() * (i + 1));
+      [gridCells[i], gridCells[j]] = [gridCells[j], gridCells[i]];
+    }
+
+    orderedPhotos.forEach(function (photo, idx) {
+      // 격자 셀 기반 배치 (셀 내 ±40% 오프셋)
+      const cell = gridCells[idx % gridCells.length];
+      const x = (cell.col / GRID_COLS - 0.5) * SPREAD + (rand() - 0.5) * cellW * 0.8;
+      // y: 패딩 범위 내에서만 배치 (-H/2+IMG_PAD_Y ~ +H/2-IMG_PAD_Y)
+      const yRange = H - IMG_PAD_Y * 2;
+      const y = (cell.row / GRID_ROWS - 0.5) * yRange + (rand() - 0.5) * cellH * 0.8;
+      const z = (rand() - 0.5) * SPREAD;
+
+      const item = document.createElement('a');
+      item.className = 'explore-item';
+      item.href = '#';
+      item.dataset.id = photo.id;
+
+      const itemW = getItemWidth(photo.renderW);
+      item.style.width = itemW + 'px';
+
+      const img = document.createElement('img');
+      img.src     = IMAGES_THUMB_DIR + photo.filename;
+      img.alt     = photo.title || photo.slug;
+      // loading='lazy' 제거: 3D 월드에서 움직이는 DOM 요소의 지연 로딩은 깜빡임을 유발할 수 있음
+      img.decoding = 'async';
+      img.style.width  = '100%';
+      img.style.height = 'auto';
+      item.appendChild(img);
+
+      // 클릭/터치 이벤트 (드래그와 탭 구분)
+      let startX, startY, isDragging = false;
+      const DRAG_THRESHOLD = IS_MOBILE ? 8 : 5;
+
+      item.addEventListener('pointerdown', e => {
+        startX = e.clientX; startY = e.clientY;
+        isDragging = false;
+        e.stopPropagation();
+      });
+
+      item.addEventListener('pointermove', e => {
+        if (startX === undefined) return;
+        if (Math.abs(e.clientX - startX) > DRAG_THRESHOLD ||
+            Math.abs(e.clientY - startY) > DRAG_THRESHOLD) isDragging = true;
+      });
+
+      item.addEventListener('pointerup', e => {
+        e.stopPropagation();
+        if (!isDragging) { e.preventDefault(); openModal(photo); }
+        startX = undefined; isDragging = false;
+      });
+
+      item.addEventListener('click', e => e.preventDefault());
+
+      const obj = new THREE.CSS2DObject(item);
+      obj.position.set(x, y, z);
+      scene.add(obj);
+
+      blocks.push({ el: item, obj, photo, x, y, z });
+    });
+
+    // ── 중앙 모달 ────────────────────────────────────────────────────────────
+    const overlay    = document.getElementById('modal-overlay');
+    const modalImg   = document.getElementById('modal-img');
+    const modalEra   = document.getElementById('modal-era');
+    const modalTitle = document.getElementById('modal-title');
+    const modalSub   = document.getElementById('modal-subtitle');
+    const modalDesc  = document.getElementById('modal-desc');
+    const modalMeta  = document.getElementById('modal-meta');
+    const modalClose = document.getElementById('modal-close');
+
+    function openModal(photo) {
+      blocks.forEach(b => b.el.classList.add('inactive'));
+
+      modalImg.src = IMAGES_MID_DIR + photo.filename;
+      modalImg.alt = photo.title || photo.slug;
+
+      modalEra.textContent   = photo.era   || '';
+      modalTitle.textContent = photo.title || photo.slug;
+      modalSub.textContent   = photo.subtitle || '';
+      modalDesc.textContent  = photo.desc  || '';
+
+      const metaItems = [];
+      if (photo.date)     metaItems.push(['날짜', photo.date]);
+      if (photo.place)    metaItems.push(['장소', photo.place]);
+      if (photo.keywords) metaItems.push(['키워드', photo.keywords]);
+
+      modalMeta.innerHTML = metaItems.map(([l, v]) =>
+        `<div class="meta-row"><span class="meta-label">${l}</span><span class="meta-value">${v}</span></div>`
+      ).join('');
+
+      overlay.classList.add('open');
+      controls.autoRotate = false;
+
+      const url = new URL(window.location.href);
+      url.searchParams.set('photo', photo.slug);
+      window.history.pushState({ slug: photo.slug }, '', url.toString());
+    }
+
+    function closeModal() {
+      overlay.classList.remove('open');
+      blocks.forEach(b => b.el.classList.remove('inactive'));
+      controls.autoRotate = true;
+
+      const url = new URL(window.location.href);
+      url.searchParams.delete('photo');
+      window.history.pushState({}, '', url.toString());
+    }
+
+    modalClose.addEventListener('click', closeModal);
+    overlay.addEventListener('click', e => { if (e.target === overlay) closeModal(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+    window.addEventListener('popstate', () => {
+      if (!new URL(window.location.href).searchParams.get('photo')) closeModal();
+    });
+
+    // ── 드래그 커서 ──────────────────────────────────────────────────────────
+    container.addEventListener('mousedown', () => document.body.classList.add('dragging'));
+    window.addEventListener('mouseup', () => document.body.classList.remove('dragging'));
+
+    // ── 렌더 루프 ────────────────────────────────────────────────────────────
+    function animate() {
+      requestAnimationFrame(animate);
+      controls.update();
+      // 항상 매 프레임 렌더링 - autoRotate가 항상 켜져 있으므로 조건부 렌더링은 불필요하며 깜빡임을 유발할 수 있음
+      renderer.render(scene, camera);
+      labelRenderer.render(scene, camera);
+    }
+
+    animate();
+
+    // ── 초기 렌더링 후 화면 밖으로 나간 사진 위치 보정 ──────────────────────
+    // CSS2DRenderer가 translate(-50%,-50%)로 중심 배치하므로
+    // 사진 높이의 절반이 화면 위아래로 나갈 수 있음 → 클램핑으로 보정
+    function clampPhotoPositions() {
+      const vH = window.innerHeight;
+      const MARGIN = 8; // 화면 가장자리 여유 px
+      const items = document.querySelectorAll('.explore-item');
+      items.forEach(item => {
+        const r = item.getBoundingClientRect();
+        const h = r.height;
+        // 현재 transform에서 translate 값 파싱
+        const tfm = item.style.transform;
+        const match = tfm.match(/translate\(-50%,\s*-50%\)\s*translate\(([^,]+)px,\s*([^)]+)px\)/);
+        if (!match) return;
+        const tx = parseFloat(match[1]);
+        let ty = parseFloat(match[2]);
+        // 화면 위로 나가면 보정
+        if (r.top < MARGIN) {
+          ty += (MARGIN - r.top);
+        }
+        // 화면 아래로 나가면 보정 (단, 타이틀 영역 고려해 vH - 120 기준)
+        const bottomLimit = vH - 120; // 하단 타이틀 영역 제외
+        if (r.bottom > bottomLimit) {
+          ty -= (r.bottom - bottomLimit);
+        }
+        item.style.transform = `translate(-50%, -50%) translate(${tx}px, ${ty}px)`;
+      });
+    }
+
+    // clampPhotoPositions: CSS2DRenderer와 transform 충돌로 흔들림 발생 → 비활성화
+
+    // ── CSS vw 방식: 글자가 화면 너비를 꽉 채우도록 font-size 자동 조정 ──────
+    // 장평 scaleX=0.9, 장체 scaleY=1.3
+    // letter-spacing 때문에 마지막 글자 뒤에 여백이 생겨 "100"이 잘리므로
+    // 목표 너비를 vw * 0.98로 설정하여 오른쪽 2% 여유 확보
+    function fitTitleText() {
+      const inner = document.getElementById('big-title-inner');
+      const titleSpan = document.getElementById('big-title-text-span');
+      const span100 = document.getElementById('big-100-span');
+      if (!inner || !titleSpan || !span100) return;
+
+      const vw = window.innerWidth;
+      const SCALE_X = 0.9;   // 가로 장평 90%
+      const FILL    = 0.98;  // 화면 너비의 98%까지만 채움 (오른쪽 2% 여유)
+
+      // 1) transform 제거 후 기준 폰트로 측정
+      inner.style.transform = 'scale(1, 1)';
+      titleSpan.style.fontSize = '10vw';
+      span100.style.fontSize = '10vw';
+      void inner.offsetWidth; // 리플로우 강제
+
+      // 2) 각 span의 실제 너비 합산
+      const totalW = titleSpan.getBoundingClientRect().width
+                   + span100.getBoundingClientRect().width;
+
+      // 3) 목표 너비 = vw * FILL / SCALE_X  (scale 전 기준)
+      const targetW = (vw * FILL) / SCALE_X;
+      const ratio   = targetW / totalW;
+      const newFontVw = (10 * ratio).toFixed(4);
+
+      titleSpan.style.fontSize = newFontVw + 'vw';
+      span100.style.fontSize   = newFontVw + 'vw';
+
+      // 4) scale(0.9, 1.3) 복원
+      inner.style.transform = 'scale(0.9, 1.3)';
+    }
+
+    // 폰트 로드 후 실행
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(() => {
+        fitTitleText();
+        setTimeout(fitTitleText, 300);
+      });
+    } else {
+      setTimeout(() => { fitTitleText(); setTimeout(fitTitleText, 300); }, 500);
+    }
+
+    // ── 리사이즈 ─────────────────────────────────────────────────────────────
+    window.addEventListener('resize', () => {
+      W = window.innerWidth; H = window.innerHeight;
+      camera.left = -W/2; camera.right = W/2;
+      camera.top  =  H/2; camera.bottom = -H/2;
+      camera.updateProjectionMatrix();
+      renderer.setSize(W, H);
+      labelRenderer.setSize(W, H);
+      needsRender = true;
+      setTimeout(fitTitleText, 50);
+    });
+
+    // ── URL 파라미터로 자동 열기 ─────────────────────────────────────────────
+    const initSlug = new URL(window.location.href).searchParams.get('photo');
+    if (initSlug) {
+      const found = blocks.find(b => b.photo.slug === initSlug);
+      if (found) setTimeout(() => openModal(found.photo), 600);
+    }
+
+  })();
+  </script>
 </body>
-
 </html>

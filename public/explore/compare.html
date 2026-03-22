@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>글자 두께 비교</title>
+
+  <!-- Pretendard -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <!-- Black Han Sans (구글 폰트 - 한글 전용 Black 폰트) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      background: #ffffff;
+      overflow: hidden;
+    }
+
+    .wrap {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      height: 100vh;
+      padding-bottom: 0;
+    }
+
+    .row {
+      display: flex;
+      align-items: flex-end;
+      padding-bottom: 0;
+      line-height: 1;
+    }
+
+    /* 공통 SVG 스타일 */
+    .title-svg {
+      display: block;
+      width: 100%;
+      height: auto;
+      overflow: visible;
+      transform-origin: 50% 100%;
+    }
+
+    /* 라벨 */
+    .label {
+      position: absolute;
+      right: 12px;
+      bottom: 8px;
+      font-family: monospace;
+      font-size: 11px;
+      background: rgba(0,0,0,0.6);
+      color: #fff;
+      padding: 2px 6px;
+      border-radius: 3px;
+      white-space: nowrap;
+      z-index: 10;
+    }
+
+    .row-wrap {
+      position: relative;
+      width: 100%;
+      border-bottom: 1px dashed #ddd;
+    }
+    .row-wrap:last-child { border-bottom: none; }
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- 옵션 1: Pretendard 900 (현재) -->
+  <div class="row-wrap">
+    <span class="label">① Pretendard 900 (현재)</span>
+    <svg class="title-svg" id="svg1" viewBox="0 0 1200 160" preserveAspectRatio="none"
+         style="transform: scaleX(0.60);">
+      <text id="t1a" x="580" y="140"
+        text-anchor="middle"
+        font-family="Pretendard, sans-serif"
+        font-weight="900"
+        font-size="490"
+        letter-spacing="-30"
+        fill="#ff591b"
+      >이애주, 흩어지지 않는 춤</text>
+      <text id="t1b" x="1130" y="140"
+        text-anchor="middle"
+        font-family="Pretendard, sans-serif"
+        font-weight="900"
+        font-size="490"
+        letter-spacing="-20"
+        fill="none"
+        stroke="#ff591b"
+        stroke-width="10"
+        paint-order="stroke fill"
+      >100</text>
+    </svg>
+  </div>
+
+  <!-- 옵션 2: Pretendard 900 + stroke 트릭 (더 두껍게) -->
+  <div class="row-wrap">
+    <span class="label">② Pretendard 900 + stroke 트릭 (시각적으로 더 두껍게)</span>
+    <svg class="title-svg" id="svg2" viewBox="0 0 1200 160" preserveAspectRatio="none"
+         style="transform: scaleX(0.60);">
+      <text id="t2a" x="580" y="140"
+        text-anchor="middle"
+        font-family="Pretendard, sans-serif"
+        font-weight="900"
+        font-size="490"
+        letter-spacing="-30"
+        fill="#ff591b"
+        stroke="#ff591b"
+        stroke-width="12"
+        paint-order="stroke fill"
+      >이애주, 흩어지지 않는 춤</text>
+      <text id="t2b" x="1130" y="140"
+        text-anchor="middle"
+        font-family="Pretendard, sans-serif"
+        font-weight="900"
+        font-size="490"
+        letter-spacing="-20"
+        fill="none"
+        stroke="#ff591b"
+        stroke-width="14"
+        paint-order="stroke fill"
+      >100</text>
+    </svg>
+  </div>
+
+  <!-- 옵션 3: Black Han Sans (한글 전용 Black 폰트) -->
+  <div class="row-wrap">
+    <span class="label">③ Black Han Sans (한글 전용 Black 폰트)</span>
+    <svg class="title-svg" id="svg3" viewBox="0 0 1200 160" preserveAspectRatio="none"
+         style="transform: scaleX(0.60);">
+      <text id="t3a" x="580" y="140"
+        text-anchor="middle"
+        font-family="'Black Han Sans', sans-serif"
+        font-weight="900"
+        font-size="490"
+        letter-spacing="-30"
+        fill="#ff591b"
+      >이애주, 흩어지지 않는 춤</text>
+      <text id="t3b" x="1130" y="140"
+        text-anchor="middle"
+        font-family="'Black Han Sans', sans-serif"
+        font-weight="900"
+        font-size="490"
+        letter-spacing="-20"
+        fill="none"
+        stroke="#ff591b"
+        stroke-width="10"
+        paint-order="stroke fill"
+      >100</text>
+    </svg>
+  </div>
+
+</div>
+
+<script>
+// 각 SVG의 viewBox를 텍스트 BBox에 맞게 동적 조정
+function fitSVG(svgId, textAId, textBId) {
+  const svg = document.getElementById(svgId);
+  const ta = document.getElementById(textAId);
+  const tb = document.getElementById(textBId);
+  if (!svg || !ta) return;
+  try {
+    const bba = ta.getBBox();
+    if (!bba || bba.width === 0) return;
+    const bbb = tb ? tb.getBBox() : null;
+    const gap = 20;
+    const left = bba.x - 20;
+    const right = bbb ? (bba.x + bba.width + gap + bbb.width + 20) : (bba.x + bba.width + 20);
+    if (bbb && bbb.width > 0) {
+      tb.setAttribute('x', bba.x + bba.width + gap + bbb.width / 2);
+    }
+    const top = Math.min(bba.y, bbb ? bbb.y : bba.y) - 10;
+    const bottom = Math.max(bba.y + bba.height, bbb ? bbb.y + bbb.height : bba.y + bba.height) + 10;
+    svg.setAttribute('viewBox', `${left} ${top} ${right - left} ${bottom - top}`);
+  } catch(e) {}
+}
+
+function fitAll() {
+  fitSVG('svg1','t1a','t1b');
+  fitSVG('svg2','t2a','t2b');
+  fitSVG('svg3','t3a','t3b');
+}
+
+if (document.fonts && document.fonts.ready) {
+  document.fonts.ready.then(() => { fitAll(); setTimeout(fitAll, 300); });
+} else {
+  setTimeout(fitAll, 800);
+}
+</script>
+</body>
+</html>
