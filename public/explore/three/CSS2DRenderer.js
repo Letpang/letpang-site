@@ -171,6 +171,12 @@
 
 					const distanceA = cache.objects.get( a ).distanceToCameraSquared;
 					const distanceB = cache.objects.get( b ).distanceToCameraSquared;
+					
+					// 거리가 거의 같을 경우 (깜빡임 방지) 고정된 ID 순서로 정렬 안정화
+					if ( Math.abs( distanceA - distanceB ) < 1 ) {
+						return a.id - b.id;
+					}
+					
 					return distanceA - distanceB;
 
 				} );
