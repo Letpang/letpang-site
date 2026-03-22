@@ -108,15 +108,15 @@
 
 					const element = object.element;
 
+					const x = _vector.x * _widthHalf + _widthHalf;
+					const y = - _vector.y * _heightHalf + _heightHalf;
+
 					if ( /apple/i.test( navigator.vendor ) ) {
-
-						// https://github.com/mrdoob/three.js/issues/21415
-						element.style.transform = 'translate(-50%,-50%) translate(' + Math.round( _vector.x * _widthHalf + _widthHalf ) + 'px,' + Math.round( - _vector.y * _heightHalf + _heightHalf ) + 'px)';
-
+						// 사파리(Apple)에서 Math.round를 사용하면 저속 이동 시 '끊김' 또는 '흔들림'으로 보일 수 있음
+						// translate3d를 사용하여 하드웨어 가속을 유도하고 정밀도를 유지함
+						element.style.transform = 'translate(-50%,-50%) translate3d(' + x + 'px,' + y + 'px, 0)';
 					} else {
-
-						element.style.transform = 'translate(-50%,-50%) translate(' + ( _vector.x * _widthHalf + _widthHalf ) + 'px,' + ( - _vector.y * _heightHalf + _heightHalf ) + 'px)';
-
+						element.style.transform = 'translate(-50%,-50%) translate(' + x + 'px,' + y + 'px)';
 					}
 
 					element.style.display = object.visible ? '' : 'none';

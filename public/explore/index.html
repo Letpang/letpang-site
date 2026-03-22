@@ -446,11 +446,11 @@
     let W = window.innerWidth;
     let H = window.innerHeight;
 
-    const camera = new THREE.OrthographicCamera(-W/2, W/2, H/2, -H/2, 1, 1000000);
-    // 참조 사이트와 동일: 등각 시점(isometric) - 타원형 궤도 효과의 원인
-    // 카메라 거리를 매우 멀리 배치하여 사진이 카메라 렌즈 뒤로 넘어가 화면에서 갑자기 사라지는 현상 방지
-    camera.position.set(100000, 100000, 100000);
-    camera.lookAt(W/2, H/2, 0);
+    const camera = new THREE.OrthographicCamera(-W/2, W/2, H/2, -H/2, 1, 10000);
+    // 카메라 거리를 너무 멀리(100,000+) 배치하면 부동소수점 정밀도 문제로 사파리 등에서 사진이 흔들릴 수 있음
+    // 2,000~5,000 정도면 충분히 멀리서 전체를 조망 가능
+    camera.position.set(2000, 2000, 2000);
+    camera.lookAt(0, 0, 0);
 
     const scene = new THREE.Scene();
     scene.background = new THREE.Color(0xffffff);
