@@ -12,21 +12,21 @@
       font-weight: 800;
       font-display: swap;
       src: local('Pretendard ExtraBold'),
-           url('fonts/Pretendard-ExtraBold.woff2') format('woff2');
+           url('/explore/fonts/Pretendard-ExtraBold.woff2') format('woff2');
     }
     @font-face {
       font-family: 'Pretendard';
       font-weight: 700;
       font-display: swap;
       src: local('Pretendard Bold'),
-           url('fonts/Pretendard-Bold.woff2') format('woff2');
+           url('/explore/fonts/Pretendard-Bold.woff2') format('woff2');
     }
     @font-face {
       font-family: 'Pretendard';
       font-weight: 400;
       font-display: swap;
       src: local('Pretendard Regular'),
-           url('fonts/Pretendard-Regular.woff2') format('woff2');
+           url('/explore/fonts/Pretendard-Regular.woff2') format('woff2');
     }
   </style>
 
@@ -36,10 +36,10 @@
   <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
   <!-- CSS2DRenderer -->
   <!-- CSS2DRenderer: overflow:hidden → visible 패치 적용 버전 (가장자리 사진 잘림 방지) -->
-  <script src="three/CSS2DRenderer.js"></script>
+  <script src="/explore/three/CSS2DRenderer.js"></script>
 
   <!-- 사진 데이터 -->
-  <script src="photos.js"></script>
+  <script src="/explore/photos.js"></script>
 
   <style>
     *, *::before, *::after {
@@ -425,8 +425,8 @@
   (function () {
     'use strict';
 
-    const IMAGES_THUMB_DIR  = 'images/thumbs/'; // 콜라주용 썸네일 (300px)
-    const IMAGES_MID_DIR    = 'images/mid/';    // 모달용 중간 크기 (800px)
+    const IMAGES_THUMB_DIR  = '/explore/images/thumbs/'; // 콜라주용 썸네일 (300px)
+    const IMAGES_MID_DIR    = '/explore/images/mid/';    // 모달용 중간 크기 (800px)
 
     // 뷰포트 크기 기준 분기
     const IS_LARGE   = window.matchMedia('(min-width: 1024px)').matches;
