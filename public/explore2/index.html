@@ -51,6 +51,7 @@
       cursor: pointer;
       border-radius: 4px;
       overflow: hidden;
+      -webkit-tap-highlight-color: transparent;
       box-shadow:
         2px 4px 8px  rgba(0, 0, 0, 0.18),
         10px 20px 40px rgba(0, 0, 0, 0.10);
@@ -79,6 +80,7 @@
     }
     .p-card.hover img {
       filter: brightness(1.05) contrast(1.02) !important;
+      mix-blend-mode: normal !important;
       transform: scale(1.0);
     }
 
@@ -432,11 +434,12 @@
       const tx = W / 2 - p.w / 2;
       const ty = H / 2 - (p.w * aspect) / 2;
 
+      // mid 이미지를 먼저 로드 시작 (animation 중 blur 방지)
+      img.src = 'images/mid/' + photo.filename;
+
       card.style.zIndex     = '900';
       card.style.transition = 'transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease';
       card.style.transform  = `translate(${tx.toFixed(1)}px,${ty.toFixed(1)}px) rotate(0deg) rotateX(0deg) rotateY(0deg) scale(${scale.toFixed(3)})`;
-
-      img.src = 'images/mid/' + photo.filename;
     }
 
     card.addEventListener('click', (e) => {
