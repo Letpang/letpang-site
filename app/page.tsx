@@ -33,12 +33,31 @@ export default function HomePage() {
           Creating fun experiences, one game at a time.
         </p>
         <div className="hero-buttons">
-          <a href="/explore/" className="btn btn-primary">
-            <span>Explore (사진 보기)</span>
+          <Link href={SITE.games.hanja.path} className="btn btn-primary">
+            <span>{SITE.games.hanja.titleKr} 보기</span>
             <span>→</span>
+          </Link>
+          <a href="/explore/" className="btn btn-secondary">
+            <span>Explore (3D 갤러리)</span>
           </a>
-          <Link href="/about" className="btn btn-secondary">
-            <span>About Us</span>
+        </div>
+      </section>
+
+      {/* Featured Games Section */}
+      <section className="featured-games-section">
+        <h2 className="section-title">Featured Games</h2>
+        <div className="games-grid">
+          <Link href={SITE.games.hanja.path} className="game-promo-card">
+            <div className="game-promo-icon">🛸</div>
+            <div className="game-promo-content">
+              <span className="game-badge">New Release</span>
+              <h3>{SITE.games.hanja.titleKr}</h3>
+              <p>{SITE.games.hanja.descriptionKr}</p>
+              <div className="game-promo-footer">
+                <span>Learn More</span>
+                <span className="arrow">→</span>
+              </div>
+            </div>
           </Link>
         </div>
       </section>
