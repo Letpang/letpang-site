@@ -52,6 +52,7 @@
       border-radius: 4px;
       overflow: hidden;
       -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
       box-shadow:
         2px 4px 8px  rgba(0, 0, 0, 0.18),
         10px 20px 40px rgba(0, 0, 0, 0.10);
@@ -510,6 +511,9 @@
   if (isMobile) {
     // 배경 탭 → 폭발 scatter
     stage.addEventListener('touchstart', (e) => {
+      // iOS에서 stopPropagation이 불완전할 수 있으므로 직접 카드 터치 여부 확인
+      if (e.target.closest('.p-card')) return;
+
       hint.classList.add('hidden');
       const t = e.touches[0];
       mx = t.clientX; my = t.clientY;
@@ -547,9 +551,9 @@
   }
 
   /* ─── 물리 상수 ─── */
-  const DAMPING   = 0.980;  // 여유있는 감쇠
+  const DAMPING   = isMobile ? 0.940 : 0.980;  // 모바일: 빠르게 감속
   const MAX_SPEED = 24;
-  const NOISE     = 0.03;
+  const NOISE     = isMobile ? 0.004 : 0.030;  // 모바일: 거의 안 흔들림
   const MARGIN    = 120;
 
   /* ─── RAF 물리 루프 ─── */
