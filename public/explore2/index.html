@@ -16,7 +16,6 @@
       overflow: hidden;
       background-color: #f5f0e4;
       font-family: 'Pretendard', -apple-system, sans-serif;
-      cursor: none;
       user-select: none;
       -webkit-user-select: none;
     }
@@ -49,7 +48,7 @@
       top: 0; left: 0;
       pointer-events: auto;
       will-change: transform;
-      cursor: none;
+      cursor: pointer;
       border-radius: 4px;
       overflow: hidden;
       box-shadow:
@@ -123,30 +122,6 @@
       transition: opacity 1s ease;
     }
     #hint.hidden { opacity: 0; }
-
-    /* ── 커스텀 커서 ── */
-    #cursor {
-      position: fixed;
-      width: 30px; height: 30px;
-      border: 1.5px solid rgba(122, 74, 42, 0.6);
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: 9999;
-      transform: translate(-50%, -50%);
-      transition: width .18s, height .18s, background .18s, border-color .18s;
-      background: transparent;
-      mix-blend-mode: normal;
-    }
-    #cursor.hover {
-      width: 48px; height: 48px;
-      background: rgba(122, 74, 42, 0.08);
-      border-color: rgba(122, 74, 42, 1);
-    }
-    #cursor.explode {
-      width: 70px; height: 70px;
-      background: rgba(122, 74, 42, 0.15);
-      border-color: rgba(255,255,255,0.6);
-    }
 
     /* ── 모달 ── */
     #modal-overlay {
@@ -253,10 +228,9 @@
       #modal-img-wrap { flex: 0 0 auto; min-height: clamp(140px, 40vw, 220px); }
     }
 
-    /* ── 터치 디바이스: 커서 숨김 ── */
+    /* ── 터치 디바이스 ── */
     @media (hover: none) {
       body { cursor: auto !important; }
-      #cursor { display: none !important; }
     }
 
     /* ── 로딩 ── */
@@ -311,7 +285,6 @@
 </div>
 
 <div id="hint">move · click to scatter</div>
-<div id="cursor"></div>
 
 <!-- 모달 -->
 <div id="modal-overlay">
@@ -334,7 +307,6 @@
   'use strict';
 
   const stage   = document.getElementById('stage');
-  const cursor  = document.getElementById('cursor');
   const hint    = document.getElementById('hint');
   const titleEl = document.getElementById('title-overlay');
 
@@ -348,8 +320,6 @@
 
   document.addEventListener('mousemove', e => {
     mx = e.clientX; my = e.clientY;
-    cursor.style.left = mx + 'px';
-    cursor.style.top  = my + 'px';
   });
 
   if (isMobile) {
@@ -442,12 +412,10 @@
 
     card.addEventListener('mouseenter', () => {
       if (p.hidden || featuredParticle) return;
-      cursor.classList.add('hover');
       card.classList.add('hover');
       p.hovered = true;
     });
     card.addEventListener('mouseleave', () => {
-      cursor.classList.remove('hover');
       if (!p.featured) card.classList.remove('hover');
       p.hovered = false;
     });
@@ -525,8 +493,6 @@
     }
 
     // 폭발
-    cursor.classList.add('explode');
-    setTimeout(() => cursor.classList.remove('explode'), 500);
     particles.forEach(p => {
       const dx   = p.x - mx;
       const dy   = p.y - my;
