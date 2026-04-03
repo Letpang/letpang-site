@@ -607,17 +607,15 @@
   });
 
   /* ─── 초기화 ─── */
-  window.addEventListener('load', () => {
-    tick();
-    const loading = document.getElementById('loading');
-    setTimeout(() => {
-      loading.classList.add('fade');
-      setTimeout(() => loading.remove(), 1000);
-    }, 600);
+  // DOM 준비되면 바로 시작 (이미지 로드 안 기다림)
+  tick();
+  const loading = document.getElementById('loading');
+  setTimeout(() => {
+    loading.classList.add('fade');
+    setTimeout(() => loading.remove(), 800);
+  }, 300);
 
-    // 힌트 3초 후 자동 숨김
-    setTimeout(() => hint.classList.add('hidden'), 4000);
-  });
+  setTimeout(() => hint.classList.add('hidden'), 4000);
 
 })();
 </script>
