@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>이애주 춤 100선</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      width: 100%; height: 100%;
+      overflow: hidden;
+      background-color: #f5f0e4;
+      font-family: 'Pretendard', -apple-system, sans-serif;
+      cursor: none;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    /* 한지 텍스처 + 베이지 색조 오버레이 */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url('hanji-texture.jpg');
+      background-size: cover;
+      background-position: center;
+      mix-blend-mode: multiply;
+      opacity: 0.55;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── 스테이지 ── */
+    #stage {
+      position: fixed;
+      inset: 0;
+      overflow: hidden;
+      perspective: 1200px;
+    }
+
+    /* ── 사진 카드 (인화지 느낌) ── */
+    .p-card {
+      position: absolute;
+      top: 0; left: 0;
+      pointer-events: auto;
+      will-change: transform;
+      cursor: none;
+      border-radius: 4px;
+      overflow: hidden;
+      box-shadow:
+        2px 4px 8px  rgba(0, 0, 0, 0.18),
+        10px 20px 40px rgba(0, 0, 0, 0.10);
+      transition: box-shadow 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+    .p-card img {
+      display: block;
+      width: 100%;
+      height: auto;
+      pointer-events: none;
+      -webkit-user-drag: none;
+      transition: filter 0.3s ease, transform 0.35s cubic-bezier(0.165, 0.84, 0.44, 1);
+    }
+    /* 깊이감 */
+    .p-card.depth-far img  { filter: saturate(0.70) brightness(0.82); }
+    .p-card.depth-mid img  { filter: saturate(0.80) brightness(0.92); }
+    .p-card.depth-near img { filter: saturate(0.90) brightness(0.98); }
+
+    /* 한지 질감 융합 */
+    .p-card.blend img { mix-blend-mode: multiply; opacity: 0.92; }
+
+    /* hover: 그림자 없애고 후광만 */
+    .p-card.hover {
+      box-shadow: none !important;
+      z-index: 999;
+    }
+    .p-card.hover img {
+      filter: brightness(1.05) contrast(1.02) !important;
+      transform: scale(1.0);
+    }
+
+    /* ── 좌상단 타이틀 ── */
+    #title-overlay {
+      position: fixed;
+      top: 32px; left: 36px;
+      z-index: 200;
+      pointer-events: none;
+      mix-blend-mode: difference;
+    }
+    #title-overlay h1 {
+      font-family: 'Nanum Myeongjo', serif;
+      font-size: 3rem;
+      font-weight: 400;
+      color: #f0ebe0;
+      letter-spacing: 0.2rem;
+      line-height: 1.3;
+    }
+    #title-overlay p {
+      font-family: 'Nanum Myeongjo', serif;
+      margin-top: 10px;
+      font-size: clamp(12px, 1.2vw, 15px);
+      font-weight: 400;
+      color: #e8e0d0;
+      letter-spacing: 0.1rem;
+      opacity: 0.75;
+    }
+
+    /* ── 힌트 텍스트 ── */
+    #hint {
+      position: fixed;
+      top: 28px; right: 32px;
+      z-index: 300;
+      font-size: 11px;
+      font-weight: 400;
+      color: rgba(61, 47, 34, 0.38);
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      pointer-events: none;
+      transition: opacity 1s ease;
+    }
+    #hint.hidden { opacity: 0; }
+
+    /* ── 커스텀 커서 ── */
+    #cursor {
+      position: fixed;
+      width: 30px; height: 30px;
+      border: 1.5px solid rgba(122, 74, 42, 0.6);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: width .18s, height .18s, background .18s, border-color .18s;
+      background: transparent;
+      mix-blend-mode: normal;
+    }
+    #cursor.hover {
+      width: 48px; height: 48px;
+      background: rgba(122, 74, 42, 0.08);
+      border-color: rgba(122, 74, 42, 1);
+    }
+    #cursor.explode {
+      width: 70px; height: 70px;
+      background: rgba(122, 74, 42, 0.15);
+      border-color: rgba(255,255,255,0.6);
+    }
+
+    /* ── 모달 ── */
+    #modal-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 500;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+      padding: clamp(8px, 3vw, 20px);
+    }
+    #modal-overlay.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+    #modal-box {
+      position: relative;
+      background: #fff;
+      width: min(820px, 100%);
+      max-height: min(88vh, 680px);
+      overflow: hidden;
+      display: flex;
+      transform: scale(0.95) translateY(20px);
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    #modal-overlay.open #modal-box { transform: scale(1) translateY(0); }
+
+    #modal-img-wrap {
+      flex: 0 0 44%;
+      background: #111;
+      display: flex;
+      align-items: stretch;
+      overflow: hidden;
+    }
+    #modal-img-wrap img {
+      display: block;
+      width: 100%; height: 100%;
+      object-fit: cover;
+    }
+    #modal-text {
+      flex: 1;
+      padding: clamp(20px, 4vw, 36px) clamp(16px, 3.5vw, 30px);
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+    }
+    #modal-era {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      color: #7a4a2a;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+    #modal-title {
+      font-size: clamp(15px, 2.8vw, 20px);
+      font-weight: 700;
+      color: #111;
+      line-height: 1.35;
+      margin-bottom: 6px;
+      word-break: keep-all;
+    }
+    #modal-subtitle {
+      font-size: 13px;
+      font-weight: 400;
+      color: #666;
+      margin-bottom: 18px;
+      line-height: 1.5;
+    }
+    #modal-desc {
+      font-size: 13px;
+      color: #444;
+      line-height: 1.85;
+      flex: 1;
+      word-break: keep-all;
+    }
+    #modal-meta {
+      margin-top: 20px;
+      padding-top: 16px;
+      border-top: 1px solid #eee;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .meta-row { display: flex; gap: 8px; font-size: 11px; }
+    .meta-label { color: #bbb; font-weight: 600; min-width: 40px; flex-shrink: 0; letter-spacing: 0.06em; }
+    .meta-value { color: #555; }
+    #modal-close {
+      position: absolute; top: 10px; right: 10px;
+      background: none; border: none; cursor: pointer;
+      font-size: 22px; line-height: 1; color: #aaa;
+      padding: 6px 10px;
+      transition: color .2s;
+    }
+    #modal-close:hover { color: #111; }
+
+    @media (max-width: 640px) {
+      #modal-box { flex-direction: column; }
+      #modal-img-wrap { flex: 0 0 auto; min-height: clamp(140px, 30vw, 220px); }
+    }
+
+    /* ── 로딩 ── */
+    #loading {
+      position: fixed;
+      inset: 0;
+      background: #f5f0e4;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 9000;
+      transition: opacity 1s ease;
+    }
+    #loading.fade { opacity: 0; pointer-events: none; }
+    #loading-title {
+      font-size: clamp(1rem, 3vw, 1.3rem);
+      font-weight: 700;
+      color: rgba(80, 55, 30, 0.6);
+      letter-spacing: 0.28em;
+      margin-bottom: 28px;
+    }
+    .load-bar {
+      width: 120px; height: 1px;
+      background: rgba(122, 74, 42, 0.15);
+      overflow: hidden;
+    }
+    .load-bar-inner {
+      height: 100%;
+      background: #7a4a2a;
+      animation: lb 1.4s ease-in-out infinite;
+    }
+    @keyframes lb {
+      0%   { width: 0%;  margin-left: 0; }
+      50%  { width: 55%; margin-left: 22%; }
+      100% { width: 0%;  margin-left: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="loading">
+  <div id="loading-title">이애주 춤 100선</div>
+  <div class="load-bar"><div class="load-bar-inner"></div></div>
+</div>
+
+<div id="stage"></div>
+
+<div id="title-overlay">
+  <h1>이애주 춤 100선</h1>
+  <p>바람의 형상, 흩어지지 않는 춤</p>
+</div>
+
+<div id="hint">move · click to scatter</div>
+<div id="cursor"></div>
+
+<!-- 모달 -->
+<div id="modal-overlay">
+  <div id="modal-box">
+    <button id="modal-close">×</button>
+    <div id="modal-img-wrap"><img id="modal-img" src="" alt="" /></div>
+    <div id="modal-text">
+      <div id="modal-era"></div>
+      <div id="modal-title"></div>
+      <div id="modal-subtitle"></div>
+      <div id="modal-desc"></div>
+      <div id="modal-meta"></div>
+    </div>
+  </div>
+</div>
+
+<script src="photos.js"></script>
+<script>
+(function () {
+  'use strict';
+
+  const stage   = document.getElementById('stage');
+  const cursor  = document.getElementById('cursor');
+  const hint    = document.getElementById('hint');
+  const titleEl = document.getElementById('title-overlay');
+
+  let W = window.innerWidth;
+  let H = window.innerHeight;
+
+  /* ─── 커서 ─── */
+  let mx = W / 2, my = H / 2;
+
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    cursor.style.left = mx + 'px';
+    cursor.style.top  = my + 'px';
+  });
+
+  /* ─── 시드 랜덤 ─── */
+  function makeRand(seed) {
+    let s = seed >>> 0;
+    return () => { s = (Math.imul(1664525, s) + 1013904223) >>> 0; return s / 4294967295; };
+  }
+  const rng = makeRand(314159);
+
+  /* ─── 파티클 생성 ─── */
+  const particles = [];
+  let featuredParticle = null;
+
+  // ── 격자 기반 초기 배치 계산 ──
+  const N     = PHOTOS.length;
+  const COLS  = Math.ceil(Math.sqrt(N * W / H));
+  const ROWS  = Math.ceil(N / COLS);
+  const cellW = W / COLS;
+  const cellH = H / ROWS;
+  // 인덱스를 섞어서 격자 셀과 사진이 순서대로 매칭되지 않게
+  const gridIdx = Array.from({length: COLS * ROWS}, (_, i) => i);
+  for (let i = gridIdx.length - 1; i > 0; i--) {
+    const j = Math.floor(rng() * (i + 1));
+    [gridIdx[i], gridIdx[j]] = [gridIdx[j], gridIdx[i]];
+  }
+
+  PHOTOS.forEach((photo, idx) => {
+    const card = document.createElement('div');
+    card.className = 'p-card';
+
+    const img = document.createElement('img');
+    img.src     = 'images/thumbs/' + photo.filename;
+    img.alt     = photo.title || '';
+    img.loading = 'lazy';
+    // 이미지 로드 실패 시 카드 숨김
+    img.onerror = () => {
+      card.style.display = 'none';
+      p.hidden = true;
+    };
+    card.appendChild(img);
+    stage.appendChild(card);
+
+    // 크기: 작은 것(40px) ~ 큰 것(110px)
+    const r_size = rng();
+    const w = r_size < 0.3 ? 40 + r_size * 80
+            : r_size < 0.8 ? 65 + (r_size-0.3) * 60
+            : 95 + (r_size-0.8) * 75;
+    card.style.width = Math.round(w) + 'px';
+
+    // 4. 깊이감: 크기에 따라 depth 클래스
+    if (w < 58)       card.classList.add('depth-far');
+    else if (w < 85)  card.classList.add('depth-mid');
+    else              card.classList.add('depth-near');
+
+    // 3. 20% 확률로 blend 클래스 (한지 질감 융합)
+    if (rng() < 0.20) card.classList.add('blend');
+
+    // ── 격자 셀 안에 랜덤 배치 (고른 분포)
+    const gi  = gridIdx[idx] || idx;
+    const col = gi % COLS;
+    const row = Math.floor(gi / COLS);
+    const pad = 40;
+    const x0  = pad + col * cellW + (rng() * 0.7 + 0.15) * (cellW - pad);
+    const y0  = pad + row * cellH + (rng() * 0.7 + 0.15) * (cellH - pad);
+
+    // 2. 미세한 3D 기울기 (각 사진마다 고정값)
+    const rx = (rng() - 0.5) * 4;  // -2 ~ +2도
+    const ry = (rng() - 0.5) * 4;
+
+    const p = {
+      el: card, photo, w,
+      x: x0,
+      y: y0,
+      vx: (rng() - 0.5) * 2,
+      vy: (rng() - 0.5) * 2,
+      rx, ry,
+      rot: (rng() - 0.5) * 24,
+      hovered: false,
+      hidden: false,
+    };
+    particles.push(p);
+
+    // 초기 위치 즉시 적용
+    card.style.transform = `translate(${(p.x - p.w/2).toFixed(1)}px,${(p.y - 30).toFixed(1)}px) rotate(${p.rot}deg)`;
+
+    card.addEventListener('mouseenter', () => {
+      if (p.hidden || featuredParticle) return;
+      cursor.classList.add('hover');
+      card.classList.add('hover');
+      p.hovered = true;
+    });
+    card.addEventListener('mouseleave', () => {
+      cursor.classList.remove('hover');
+      if (!p.featured) card.classList.remove('hover');
+      p.hovered = false;
+    });
+    card.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (p.featured) {
+        // 이미 가운데 있으면 → 모달 열기
+        openModal(photo);
+      } else {
+        // 첫 클릭 → 가운데로 날아옴
+        if (featuredParticle) returnToPhysics(featuredParticle);
+        featuredParticle = p;
+        p.featured = true;
+        card.classList.add('hover');
+        scatterOthers(p);
+
+        const targetW = Math.min(400, W * 0.36);
+        const scale   = targetW / p.w;
+        const aspect  = photo.height / photo.width;
+        const tx = W / 2 - p.w / 2;
+        const ty = H / 2 - (p.w * aspect) / 2;
+
+        card.style.zIndex     = '900';
+        card.style.transition = 'transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease';
+        card.style.transform  = `translate(${tx.toFixed(1)}px,${ty.toFixed(1)}px) rotate(0deg) rotateX(0deg) rotateY(0deg) scale(${scale.toFixed(3)})`;
+
+        img.src = 'images/mid/' + photo.filename;
+      }
+    });
+  });
+
+  /* ─── featured 카드 원래 자리로 복귀 ─── */
+  function returnToPhysics(p) {
+    p.featured = false;
+    p.el.classList.remove('hover');
+    // thumb으로 복원
+    p.el.querySelector('img').src = 'images/thumbs/' + p.photo.filename;
+    p.el.style.transition = 'transform 0.45s cubic-bezier(0.4, 0, 0.2, 1)';
+    setTimeout(() => {
+      p.el.style.transition = '';
+      p.el.style.zIndex     = '';
+    }, 460);
+  }
+
+  /* ─── 호버: 자신 제외 다른 사진 흩어짐 ─── */
+  function scatterOthers(self) {
+    particles.forEach(p => {
+      if (p === self) return;
+      const dx   = p.x - mx;
+      const dy   = p.y - my;
+      const dist = Math.sqrt(dx * dx + dy * dy) + 0.1;
+      const force = Math.max(12, Math.min(500 / dist, 36));
+      p.vx += (dx / dist) * force + (Math.random() - 0.5) * 10;
+      p.vy += (dy / dist) * force + (Math.random() - 0.5) * 10;
+    });
+  }
+
+  /* ─── 빈 배경 클릭 ─── */
+  stage.addEventListener('click', () => {
+    hint.classList.add('hidden');
+
+    if (featuredParticle) {
+      // featured 카드 복귀
+      returnToPhysics(featuredParticle);
+      featuredParticle = null;
+      return;
+    }
+
+    // 폭발
+    cursor.classList.add('explode');
+    setTimeout(() => cursor.classList.remove('explode'), 500);
+    particles.forEach(p => {
+      const dx   = p.x - mx;
+      const dy   = p.y - my;
+      const dist = Math.sqrt(dx * dx + dy * dy) + 0.1;
+      const force = Math.max(20, Math.min(700 / dist, 48));
+      p.vx += (dx / dist) * force + (Math.random() - 0.5) * 14;
+      p.vy += (dy / dist) * force + (Math.random() - 0.5) * 14;
+    });
+  });
+
+  /* ─── 물리 상수 ─── */
+  const DAMPING   = 0.980;  // 여유있는 감쇠
+  const MAX_SPEED = 24;
+  const NOISE     = 0.03;
+  const MARGIN    = 120;
+
+  /* ─── RAF 물리 루프 ─── */
+  function tick() {
+    particles.forEach(p => {
+      if (p.hidden || p.featured) return;
+      /* ── 화면 경계 탄성 반발 (중앙 인력 대신) ──
+         사진이 화면 밖으로 나가지 않도록 경계에서 튕겨냄 ── */
+      // 화면 경계 탄성 반발 — 화면 전체 사용
+      const PAD = 50;
+      if (p.x < PAD)      p.vx += (PAD - p.x)       * 0.06;
+      if (p.x > W - PAD)  p.vx -= (p.x - (W - PAD)) * 0.06;
+      if (p.y < PAD)      p.vy += (PAD - p.y)        * 0.06;
+      if (p.y > H - PAD)  p.vy -= (p.y - (H - PAD)) * 0.06;
+
+      // 브라운 노이즈
+      p.vx += (Math.random() - 0.5) * NOISE;
+      p.vy += (Math.random() - 0.5) * NOISE;
+
+      // 속도 상한 + 감쇠
+      const spd = Math.sqrt(p.vx * p.vx + p.vy * p.vy);
+      if (spd > MAX_SPEED) { p.vx = p.vx / spd * MAX_SPEED; p.vy = p.vy / spd * MAX_SPEED; }
+      // hover 중인 사진은 빠르게 멈춤 → 클릭 가능
+      const damp = p.hovered ? 0.70 : DAMPING;
+      p.vx *= damp;
+      p.vy *= damp;
+
+      p.x += p.vx;
+      p.y += p.vy;
+
+      // 화면 wrap
+      if (p.x >  W + MARGIN) p.x = -MARGIN;
+      if (p.x < -MARGIN)     p.x =  W + MARGIN;
+      if (p.y >  H + MARGIN) p.y = -MARGIN;
+      if (p.y < -MARGIN)     p.y =  H + MARGIN;
+
+      p.el.style.transform =
+        `translate(${(p.x - p.w / 2).toFixed(1)}px,${(p.y - 30).toFixed(1)}px) rotate(${p.rot}deg) rotateX(${p.rx}deg) rotateY(${p.ry}deg)`;
+    });
+
+
+    requestAnimationFrame(tick);
+  }
+
+  /* ─── 모달 ─── */
+  const overlay    = document.getElementById('modal-overlay');
+  const modalImg   = document.getElementById('modal-img');
+  const modalEra   = document.getElementById('modal-era');
+  const modalTitle = document.getElementById('modal-title');
+  const modalSub   = document.getElementById('modal-subtitle');
+  const modalDesc  = document.getElementById('modal-desc');
+  const modalMeta  = document.getElementById('modal-meta');
+
+  function openModal(photo) {
+    modalImg.src           = 'images/mid/' + photo.filename;
+    modalImg.alt           = photo.title || '';
+    modalEra.textContent   = photo.era      || '';
+    modalTitle.textContent = photo.title    || '';
+    modalSub.textContent   = photo.subtitle || '';
+    modalDesc.textContent  = photo.desc     || '';
+    const rows = [];
+    if (photo.date)  rows.push(['날짜', photo.date]);
+    if (photo.place) rows.push(['장소', photo.place]);
+    if (photo.era)   rows.push(['시대', photo.era]);
+    modalMeta.innerHTML = rows.map(([l,v]) =>
+      `<div class="meta-row"><span class="meta-label">${l}</span><span class="meta-value">${v}</span></div>`
+    ).join('');
+    overlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    overlay.classList.remove('open');
+    document.body.style.overflow = '';
+    setTimeout(() => { modalImg.src = ''; }, 350);
+  }
+
+  document.getElementById('modal-close').addEventListener('click', closeModal);
+  overlay.addEventListener('click', e => { if (e.target === overlay) closeModal(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+  /* ─── 리사이즈 ─── */
+  window.addEventListener('resize', () => {
+    W = window.innerWidth;
+    H = window.innerHeight;
+  });
+
+  /* ─── 초기화 ─── */
+  window.addEventListener('load', () => {
+    tick();
+    const loading = document.getElementById('loading');
+    setTimeout(() => {
+      loading.classList.add('fade');
+      setTimeout(() => loading.remove(), 1000);
+    }, 600);
+
+    // 힌트 3초 후 자동 숨김
+    setTimeout(() => hint.classList.add('hidden'), 4000);
+  });
+
+})();
+</script>
+</body>
+</html>
