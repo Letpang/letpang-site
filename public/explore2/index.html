@@ -328,10 +328,10 @@
 
   const isMobile = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
 
-  /* ─── 커서 ─── */
+  /* ─── 커서/포인터 위치 추적 (마우스·터치 통합) ─── */
   let mx = W / 2, my = H / 2;
 
-  document.addEventListener('mousemove', e => {
+  document.addEventListener('pointermove', e => {
     mx = e.clientX; my = e.clientY;
   });
 
@@ -423,15 +423,19 @@
     // 초기 위치 즉시 적용
     card.style.transform = `translate(${(p.x - p.w/2).toFixed(1)}px,${(p.y - 30).toFixed(1)}px) rotate(${p.rot}deg)`;
 
-    card.addEventListener('mouseenter', () => {
+    // 호버 (마우스 전용)
+    card.addEventListener('pointerenter', (e) => {
+      if (e.pointerType === 'touch') return;
       if (p.hidden || featuredParticle) return;
       card.classList.add('hover');
       p.hovered = true;
     });
-    card.addEventListener('mouseleave', () => {
+    card.addEventListener('pointerleave', (e) => {
+      if (e.pointerType === 'touch') return;
       if (!p.featured) card.classList.remove('hover');
       p.hovered = false;
     });
+
     function featureCard() {
       if (featuredParticle) returnToPhysics(featuredParticle);
       featuredParticle = p;
@@ -445,32 +449,34 @@
       const tx = W / 2 - p.w / 2;
       const ty = H / 2 - (p.w * aspect) / 2;
 
-      // mid 이미지를 먼저 로드 시작 (animation 중 blur 방지)
       img.src = 'images/mid/' + photo.filename;
 
-      card.style.zIndex     = '900'; // featured 동안 유지 → returnToPhysics에서만 해제
+      card.style.zIndex     = '900';
       card.style.transition = 'transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease';
       card.style.transform  = `translate(${tx.toFixed(1)}px,${ty.toFixed(1)}px) rotate(0deg) rotateX(0deg) rotateY(0deg) scale(${scale.toFixed(3)})`;
     }
 
-    card.addEventListener('click', (e) => {
-      if (isMobile) return; // 모바일: touchstart가 처리, click 중복 방지
+    // 카드 탭/클릭 — Pointer Events API로 통합 (마우스·터치 동일 처리)
+    let cardPtStartX, cardPtStartY, cardDragging = false;
+    card.addEventListener('pointerdown', (e) => {
+      cardPtStartX = e.clientX; cardPtStartY = e.clientY;
+      cardDragging = false;
       e.stopPropagation();
-      if (p.featured) openModal(photo);
-      else featureCard();
     });
-
-    if (isMobile) {
-      card.addEventListener('touchstart', (e) => {
-        e.stopPropagation();
-        e.preventDefault();
-        // 터치 위치로 mx/my 업데이트 → scatterOthers가 올바른 기준점 사용
-        const t = e.touches[0];
-        mx = t.clientX; my = t.clientY;
+    card.addEventListener('pointermove', (e) => {
+      if (cardPtStartX === undefined) return;
+      if (Math.abs(e.clientX - cardPtStartX) > 6 ||
+          Math.abs(e.clientY - cardPtStartY) > 6) cardDragging = true;
+    });
+    card.addEventListener('pointerup', (e) => {
+      e.stopPropagation();
+      if (!cardDragging) {
+        mx = e.clientX; my = e.clientY;
         if (p.featured) openModal(photo);
         else featureCard();
-      }, { passive: false });
-    }
+      }
+      cardPtStartX = undefined; cardDragging = false;
+    });
   });
 
   /* ─── featured 카드 원래 자리로 복귀 ─── */
@@ -499,59 +505,23 @@
     });
   }
 
-  /* ─── 빈 배경 클릭 (데스크톱 전용 — 모바일은 touchstart가 처리) ─── */
-  stage.addEventListener('click', () => {
-    if (isMobile) return; // 모바일: touchstart 후 click 이벤트 중복 발화 방지
-    hint.classList.add('hidden');
+  /* ─── 빈 배경 탭/클릭 — Pointer Events API로 통합 ─── */
+  let stagePtStartX, stagePtStartY, stageDragging = false;
 
-    if (featuredParticle) {
-      // featured 카드 복귀
-      returnToPhysics(featuredParticle);
-      featuredParticle = null;
-      return;
-    }
-
-    // 폭발
-    particles.forEach(p => {
-      const dx   = p.x - mx;
-      const dy   = p.y - my;
-      const dist = Math.sqrt(dx * dx + dy * dy) + 0.1;
-      const force = Math.max(20, Math.min(700 / dist, 48));
-      p.vx += (dx / dist) * force + (Math.random() - 0.5) * 14;
-      p.vy += (dy / dist) * force + (Math.random() - 0.5) * 14;
-    });
+  stage.addEventListener('pointerdown', (e) => {
+    if (e.target.closest('.p-card')) return;
+    stagePtStartX = e.clientX; stagePtStartY = e.clientY;
+    stageDragging = false;
+    mx = e.clientX; my = e.clientY;
   });
 
-  /* ─── 모바일 터치 ─── */
-  if (isMobile) {
-    // 배경 탭 → 폭발 scatter
-    stage.addEventListener('touchstart', (e) => {
-      // iOS에서 stopPropagation이 불완전할 수 있으므로 직접 카드 터치 여부 확인
-      if (e.target.closest('.p-card')) return;
-
-      hint.classList.add('hidden');
-      const t = e.touches[0];
-      mx = t.clientX; my = t.clientY;
-
-      if (featuredParticle) {
-        returnToPhysics(featuredParticle);
-        featuredParticle = null;
-        return;
-      }
-      particles.forEach(p => {
-        const dx   = p.x - mx;
-        const dy   = p.y - my;
-        const dist = Math.sqrt(dx * dx + dy * dy) + 0.1;
-        const force = Math.max(20, Math.min(700 / dist, 48));
-        p.vx += (dx / dist) * force + (Math.random() - 0.5) * 14;
-        p.vy += (dy / dist) * force + (Math.random() - 0.5) * 14;
-      });
-    }, { passive: true });
-
-    // 드래그 → 손가락 주변 카드 밀어냄
-    document.addEventListener('touchmove', (e) => {
-      const t = e.touches[0];
-      mx = t.clientX; my = t.clientY;
+  stage.addEventListener('pointermove', (e) => {
+    if (stagePtStartX === undefined) return;
+    mx = e.clientX; my = e.clientY;
+    if (Math.abs(e.clientX - stagePtStartX) > 6 ||
+        Math.abs(e.clientY - stagePtStartY) > 6) stageDragging = true;
+    // 드래그 중: 손가락/커서 주변 카드 밀어냄
+    if (stageDragging) {
       particles.forEach(p => {
         if (p.featured || p.hidden) return;
         const dx = p.x - mx, dy = p.y - my;
@@ -562,8 +532,30 @@
           p.vy += (dy / dist) * force;
         }
       });
-    }, { passive: true });
-  }
+    }
+  });
+
+  stage.addEventListener('pointerup', (e) => {
+    if (e.target.closest('.p-card')) return;
+    if (!stageDragging) {
+      hint.classList.add('hidden');
+      mx = e.clientX; my = e.clientY;
+      if (featuredParticle) {
+        returnToPhysics(featuredParticle);
+        featuredParticle = null;
+      } else {
+        particles.forEach(p => {
+          const dx   = p.x - mx;
+          const dy   = p.y - my;
+          const dist = Math.sqrt(dx * dx + dy * dy) + 0.1;
+          const force = Math.max(20, Math.min(700 / dist, 48));
+          p.vx += (dx / dist) * force + (Math.random() - 0.5) * 14;
+          p.vy += (dy / dist) * force + (Math.random() - 0.5) * 14;
+        });
+      }
+    }
+    stagePtStartX = undefined; stageDragging = false;
+  });
 
   /* ─── 물리 상수 ─── */
   const DAMPING   = isMobile ? 0.940 : 0.980;  // 모바일: 빠르게 감속
