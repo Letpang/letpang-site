@@ -454,6 +454,7 @@
     }
 
     card.addEventListener('click', (e) => {
+      if (isMobile) return; // 모바일: touchstart가 처리, click 중복 방지
       e.stopPropagation();
       if (p.featured) openModal(photo);
       else featureCard();
@@ -498,8 +499,9 @@
     });
   }
 
-  /* ─── 빈 배경 클릭 ─── */
+  /* ─── 빈 배경 클릭 (데스크톱 전용 — 모바일은 touchstart가 처리) ─── */
   stage.addEventListener('click', () => {
+    if (isMobile) return; // 모바일: touchstart 후 click 이벤트 중복 발화 방지
     hint.classList.add('hidden');
 
     if (featuredParticle) {
