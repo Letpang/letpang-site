@@ -2,10 +2,13 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
-  <!-- 특정 폴더(예: /explore/)에 배포할 때 경로 문제가 생기면 아래 base 태그 주석을 해제하고 경로를 적어주세요. -->
   <base href="/explore/">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>이애주, 바람의 형상, 흩어지지 않는 춤</title>
+
+  <!-- Nanum Myeongjo 폰트 -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700&display=swap" rel="stylesheet">
 
   <!-- Pretendard 폰트 (로컬 포함 - 오프라인 환경 지원) -->
   <style>
@@ -52,7 +55,7 @@
 
     :root {
       --font: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
-      --orange: #ff591b;
+      --orange: #8b2020;
       --black: #000000;
       --white: #FFFFFF;
     }
@@ -62,7 +65,7 @@
       height: 100%;
       /* overflow: hidden 제거 → 사진이 화면 밖으로 나가도 잘리지 않음 */
       overflow: visible;
-      background: var(--white);
+      background: #f4f1ea;
       font-family: var(--font);
       cursor: grab;
       /* iOS Safari 안전 영역 대응 */
@@ -117,70 +120,14 @@
       -webkit-user-drag: none;
       /* 송도 약간 밝게 - 밀도감 완화 */
       filter: saturate(0.82) brightness(1.06);
+      border-radius: 2px;
     }
 
-    /* 호버 시 outline을 img가 아닌 컨테이너(.explore-item)에 적용 → 잘림 없음 */
-    .explore-item:hover {
-      outline: 2px solid var(--orange);
-    }
+    /* 호버 글로우는 JS에서 처리 (depth filter와 충돌 방지) */
 
     /* 네비게이션 숨김 */
     #nav { display: none; }
 
-    /* 하단 대형 제목 */
-    #big-title {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      z-index: 50;
-      pointer-events: none;
-      line-height: 1;
-      padding: 0;
-      margin: 0;
-      overflow: visible;
-      background: linear-gradient(to top, rgba(255,255,255,0.90) 0%, rgba(255,255,255,0.65) 55%, rgba(255,255,255,0) 100%);
-    }
-    /* 제목 텍스트 래퍼 */
-    #big-title-inner {
-      display: flex;
-      align-items: baseline;
-      white-space: nowrap;
-      transform-origin: left bottom;
-      /* scaleX(0.9): 가로 90% 축소(장평), scaleY(1.3): 세로 130% 확대(장체) */
-      transform: scale(0.9, 1.3);
-      line-height: 0.9;
-      padding-bottom: max(5px, env(safe-area-inset-bottom));
-      padding-top: 55px;
-      padding-left: 0;
-      padding-right: 0;
-      margin: 0;
-    }
-    #big-title-text-span {
-      font-family: 'Pretendard', sans-serif;
-      font-weight: 900;
-      font-size: 11.5vw;
-      color: #ff591b;
-      letter-spacing: -0.04em;
-      white-space: nowrap;
-      display: block;
-      opacity: 1;
-      mix-blend-mode: normal;
-    }
-    #big-100-span {
-      font-family: 'Pretendard', sans-serif;
-      font-weight: 900;
-      font-size: 11.5vw;
-      color: transparent;
-      -webkit-text-stroke: 0.04em #ff591b;
-      text-stroke: 0.04em #ff591b;
-      letter-spacing: -0.04em;
-      white-space: nowrap;
-      display: block;
-      margin-left: 0.05em;
-      opacity: 1;
-      mix-blend-mode: normal;
-    }
 
     /* 드래그 안내 */
     #instructions {
@@ -212,7 +159,7 @@
       position: fixed;
       inset: 0;
       z-index: 400;
-      background: rgba(0, 0, 0, 0.55);
+      background: rgba(0, 0, 0, 0.15);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -390,11 +337,95 @@
         min-height: clamp(180px, 35vh, 400px);
       }
     }
+
+    /* ── 상단 헤더 (텍스트 영역만 블러) ── */
+    .art-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: fit-content;
+      padding: 20px 40px 20px;
+      z-index: 2000;
+      display: flex;
+      align-items: flex-start;
+      gap: 15px;
+      background: none;
+      pointer-events: none;
+    }
+
+    .art-header::before { display: none; }
+
+    .text-blur-wrapper { display: contents; }
+    .title-group { display: flex; flex-direction: column; }
+
+    .main-title {
+      font-family: 'Nanum Myeongjo', serif;
+      font-size: 2.6rem;
+      color: #1a1a1a;
+      margin: 0;
+      letter-spacing: -0.02rem;
+      font-weight: 700;
+      line-height: 1.1;
+      text-shadow:
+        0 0 6px rgba(244, 241, 234, 1),
+        0 0 12px rgba(244, 241, 234, 1),
+        0 0 20px rgba(244, 241, 234, 0.9),
+        0 0 36px rgba(244, 241, 234, 0.7);
+    }
+
+    .sub-title {
+      font-family: 'Nanum Myeongjo', serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #8b2020;
+      margin: 8px 0 0 2px;
+      letter-spacing: 0.2rem;
+      text-shadow:
+        0 0 6px rgba(244, 241, 234, 1),
+        0 0 12px rgba(244, 241, 234, 1),
+        0 0 20px rgba(244, 241, 234, 0.9),
+        0 0 36px rgba(244, 241, 234, 0.7);
+    }
+
+    .seal {
+      margin-top: 8px;
+      width: 34px;
+      height: 34px;
+      background-color: #b22222;
+      color: #f4f1ea;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: serif;
+      font-size: 1.1rem;
+      font-weight: bold;
+      border-radius: 2px;
+      box-shadow:
+        1px 1px 3px rgba(0,0,0,0.2),
+        0 0 8px rgba(244, 241, 234, 1),
+        0 0 16px rgba(244, 241, 234, 1),
+        0 0 28px rgba(244, 241, 234, 0.9),
+        0 0 44px rgba(244, 241, 234, 0.7);
+      transform: rotate(-5deg);
+      user-select: none;
+      flex-shrink: 0;
+    }
   </style>
 </head>
 <body>
 
   <nav id="nav" style="display:none"></nav>
+
+  <!-- 좌상단 헤더 -->
+  <div class="art-header">
+    <div class="text-blur-wrapper">
+      <div class="title-group">
+        <h1 class="main-title">이애주, 바람의 형상</h1>
+        <p class="sub-title">흩어지지 않는 춤 100선</p>
+      </div>
+      <div class="seal">舞</div>
+    </div>
+  </div>
 
   <!-- 드래그 안내 -->
   <div id="instructions">
@@ -403,14 +434,6 @@
 
   <!-- 탐색 컨테이너 -->
   <div id="explore-container"></div>
-
-  <!-- 하단 대형 제목 (CSS vw + scaleX 방식) -->
-  <div id="big-title">
-    <div id="big-title-inner">
-      <span id="big-title-text-span">이애주, 바람의 형상, 흩어지지 않는 춤</span>
-      <span id="big-100-span">100</span>
-    </div>
-  </div>
 
   <!-- 중앙 모달 -->
   <div id="modal-overlay">
@@ -453,7 +476,7 @@
     camera.lookAt(0, 0, 0);
 
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color(0xffffff);
+    scene.background = new THREE.Color(0xf4f1ea); // 한지색 배경
 
     // WebGL 렌더러
     const renderer = new THREE.WebGLRenderer({
@@ -517,12 +540,12 @@
     function getItemWidth(renderW) {
       const base = renderW || 150;
       if (IS_MOBILE) {
-        return Math.round(Math.max(28, Math.min(120, base * 0.40)));
+        return Math.round(Math.max(21, Math.min(90, base * 0.30)));
       } else if (IS_TABLET) {
-        return Math.round(Math.max(36, Math.min(200, base * 0.65)));
+        return Math.round(Math.max(27, Math.min(150, base * 0.49)));
       } else {
-        // 데스크톱: 참조 사이트와 동일한 원본값 그대로
-        return base;
+        // 데스크톱: 25% 축소
+        return Math.round(Math.min(165, base * 0.615));
       }
     }
 
@@ -530,9 +553,11 @@
     let seed = 42;
     function rand() { seed = (seed * 1664525 + 1013904223) & 0xffffffff; return (seed >>> 0) / 0xffffffff; }
 
-    // ── 균등 배열: 크기(S/M/L) × 밝기(B/D) 6그룹 라운드로빈 순서 ──
-    // 분석 결과: 소(≤133px), 중(133~197px), 대(>197px) / 밝기 중앙값 100
-    const ORDERED_IDS = [41, 87, 24, 12, 25, 54, 3, 73, 97, 86, 50, 40, 71, 15, 47, 84, 60, 66, 45, 10, 9, 4, 89, 96, 39, 17, 18, 42, 29, 33, 92, 26, 23, 7, 95, 16, 85, 1, 52, 11, 93, 19, 82, 31, 74, 81, 99, 14, 36, 64, 69, 8, 20, 61, 38, 32, 88, 58, 48, 68, 83, 44, 90, 49, 27, 21, 22, 77, 63, 6, 91, 70, 46, 72, 56, 2, 5, 55, 59, 65, 100, 80, 76, 53, 37, 34, 35, 13, 43, 67, 51, 57, 78, 94, 28, 79, 98, 62, 75, 30];
+    // ── 균등 배열: 크기(S/M/L) × 밝기(어/중/밝) 9그룹 라운드로빈 순서 ──
+    // 크기: 소(renderW≤100) 중(101~160) 대(>160)
+    // 밝기: 어두움(≤73) 중간(74~124) 밝음(≥125)  — jimp 픽셀 샘플링 기준
+    // 그룹별: 소+어(7) 소+중(8) 소+밝(5) / 중+어(9) 중+중(10) 중+밝(8) / 대+어(17) 대+중(20) 대+밝(16)
+    const ORDERED_IDS = [41,9,21,4,1,14,3,2,16,49,10,33,38,24,35,6,5,18,50,27,53,42,25,52,7,15,19,80,32,78,45,28,55,8,17,23,81,40,88,46,29,56,11,20,30,86,72,51,34,63,12,26,47,87,76,58,48,79,13,31,61,99,71,54,96,22,37,66,85,57,36,43,67,64,39,44,68,59,62,69,60,65,70,82,73,74,83,77,75,84,89,90,92,91,100,98,93,94,95,97];
     const photoMap = {};
     PHOTOS.forEach(p => photoMap[p.id] = p);
     const orderedPhotos = ORDERED_IDS.map(id => photoMap[id]).filter(Boolean);
@@ -673,13 +698,45 @@
     container.addEventListener('mousedown', () => document.body.classList.add('dragging'));
     window.addEventListener('mouseup', () => document.body.classList.remove('dragging'));
 
+    const HOVER_FILTER = 'drop-shadow(0 0 6px rgba(255,248,220,1)) drop-shadow(0 0 18px rgba(255,220,160,0.75)) drop-shadow(0 0 36px rgba(200,160,80,0.4))';
+
+    // ── 깊이 기반 밝기: 4단계 (opacity=1 고정 → 겹칠 때 뒷 사진 완전히 가림) ──
+    // brightness로 깊이 표현: 앞 1.0 → 0.85 → 0.70 → 뒤 0.55
+    function updateDepth() {
+      const camPos = camera.position;
+      let minDist = Infinity, maxDist = -Infinity;
+
+      blocks.forEach(b => {
+        const d = camPos.distanceTo(b.obj.position);
+        if (d < minDist) minDist = d;
+        if (d > maxDist) maxDist = d;
+      });
+
+      const range = maxDist - minDist || 1;
+
+      blocks.forEach(b => {
+        b.el.style.opacity = '1'; // 항상 불투명 → 겹치면 앞 사진만 보임
+
+        if (b.el.matches(':hover')) {
+          b.el.style.filter = HOVER_FILTER;
+          return;
+        }
+
+        const d = camPos.distanceTo(b.obj.position);
+        const t = (d - minDist) / range; // 0=가장 가까운, 1=가장 먼
+        const level = Math.min(3, Math.floor(t * 4)); // 0,1,2,3
+        const brightness = [1.0, 0.85, 0.70, 0.55][level];
+        b.el.style.filter = `brightness(${brightness})`;
+      });
+    }
+
     // ── 렌더 루프 ────────────────────────────────────────────────────────────
     function animate() {
       requestAnimationFrame(animate);
       controls.update();
-      // 항상 매 프레임 렌더링 - autoRotate가 항상 켜져 있으므로 조건부 렌더링은 불필요하며 깜빡임을 유발할 수 있음
       renderer.render(scene, camera);
       labelRenderer.render(scene, camera);
+      updateDepth();
     }
 
     animate();
@@ -717,49 +774,6 @@
 
     // ── CSS vw 방식: 글자가 화면 너비를 꽉 채우도록 font-size 자동 조정 ──────
     // 장평 scaleX=0.9, 장체 scaleY=1.3
-    // letter-spacing 때문에 마지막 글자 뒤에 여백이 생겨 "100"이 잘리므로
-    // 목표 너비를 vw * 0.98로 설정하여 오른쪽 2% 여유 확보
-    function fitTitleText() {
-      const inner = document.getElementById('big-title-inner');
-      const titleSpan = document.getElementById('big-title-text-span');
-      const span100 = document.getElementById('big-100-span');
-      if (!inner || !titleSpan || !span100) return;
-
-      const vw = window.innerWidth;
-      const SCALE_X = 0.9;   // 가로 장평 90%
-      const FILL    = 0.98;  // 화면 너비의 98%까지만 채움 (오른쪽 2% 여유)
-
-      // 1) transform 제거 후 기준 폰트로 측정
-      inner.style.transform = 'scale(1, 1)';
-      titleSpan.style.fontSize = '10vw';
-      span100.style.fontSize = '10vw';
-      void inner.offsetWidth; // 리플로우 강제
-
-      // 2) 각 span의 실제 너비 합산
-      const totalW = titleSpan.getBoundingClientRect().width
-                   + span100.getBoundingClientRect().width;
-
-      // 3) 목표 너비 = vw * FILL / SCALE_X  (scale 전 기준)
-      const targetW = (vw * FILL) / SCALE_X;
-      const ratio   = targetW / totalW;
-      const newFontVw = (10 * ratio).toFixed(4);
-
-      titleSpan.style.fontSize = newFontVw + 'vw';
-      span100.style.fontSize   = newFontVw + 'vw';
-
-      // 4) scale(0.9, 1.3) 복원
-      inner.style.transform = 'scale(0.9, 1.3)';
-    }
-
-    // 폰트 로드 후 실행
-    if (document.fonts && document.fonts.ready) {
-      document.fonts.ready.then(() => {
-        fitTitleText();
-        setTimeout(fitTitleText, 300);
-      });
-    } else {
-      setTimeout(() => { fitTitleText(); setTimeout(fitTitleText, 300); }, 500);
-    }
 
     // ── 리사이즈 ─────────────────────────────────────────────────────────────
     window.addEventListener('resize', () => {
@@ -770,7 +784,6 @@
       renderer.setSize(W, H);
       labelRenderer.setSize(W, H);
       needsRender = true;
-      setTimeout(fitTitleText, 50);
     });
 
     // ── URL 파라미터로 자동 열기 ─────────────────────────────────────────────
