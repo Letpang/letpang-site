@@ -107,11 +107,11 @@
     }
     #title-overlay p {
       font-family: 'Nanum Myeongjo', serif;
-      margin-top: 10px;
-      font-size: clamp(11px, 1.4vw, 15px);
+      margin-top: clamp(6px, 1.5vw, 10px);
+      font-size: clamp(12px, 2.8vw, 15px);
       font-weight: 700;
       color: #8b2020;
-      letter-spacing: 0.1rem;
+      letter-spacing: clamp(0.05rem, 0.3vw, 0.1rem);
       text-shadow:
         0 0 6px rgba(245, 240, 228, 1),
         0 0 12px rgba(245, 240, 228, 1),
@@ -185,12 +185,12 @@
       overflow-y: auto;
     }
     #modal-era {
-      font-size: 11px;
+      font-size: clamp(10px, 2vw, 11px);
       font-weight: 700;
       letter-spacing: 0.18em;
       color: #7a4a2a;
       text-transform: uppercase;
-      margin-bottom: 10px;
+      margin-bottom: clamp(6px, 1.5vw, 10px);
     }
     #modal-title {
       font-size: clamp(15px, 2.8vw, 20px);
@@ -201,14 +201,14 @@
       word-break: keep-all;
     }
     #modal-subtitle {
-      font-size: 13px;
+      font-size: clamp(12px, 2.2vw, 13px);
       font-weight: 400;
       color: #666;
-      margin-bottom: 18px;
+      margin-bottom: clamp(12px, 3vw, 18px);
       line-height: 1.5;
     }
     #modal-desc {
-      font-size: 13px;
+      font-size: clamp(12px, 2.2vw, 13px);
       color: #444;
       line-height: 1.85;
       flex: 1;
@@ -222,7 +222,7 @@
       flex-direction: column;
       gap: 5px;
     }
-    .meta-row { display: flex; gap: 8px; font-size: 11px; }
+    .meta-row { display: flex; gap: 8px; font-size: clamp(10px, 2vw, 11px); }
     .meta-label { color: #bbb; font-weight: 600; min-width: 40px; flex-shrink: 0; letter-spacing: 0.06em; }
     .meta-value { color: #555; }
     #modal-close {
@@ -446,7 +446,7 @@
       // mid 이미지를 먼저 로드 시작 (animation 중 blur 방지)
       img.src = 'images/mid/' + photo.filename;
 
-      card.style.zIndex     = '900';
+      card.style.zIndex     = '900'; // featured 동안 유지 → returnToPhysics에서만 해제
       card.style.transition = 'transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease';
       card.style.transform  = `translate(${tx.toFixed(1)}px,${ty.toFixed(1)}px) rotate(0deg) rotateX(0deg) rotateY(0deg) scale(${scale.toFixed(3)})`;
     }
@@ -461,6 +461,9 @@
       card.addEventListener('touchstart', (e) => {
         e.stopPropagation();
         e.preventDefault();
+        // 터치 위치로 mx/my 업데이트 → scatterOthers가 올바른 기준점 사용
+        const t = e.touches[0];
+        mx = t.clientX; my = t.clientY;
         if (p.featured) openModal(photo);
         else featureCard();
       }, { passive: false });
@@ -476,7 +479,7 @@
     p.el.style.transition = 'transform 0.45s cubic-bezier(0.4, 0, 0.2, 1)';
     setTimeout(() => {
       p.el.style.transition = '';
-      p.el.style.zIndex     = '';
+      p.el.style.zIndex     = ''; // z-index: 복귀 완료 후에만 해제
     }, 460);
   }
 
@@ -639,8 +642,18 @@
     setTimeout(() => { modalImg.src = ''; }, 350);
   }
 
-  document.getElementById('modal-close').addEventListener('click', closeModal);
+  const modalCloseBtn = document.getElementById('modal-close');
+  modalCloseBtn.addEventListener('click', closeModal);
+  // 모바일: touchstart로 즉시 반응 (click은 300ms 지연)
+  modalCloseBtn.addEventListener('touchstart', (e) => {
+    e.preventDefault();
+    closeModal();
+  }, { passive: false });
+
   overlay.addEventListener('click', e => { if (e.target === overlay) closeModal(); });
+  overlay.addEventListener('touchstart', (e) => {
+    if (e.target === overlay) { e.preventDefault(); closeModal(); }
+  }, { passive: false });
   document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 
   /* ─── 리사이즈 ─── */
