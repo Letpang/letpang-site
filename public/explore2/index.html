@@ -335,10 +335,6 @@
     mx = e.clientX; my = e.clientY;
   });
 
-  if (isMobile) {
-    hint.textContent = 'tap · drag to scatter';
-  }
-
   /* ─── 시드 랜덤 ─── */
   function makeRand(seed) {
     let s = seed >>> 0;
@@ -346,264 +342,262 @@
   }
   const rng = makeRand(314159);
 
-  /* ─── 파티클 생성 ─── */
-  const particles = [];
-  let featuredParticle = null;
-
   // ── 격자 기반 초기 배치 계산 ──
   const N     = PHOTOS.length;
   const COLS  = Math.ceil(Math.sqrt(N * W / H));
   const ROWS  = Math.ceil(N / COLS);
   const cellW = W / COLS;
   const cellH = H / ROWS;
-  // 인덱스를 섞어서 격자 셀과 사진이 순서대로 매칭되지 않게
   const gridIdx = Array.from({length: COLS * ROWS}, (_, i) => i);
   for (let i = gridIdx.length - 1; i > 0; i--) {
     const j = Math.floor(rng() * (i + 1));
     [gridIdx[i], gridIdx[j]] = [gridIdx[j], gridIdx[i]];
   }
 
-  PHOTOS.forEach((photo, idx) => {
-    const card = document.createElement('div');
-    card.className = 'p-card';
+  /* ════════════════════════════════════════════════
+     모바일: 정적 배치 + 탭 → 바로 모달
+  ════════════════════════════════════════════════ */
+  if (isMobile) {
+    hint.style.display = 'none';
 
-    const img = document.createElement('img');
-    img.src     = 'images/thumbs/' + photo.filename;
-    img.alt     = photo.title || '';
-    img.loading = 'lazy';
-    // 이미지 로드 실패 시 카드 숨김
-    img.onerror = () => {
-      card.style.display = 'none';
-      p.hidden = true;
-    };
-    card.appendChild(img);
-    stage.appendChild(card);
+    PHOTOS.forEach((photo, idx) => {
+      const card = document.createElement('div');
+      card.className = 'p-card';
 
-    // 크기: 작은 것(40px) ~ 큰 것(110px), 모바일은 1.4배
-    const sizeMul = isMobile ? 1.4 : 1;
-    const r_size = rng();
-    const w = (r_size < 0.3 ? 40 + r_size * 80
-             : r_size < 0.8 ? 65 + (r_size-0.3) * 60
-             : 95 + (r_size-0.8) * 75) * sizeMul;
-    card.style.width = Math.round(w) + 'px';
+      const img = document.createElement('img');
+      img.src     = 'images/thumbs/' + photo.filename;
+      img.alt     = photo.title || '';
+      img.loading = 'lazy';
+      card.appendChild(img);
+      stage.appendChild(card);
 
-    // 4. 깊이감: 크기에 따라 depth 클래스
-    if (w < 58)       card.classList.add('depth-far');
-    else if (w < 85)  card.classList.add('depth-mid');
-    else              card.classList.add('depth-near');
+      // 크기 (모바일용)
+      const r_size = rng();
+      const w = (r_size < 0.3 ? 40 + r_size * 80
+               : r_size < 0.8 ? 65 + (r_size-0.3) * 60
+               : 95 + (r_size-0.8) * 75) * 1.4;
+      card.style.width = Math.round(w) + 'px';
 
-    // 3. 20% 확률로 blend 클래스 (한지 질감 융합)
-    if (rng() < 0.20) card.classList.add('blend');
+      if (w < 81)        card.classList.add('depth-far');
+      else if (w < 119)  card.classList.add('depth-mid');
+      else               card.classList.add('depth-near');
 
-    // ── 격자 셀 안에 랜덤 배치 (고른 분포)
-    const gi  = gridIdx[idx] || idx;
-    const col = gi % COLS;
-    const row = Math.floor(gi / COLS);
-    const pad = 40;
-    const x0  = pad + col * cellW + (rng() * 0.7 + 0.15) * (cellW - pad);
-    const y0  = pad + row * cellH + (rng() * 0.7 + 0.15) * (cellH - pad);
+      // 격자 기반 정적 배치
+      const gi  = gridIdx[idx] || idx;
+      const col = gi % COLS;
+      const row = Math.floor(gi / COLS);
+      const pad = 20;
+      const x0  = pad + col * cellW + (rng() * 0.7 + 0.15) * (cellW - pad);
+      const y0  = pad + row * cellH + (rng() * 0.7 + 0.15) * (cellH - pad);
+      const rot = (rng() - 0.5) * 20;
 
-    // 2. 미세한 3D 기울기 (각 사진마다 고정값)
-    const rx = (rng() - 0.5) * 4;  // -2 ~ +2도
-    const ry = (rng() - 0.5) * 4;
+      card.style.transform = `translate(${(x0 - w/2).toFixed(1)}px,${(y0 - 30).toFixed(1)}px) rotate(${rot}deg)`;
 
-    const p = {
-      el: card, photo, w,
-      x: x0,
-      y: y0,
-      vx: (rng() - 0.5) * 2,
-      vy: (rng() - 0.5) * 2,
-      rx, ry,
-      rot: (rng() - 0.5) * 24,
-      hovered: false,
-      hidden: false,
-    };
-    particles.push(p);
-
-    // 초기 위치 즉시 적용
-    card.style.transform = `translate(${(p.x - p.w/2).toFixed(1)}px,${(p.y - 30).toFixed(1)}px) rotate(${p.rot}deg)`;
-
-    // 호버 (마우스 전용)
-    card.addEventListener('pointerenter', (e) => {
-      if (e.pointerType === 'touch') return;
-      if (p.hidden || featuredParticle) return;
-      card.classList.add('hover');
-      p.hovered = true;
-    });
-    card.addEventListener('pointerleave', (e) => {
-      if (e.pointerType === 'touch') return;
-      if (!p.featured) card.classList.remove('hover');
-      p.hovered = false;
-    });
-
-    function featureCard() {
-      if (featuredParticle) returnToPhysics(featuredParticle);
-      featuredParticle = p;
-      p.featured = true;
-      card.classList.add('hover');
-      scatterOthers(p);
-
-      const targetW = Math.min(400, W * (isMobile ? 0.78 : 0.36));
-      const scale   = targetW / p.w;
-      const aspect  = photo.height / photo.width;
-      const tx = W / 2 - p.w / 2;
-      const ty = H / 2 - (p.w * aspect) / 2;
-
-      img.src = 'images/mid/' + photo.filename;
-
-      card.style.zIndex     = '900';
-      card.style.transition = 'transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease';
-      card.style.transform  = `translate(${tx.toFixed(1)}px,${ty.toFixed(1)}px) rotate(0deg) rotateX(0deg) rotateY(0deg) scale(${scale.toFixed(3)})`;
-    }
-
-    // 카드 탭/클릭 — Pointer Events API로 통합 (마우스·터치 동일 처리)
-    let cardPtStartX, cardPtStartY, cardDragging = false;
-    card.addEventListener('pointerdown', (e) => {
-      cardPtStartX = e.clientX; cardPtStartY = e.clientY;
-      cardDragging = false;
-      e.stopPropagation();
-    });
-    card.addEventListener('pointermove', (e) => {
-      if (cardPtStartX === undefined) return;
-      if (Math.abs(e.clientX - cardPtStartX) > 6 ||
-          Math.abs(e.clientY - cardPtStartY) > 6) cardDragging = true;
-    });
-    card.addEventListener('pointerup', (e) => {
-      e.stopPropagation();
-      if (!cardDragging) {
-        mx = e.clientX; my = e.clientY;
-        if (p.featured) openModal(photo);
-        else featureCard();
-      }
-      cardPtStartX = undefined; cardDragging = false;
-    });
-  });
-
-  /* ─── featured 카드 원래 자리로 복귀 ─── */
-  function returnToPhysics(p) {
-    p.featured = false;
-    p.el.classList.remove('hover');
-    // thumb으로 복원
-    p.el.querySelector('img').src = 'images/thumbs/' + p.photo.filename;
-    p.el.style.transition = 'transform 0.45s cubic-bezier(0.4, 0, 0.2, 1)';
-    setTimeout(() => {
-      p.el.style.transition = '';
-      p.el.style.zIndex     = ''; // z-index: 복귀 완료 후에만 해제
-    }, 460);
-  }
-
-  /* ─── 호버: 자신 제외 다른 사진 흩어짐 ─── */
-  function scatterOthers(self) {
-    particles.forEach(p => {
-      if (p === self) return;
-      const dx   = p.x - mx;
-      const dy   = p.y - my;
-      const dist = Math.sqrt(dx * dx + dy * dy) + 0.1;
-      const force = Math.max(12, Math.min(500 / dist, 36));
-      p.vx += (dx / dist) * force + (Math.random() - 0.5) * 10;
-      p.vy += (dy / dist) * force + (Math.random() - 0.5) * 10;
-    });
-  }
-
-  /* ─── 빈 배경 탭/클릭 — Pointer Events API로 통합 ─── */
-  let stagePtStartX, stagePtStartY, stageDragging = false;
-
-  stage.addEventListener('pointerdown', (e) => {
-    if (e.target.closest('.p-card')) return;
-    stagePtStartX = e.clientX; stagePtStartY = e.clientY;
-    stageDragging = false;
-    mx = e.clientX; my = e.clientY;
-  });
-
-  stage.addEventListener('pointermove', (e) => {
-    if (stagePtStartX === undefined) return;
-    mx = e.clientX; my = e.clientY;
-    if (Math.abs(e.clientX - stagePtStartX) > 6 ||
-        Math.abs(e.clientY - stagePtStartY) > 6) stageDragging = true;
-    // 드래그 중: 손가락/커서 주변 카드 밀어냄
-    if (stageDragging) {
-      particles.forEach(p => {
-        if (p.featured || p.hidden) return;
-        const dx = p.x - mx, dy = p.y - my;
-        const dist = Math.sqrt(dx * dx + dy * dy) + 0.1;
-        if (dist < 160) {
-          const force = (160 - dist) / 160 * 3;
-          p.vx += (dx / dist) * force;
-          p.vy += (dy / dist) * force;
+      // 탭 → 즉시 모달
+      let ptStartX, ptStartY;
+      card.addEventListener('pointerdown', (e) => {
+        ptStartX = e.clientX; ptStartY = e.clientY;
+      });
+      card.addEventListener('pointerup', (e) => {
+        if (Math.abs(e.clientX - ptStartX) < 8 &&
+            Math.abs(e.clientY - ptStartY) < 8) {
+          openModal(photo);
         }
       });
-    }
-  });
-
-  stage.addEventListener('pointerup', (e) => {
-    if (e.target.closest('.p-card')) return;
-    if (!stageDragging) {
-      hint.classList.add('hidden');
-      mx = e.clientX; my = e.clientY;
-      if (featuredParticle) {
-        returnToPhysics(featuredParticle);
-        featuredParticle = null;
-      } else {
-        particles.forEach(p => {
-          const dx   = p.x - mx;
-          const dy   = p.y - my;
-          const dist = Math.sqrt(dx * dx + dy * dy) + 0.1;
-          const force = Math.max(20, Math.min(700 / dist, 48));
-          p.vx += (dx / dist) * force + (Math.random() - 0.5) * 14;
-          p.vy += (dy / dist) * force + (Math.random() - 0.5) * 14;
-        });
-      }
-    }
-    stagePtStartX = undefined; stageDragging = false;
-  });
-
-  /* ─── 물리 상수 ─── */
-  const DAMPING   = isMobile ? 0.940 : 0.980;  // 모바일: 빠르게 감속
-  const MAX_SPEED = 24;
-  const NOISE     = isMobile ? 0.004 : 0.030;  // 모바일: 거의 안 흔들림
-  const MARGIN    = 120;
-
-  /* ─── RAF 물리 루프 ─── */
-  function tick() {
-    particles.forEach(p => {
-      if (p.hidden || p.featured) return;
-      /* ── 화면 경계 탄성 반발 (중앙 인력 대신) ──
-         사진이 화면 밖으로 나가지 않도록 경계에서 튕겨냄 ── */
-      // 화면 경계 탄성 반발 — 화면 전체 사용
-      const PAD = 50;
-      if (p.x < PAD)      p.vx += (PAD - p.x)       * 0.06;
-      if (p.x > W - PAD)  p.vx -= (p.x - (W - PAD)) * 0.06;
-      if (p.y < PAD)      p.vy += (PAD - p.y)        * 0.06;
-      if (p.y > H - PAD)  p.vy -= (p.y - (H - PAD)) * 0.06;
-
-      // 브라운 노이즈
-      p.vx += (Math.random() - 0.5) * NOISE;
-      p.vy += (Math.random() - 0.5) * NOISE;
-
-      // 속도 상한 + 감쇠
-      const spd = Math.sqrt(p.vx * p.vx + p.vy * p.vy);
-      if (spd > MAX_SPEED) { p.vx = p.vx / spd * MAX_SPEED; p.vy = p.vy / spd * MAX_SPEED; }
-      // hover 중인 사진은 빠르게 멈춤 → 클릭 가능
-      const damp = p.hovered ? 0.70 : DAMPING;
-      p.vx *= damp;
-      p.vy *= damp;
-
-      p.x += p.vx;
-      p.y += p.vy;
-
-      // 화면 wrap
-      if (p.x >  W + MARGIN) p.x = -MARGIN;
-      if (p.x < -MARGIN)     p.x =  W + MARGIN;
-      if (p.y >  H + MARGIN) p.y = -MARGIN;
-      if (p.y < -MARGIN)     p.y =  H + MARGIN;
-
-      p.el.style.transform =
-        `translate(${(p.x - p.w / 2).toFixed(1)}px,${(p.y - 30).toFixed(1)}px) rotate(${p.rot}deg) rotateX(${p.rx}deg) rotateY(${p.ry}deg)`;
     });
 
+  /* ════════════════════════════════════════════════
+     데스크톱: 기존 물리 시뮬레이션 + featureCard 로직
+  ════════════════════════════════════════════════ */
+  } else {
+    const particles = [];
+    let featuredParticle = null;
 
-    requestAnimationFrame(tick);
-  }
+    PHOTOS.forEach((photo, idx) => {
+      const card = document.createElement('div');
+      card.className = 'p-card';
+
+      const img = document.createElement('img');
+      img.src     = 'images/thumbs/' + photo.filename;
+      img.alt     = photo.title || '';
+      img.loading = 'lazy';
+      img.onerror = () => { card.style.display = 'none'; p.hidden = true; };
+      card.appendChild(img);
+      stage.appendChild(card);
+
+      const r_size = rng();
+      const w = (r_size < 0.3 ? 40 + r_size * 80
+               : r_size < 0.8 ? 65 + (r_size-0.3) * 60
+               : 95 + (r_size-0.8) * 75);
+      card.style.width = Math.round(w) + 'px';
+
+      if (w < 58)       card.classList.add('depth-far');
+      else if (w < 85)  card.classList.add('depth-mid');
+      else              card.classList.add('depth-near');
+
+      if (rng() < 0.20) card.classList.add('blend');
+
+      const gi  = gridIdx[idx] || idx;
+      const col = gi % COLS;
+      const row = Math.floor(gi / COLS);
+      const pad = 40;
+      const x0  = pad + col * cellW + (rng() * 0.7 + 0.15) * (cellW - pad);
+      const y0  = pad + row * cellH + (rng() * 0.7 + 0.15) * (cellH - pad);
+      const rx  = (rng() - 0.5) * 4;
+      const ry  = (rng() - 0.5) * 4;
+
+      const p = {
+        el: card, photo, w,
+        x: x0, y: y0,
+        vx: (rng() - 0.5) * 2,
+        vy: (rng() - 0.5) * 2,
+        rx, ry,
+        rot: (rng() - 0.5) * 24,
+        hovered: false, hidden: false,
+      };
+      particles.push(p);
+
+      card.style.transform = `translate(${(p.x - p.w/2).toFixed(1)}px,${(p.y - 30).toFixed(1)}px) rotate(${p.rot}deg)`;
+
+      card.addEventListener('pointerenter', () => {
+        if (p.hidden || featuredParticle) return;
+        card.classList.add('hover'); p.hovered = true;
+      });
+      card.addEventListener('pointerleave', () => {
+        if (!p.featured) card.classList.remove('hover'); p.hovered = false;
+      });
+
+      function featureCard() {
+        if (featuredParticle) returnToPhysics(featuredParticle);
+        featuredParticle = p;
+        p.featured = true;
+        card.classList.add('hover');
+        scatterOthers(p);
+        const targetW = Math.min(400, W * 0.36);
+        const scale   = targetW / p.w;
+        const aspect  = photo.height / photo.width;
+        const tx = W / 2 - p.w / 2;
+        const ty = H / 2 - (p.w * aspect) / 2;
+        img.src = 'images/mid/' + photo.filename;
+        card.style.zIndex     = '900';
+        card.style.transition = 'transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease';
+        card.style.transform  = `translate(${tx.toFixed(1)}px,${ty.toFixed(1)}px) rotate(0deg) rotateX(0deg) rotateY(0deg) scale(${scale.toFixed(3)})`;
+      }
+
+      let cardPtStartX, cardPtStartY, cardDragging = false;
+      card.addEventListener('pointerdown', (e) => {
+        cardPtStartX = e.clientX; cardPtStartY = e.clientY;
+        cardDragging = false; e.stopPropagation();
+      });
+      card.addEventListener('pointermove', (e) => {
+        if (cardPtStartX === undefined) return;
+        if (Math.abs(e.clientX - cardPtStartX) > 6 ||
+            Math.abs(e.clientY - cardPtStartY) > 6) cardDragging = true;
+      });
+      card.addEventListener('pointerup', (e) => {
+        e.stopPropagation();
+        if (!cardDragging) {
+          mx = e.clientX; my = e.clientY;
+          if (p.featured) openModal(photo);
+          else featureCard();
+        }
+        cardPtStartX = undefined; cardDragging = false;
+      });
+    });
+
+    function returnToPhysics(p) {
+      p.featured = false;
+      p.el.classList.remove('hover');
+      p.el.querySelector('img').src = 'images/thumbs/' + p.photo.filename;
+      p.el.style.transition = 'transform 0.45s cubic-bezier(0.4, 0, 0.2, 1)';
+      setTimeout(() => { p.el.style.transition = ''; p.el.style.zIndex = ''; }, 460);
+    }
+
+    function scatterOthers(self) {
+      particles.forEach(p => {
+        if (p === self) return;
+        const dx = p.x - mx, dy = p.y - my;
+        const dist = Math.sqrt(dx*dx + dy*dy) + 0.1;
+        const force = Math.max(12, Math.min(500 / dist, 36));
+        p.vx += (dx / dist) * force + (Math.random() - 0.5) * 10;
+        p.vy += (dy / dist) * force + (Math.random() - 0.5) * 10;
+      });
+    }
+
+    let stagePtStartX, stagePtStartY, stageDragging = false;
+    stage.addEventListener('pointerdown', (e) => {
+      if (e.target.closest('.p-card')) return;
+      stagePtStartX = e.clientX; stagePtStartY = e.clientY;
+      stageDragging = false; mx = e.clientX; my = e.clientY;
+    });
+    stage.addEventListener('pointermove', (e) => {
+      if (stagePtStartX === undefined) return;
+      mx = e.clientX; my = e.clientY;
+      if (Math.abs(e.clientX - stagePtStartX) > 6 ||
+          Math.abs(e.clientY - stagePtStartY) > 6) stageDragging = true;
+      if (stageDragging) {
+        particles.forEach(p => {
+          if (p.featured || p.hidden) return;
+          const dx = p.x - mx, dy = p.y - my;
+          const dist = Math.sqrt(dx*dx + dy*dy) + 0.1;
+          if (dist < 160) {
+            const force = (160 - dist) / 160 * 3;
+            p.vx += (dx / dist) * force;
+            p.vy += (dy / dist) * force;
+          }
+        });
+      }
+    });
+    stage.addEventListener('pointerup', (e) => {
+      if (e.target.closest('.p-card')) return;
+      if (!stageDragging) {
+        hint.classList.add('hidden');
+        mx = e.clientX; my = e.clientY;
+        if (featuredParticle) {
+          returnToPhysics(featuredParticle);
+          featuredParticle = null;
+        } else {
+          particles.forEach(p => {
+            const dx = p.x - mx, dy = p.y - my;
+            const dist = Math.sqrt(dx*dx + dy*dy) + 0.1;
+            const force = Math.max(20, Math.min(700 / dist, 48));
+            p.vx += (dx / dist) * force + (Math.random() - 0.5) * 14;
+            p.vy += (dy / dist) * force + (Math.random() - 0.5) * 14;
+          });
+        }
+      }
+      stagePtStartX = undefined; stageDragging = false;
+    });
+
+    const DAMPING = 0.980, MAX_SPEED = 24, NOISE = 0.030, MARGIN = 120;
+
+    function tick() {
+      particles.forEach(p => {
+        if (p.hidden || p.featured) return;
+        const PAD = 50;
+        if (p.x < PAD)      p.vx += (PAD - p.x)       * 0.06;
+        if (p.x > W - PAD)  p.vx -= (p.x - (W - PAD)) * 0.06;
+        if (p.y < PAD)      p.vy += (PAD - p.y)        * 0.06;
+        if (p.y > H - PAD)  p.vy -= (p.y - (H - PAD)) * 0.06;
+        p.vx += (Math.random() - 0.5) * NOISE;
+        p.vy += (Math.random() - 0.5) * NOISE;
+        const spd = Math.sqrt(p.vx*p.vx + p.vy*p.vy);
+        if (spd > MAX_SPEED) { p.vx = p.vx/spd*MAX_SPEED; p.vy = p.vy/spd*MAX_SPEED; }
+        const damp = p.hovered ? 0.70 : DAMPING;
+        p.vx *= damp; p.vy *= damp;
+        p.x += p.vx; p.y += p.vy;
+        if (p.x >  W + MARGIN) p.x = -MARGIN;
+        if (p.x < -MARGIN)     p.x =  W + MARGIN;
+        if (p.y >  H + MARGIN) p.y = -MARGIN;
+        if (p.y < -MARGIN)     p.y =  H + MARGIN;
+        p.el.style.transform =
+          `translate(${(p.x - p.w/2).toFixed(1)}px,${(p.y - 30).toFixed(1)}px) rotate(${p.rot}deg) rotateX(${p.rx}deg) rotateY(${p.ry}deg)`;
+      });
+      requestAnimationFrame(tick);
+    }
+
+    tick();
+  } // end desktop
 
   /* ─── 모달 ─── */
   const overlay    = document.getElementById('modal-overlay');
@@ -659,8 +653,7 @@
   });
 
   /* ─── 초기화 ─── */
-  // DOM 준비되면 바로 시작 (이미지 로드 안 기다림)
-  tick();
+  // 데스크톱은 위 else 블록 안에서 tick() 호출됨. 모바일은 정적 배치라 tick 불필요.
   const loading = document.getElementById('loading');
   setTimeout(() => {
     loading.classList.add('fade');
