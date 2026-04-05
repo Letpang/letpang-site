@@ -379,11 +379,11 @@
 
       // 사진 크기: 셀 너비의 67.5~112.5% (겹침 허용, 1.5배 확대)
       const r_size = rng();
-      const w = Math.round(M_cellW * (0.675 + r_size * 0.45));
+      const w = Math.round(M_cellW * (0.54 + r_size * 0.36));
       card.style.width = w + 'px';
 
-      if (w < M_cellW * 0.82) card.classList.add('depth-far');
-      else if (w < M_cellW * 1.02) card.classList.add('depth-mid');
+      if (w < M_cellW * 0.66) card.classList.add('depth-far');
+      else if (w < M_cellW * 0.82) card.classList.add('depth-mid');
       else card.classList.add('depth-near');
 
       // 셀 중심 기준 배치 — 셀 전체 높이 균등 분산
