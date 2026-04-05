@@ -377,25 +377,25 @@
       card.appendChild(img);
       stage.appendChild(card);
 
-      // 사진 크기: 셀 너비의 45~75% (화면 안에 수납)
+      // 사진 크기: 셀 너비의 67.5~112.5% (겹침 허용, 1.5배 확대)
       const r_size = rng();
-      const w = Math.round(M_cellW * (0.45 + r_size * 0.30));
+      const w = Math.round(M_cellW * (0.675 + r_size * 0.45));
       card.style.width = w + 'px';
 
-      if (w < M_cellW * 0.55) card.classList.add('depth-far');
-      else if (w < M_cellW * 0.68) card.classList.add('depth-mid');
+      if (w < M_cellW * 0.82) card.classList.add('depth-far');
+      else if (w < M_cellW * 1.02) card.classList.add('depth-mid');
       else card.classList.add('depth-near');
 
-      // 셀 중심 기준 배치 (화면 밖으로 나가지 않도록 clamp)
+      // 셀 중심 기준 배치 — 셀 전체 높이 균등 분산
       const gi  = gridIdx[idx] || idx;
       const col = gi % M_COLS;
-      const row = Math.floor(gi / M_ROWS);
+      const row = Math.floor(gi / M_COLS);
       const cx  = (col + 0.5) * M_cellW;
       const cy  = (row + 0.5) * M_cellH;
-      const ox  = (rng() - 0.5) * M_cellW * 0.35;
-      const oy  = (rng() - 0.5) * M_cellH * 0.35;
-      const x0  = Math.max(w / 2, Math.min(W - w / 2, cx + ox));
-      const y0  = Math.max(w / 2, Math.min(H - w / 2, cy + oy));
+      const ox  = (rng() - 0.5) * M_cellW * 0.5;
+      const oy  = (rng() - 0.5) * M_cellH * 0.5;
+      const x0  = cx + ox;
+      const y0  = cy + oy;
       const rot = (rng() - 0.5) * 18;
 
       card.style.transform = `translate(${(x0 - w/2).toFixed(1)}px,${(y0 - w/2).toFixed(1)}px) rotate(${rot}deg)`;
