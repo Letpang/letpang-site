@@ -616,7 +616,8 @@
   const modalMeta  = document.getElementById('modal-meta');
 
   function openModal(photo) {
-    modalImg.src           = 'images/mid/' + photo.filename;
+    // 썸네일 먼저 즉시 표시 → mid 로드 완료되면 교체
+    modalImg.src           = 'images/thumbs/' + photo.filename;
     modalImg.alt           = photo.title || '';
     modalEra.textContent   = photo.era      || '';
     modalTitle.textContent = photo.title    || '';
@@ -631,6 +632,10 @@
     ).join('');
     overlay.classList.add('open');
     document.body.style.overflow = 'hidden';
+    // 백그라운드에서 mid 이미지 로드 후 교체
+    const mid = new Image();
+    mid.onload = () => { if (overlay.classList.contains('open')) modalImg.src = mid.src; };
+    mid.src = 'images/mid/' + photo.filename;
   }
 
   function closeModal() {
