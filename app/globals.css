@@ -138,25 +138,11 @@ body::after {
   line-height: 1;
 }
 
-.brand-studio {
-  font-family: 'Inter', sans-serif;
-  font-size: 8px;
-  font-weight: 600;
-  letter-spacing: 0.6em;
-  padding-left: 0.6em; /* 광학적 중앙 정렬 보정 */
-  color: var(--text-secondary);
-  text-transform: uppercase;
-  margin-bottom: 2px;
-}
-
-.brand-letpang {
-  font-family: 'Cinzel', serif;
-  font-size: 26px;
-  font-weight: 500;
-  letter-spacing: 0.05em;
-  color: var(--text);
-  text-transform: uppercase;
-  line-height: 0.9;
+.brand-logo-img {
+  height: 48px;
+  width: auto;
+  object-fit: contain;
+  display: block;
 }
 
 .navLinks {

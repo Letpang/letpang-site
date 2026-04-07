@@ -19,8 +19,7 @@ export default function SiteHeader() {
     <div className="nav">
       <Link href="/" className="brand" aria-label="Letpang Studio">
         <div className="brand-text">
-          <span className="brand-studio">STUDIO</span>
-          <span className="brand-letpang">LETPANG</span>
+          <img src="/logo.png" alt="Letpang Studio Logo" className="brand-logo-img" />
         </div>
       </Link>
 
