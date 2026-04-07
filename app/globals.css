@@ -122,23 +122,29 @@ body::after {
 }
 
 .brand {
-  font-weight: 800;
-  font-size: 20px;
-  letter-spacing: -0.02em;
+  font-family: 'Poppins', sans-serif;
   display: flex;
   align-items: center;
-  gap: 10px;
-  background: var(--gradient-hero);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  gap: 12px;
+  color: var(--text);
   transition: opacity 0.2s;
 }
-.brand:hover { opacity: 0.8; }
+.brand:hover { opacity: 0.7; }
 
 .logo-icon {
-  font-size: 22px;
-  -webkit-text-fill-color: initial;
+  width: 32px;
+  height: 32px;
+  color: var(--primary);
+}
+
+.brand-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 0.9;
+  font-weight: 800;
+  font-size: 19px;
+  letter-spacing: -0.05em;
+  text-transform: lowercase;
 }
 
 .navLinks {

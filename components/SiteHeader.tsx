@@ -17,9 +17,26 @@ export default function SiteHeader() {
 
   return (
     <div className="nav">
-      <Link href="/" className="brand" aria-label={SITE.name}>
-        <span className="logo-icon">🎮</span>
-        {SITE.name}
+      <Link href="/" className="brand" aria-label="Letpang Studio">
+        <svg 
+          className="logo-icon" 
+          viewBox="0 0 32 32" 
+          width="32" 
+          height="32" 
+          stroke="currentColor" 
+          strokeWidth="4.5" 
+          strokeLinecap="round" 
+          strokeLinejoin="round"
+        >
+          <path d="M 22 2 V 30" />
+          <path d="M 2 16 H 22" />
+          <path d="M 7 5 L 22 16" />
+          <path d="M 7 27 L 22 16" />
+        </svg>
+        <div className="brand-text">
+          <span>letpang</span>
+          <span>studio</span>
+        </div>
       </Link>
 
       <nav className="navLinks" aria-label="Primary">
