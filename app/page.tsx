@@ -1,136 +1,171 @@
 // app/page.tsx
+import Image from "next/image";
 import Link from "next/link";
 import { SITE } from "@/lib/site";
 
 export default function HomePage() {
-  const features = [
-    {
-      icon: "🎯",
-      title: "Casual Games",
-      desc: "Fun and accessible games for everyone",
-    },
-    {
-      icon: "📱",
-      title: "Mobile First",
-      desc: "Optimized for iOS and Android",
-    },
-    {
-      icon: "✨",
-      title: "Indie Spirit",
-      desc: "Crafted with passion and creativity",
-    },
-  ];
-
   return (
     <div className="home-container">
-      {/* Hero Section */}
+
+      {/* ── Hero: split layout ── */}
       <section className="hero">
-        <div className="hero-badge">🎮 Indie Game Studio</div>
-        <h1 className="hero-title">{SITE.name}</h1>
-        <p className="hero-subtitle">
-          We build and publish delightful indie games for iOS and Android.
-          <br />
-          Creating fun experiences, one game at a time.
-        </p>
-        <div className="hero-buttons">
-          <Link href={SITE.games.hanja.path} className="btn btn-primary">
-            <span>{SITE.games.hanja.titleKr} 보기</span>
-            <span>→</span>
-          </Link>
-          <a href="/explore/" className="btn btn-secondary">
-            <span>Explore (3D 갤러리)</span>
-          </a>
+        <div className="hero-text">
+          <div className="hero-badge">🎮 Indie Game Studio</div>
+          <h1 className="hero-title">
+            Fun Games,<br />
+            <span className="hero-title-accent">Big Smiles</span>
+          </h1>
+          <p className="hero-subtitle">
+            We build and publish delightful indie games for iOS and Android.
+            Creating fun experiences, one game at a time.
+          </p>
+          <div className="hero-buttons">
+            <Link href={SITE.games.hanja.path} className="btn btn-primary">
+              <span>신작 보기</span>
+              <span className="btn-arrow">→</span>
+            </Link>
+            <Link href="/about" className="btn btn-outline">
+              <span>About Us</span>
+            </Link>
+          </div>
+        </div>
+
+        <div className="hero-visual">
+          <Image
+            src="/hero-illustration.png"
+            alt="Letpang Studio Games Illustration"
+            width={520}
+            height={520}
+            className="hero-img"
+            priority
+          />
         </div>
       </section>
 
-      {/* Featured Games Section */}
-      <section className="featured-games-section">
-        <h2 className="section-title">Featured Games</h2>
-        <div className="games-grid">
-          <Link href={SITE.games.hanja.path} className="game-promo-card">
-            <div className="game-promo-icon">🛸</div>
-            <div className="game-promo-content">
-              <span className="game-badge">New Release</span>
-              <h3>{SITE.games.hanja.titleKr}</h3>
-              <p>{SITE.games.hanja.descriptionKr}</p>
-              <div className="game-promo-footer">
-                <span>Learn More</span>
-                <span className="arrow">→</span>
+      {/* ── Our Games ── */}
+      <section className="games-section">
+        <div className="section-header">
+          <p className="section-eyebrow">Our Portfolio</p>
+          <h2 className="section-title">Our Games</h2>
+        </div>
+
+        {/* 한자탐험 — Featured big card */}
+        <Link href={SITE.games.hanja.path} className="game-featured-card">
+          <div className="game-featured-icon">
+            <Image
+              src="/icons/hanja-explorer.png"
+              alt={SITE.games.hanja.titleKr}
+              width={100}
+              height={100}
+              className="game-icon-img"
+            />
+          </div>
+          <div className="game-featured-body">
+            <span className="badge badge-new">✨ New Release</span>
+            <h3 className="game-featured-title">{SITE.games.hanja.titleKr}</h3>
+            <p className="game-featured-desc">{SITE.games.hanja.descriptionKr}</p>
+            <div className="game-cta">
+              <span>자세히 보기</span>
+              <span className="cta-arrow">→</span>
+            </div>
+          </div>
+        </Link>
+
+        {/* 기존 게임 2종 */}
+        <div className="games-row">
+          <a
+            href={SITE.games.pastelOthello.playStoreUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="game-card"
+          >
+            <div className="game-card-icon">
+              <Image
+                src="/icons/pastel-othello.png"
+                alt={SITE.games.pastelOthello.titleKr}
+                width={72}
+                height={72}
+                className="game-icon-img"
+              />
+            </div>
+            <div className="game-card-body">
+              <span className="badge badge-store">Google Play</span>
+              <h3 className="game-card-title">{SITE.games.pastelOthello.titleKr}</h3>
+              <p className="game-card-desc">{SITE.games.pastelOthello.descriptionKr}</p>
+              <div className="game-cta">
+                <span>Play Store에서 보기</span>
+                <span className="cta-arrow">→</span>
               </div>
             </div>
-          </Link>
+          </a>
+
+          <a
+            href={SITE.games.colorSense.playStoreUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="game-card"
+          >
+            <div className="game-card-icon">
+              <Image
+                src="/icons/color-sense.png"
+                alt={SITE.games.colorSense.titleKr}
+                width={72}
+                height={72}
+                className="game-icon-img"
+              />
+            </div>
+            <div className="game-card-body">
+              <span className="badge badge-store">Google Play</span>
+              <h3 className="game-card-title">{SITE.games.colorSense.titleKr}</h3>
+              <p className="game-card-desc">{SITE.games.colorSense.descriptionKr}</p>
+              <div className="game-cta">
+                <span>Play Store에서 보기</span>
+                <span className="cta-arrow">→</span>
+              </div>
+            </div>
+          </a>
         </div>
       </section>
 
-      {/* Features Section */}
-      <section className="features">
-        {features.map((feature, idx) => (
-          <div key={idx} className="feature-card">
-            <div className="feature-icon">{feature.icon}</div>
-            <h3 className="feature-title">{feature.title}</h3>
-            <p className="feature-desc">{feature.desc}</p>
+      {/* ── Studio Values ── */}
+      <section className="values-section">
+        <div className="section-header">
+          <p className="section-eyebrow">What we do</p>
+          <h2 className="section-title">Our Studio</h2>
+        </div>
+        <div className="values-grid">
+          <div className="value-card value-card--pink">
+            <span className="value-icon">🎯</span>
+            <h3>Casual Games</h3>
+            <p>Fun and accessible games for everyone</p>
           </div>
-        ))}
-      </section>
-
-      {/* Quick Links Section */}
-      <section className="quick-links-section">
-        <h2 className="section-title">Quick Links</h2>
-        <div className="quick-links-grid">
-          <a href="/explore/" className="quick-link-card">
-            <span className="quick-link-icon">🖼️</span>
-            <div>
-              <h3>Explore</h3>
-              <p>View the 3D Image Collage</p>
-            </div>
-            <span className="arrow">→</span>
-          </a>
-          <Link href="/about" className="quick-link-card">
-            <span className="quick-link-icon">👋</span>
-            <div>
-              <h3>About</h3>
-              <p>Learn more about our studio</p>
-            </div>
-            <span className="arrow">→</span>
-          </Link>
-          <Link href="/support" className="quick-link-card">
-            <span className="quick-link-icon">💬</span>
-            <div>
-              <h3>Support</h3>
-              <p>Get help with our apps</p>
-            </div>
-            <span className="arrow">→</span>
-          </Link>
-          <Link href="/privacy" className="quick-link-card">
-            <span className="quick-link-icon">🔒</span>
-            <div>
-              <h3>Privacy Policy</h3>
-              <p>How we handle your data</p>
-            </div>
-            <span className="arrow">→</span>
-          </Link>
-          <Link href="/terms" className="quick-link-card">
-            <span className="quick-link-icon">📜</span>
-            <div>
-              <h3>Terms of Use</h3>
-              <p>Service usage guidelines</p>
-            </div>
-            <span className="arrow">→</span>
-          </Link>
+          <div className="value-card value-card--purple">
+            <span className="value-icon">📱</span>
+            <h3>Mobile First</h3>
+            <p>Optimized for iOS and Android</p>
+          </div>
+          <div className="value-card value-card--yellow">
+            <span className="value-icon">✨</span>
+            <h3>Indie Spirit</h3>
+            <p>Crafted with passion and creativity</p>
+          </div>
         </div>
       </section>
 
-      {/* Contact Section */}
-      <section className="contact-section">
-        <div className="contact-card">
-          <h2>Get in Touch</h2>
-          <p>Have questions? We&apos;d love to hear from you.</p>
-          <a href={`mailto:${SITE.email}`} className="btn btn-primary">
-            <span>📧</span>
-            <span>{SITE.email}</span>
-          </a>
+      {/* ── CTA Banner ── */}
+      <section className="cta-banner">
+        <div className="cta-banner-inner">
+          <div className="cta-banner-text">
+            <h2>Let&apos;s make something<br /><span>amazing together</span></h2>
+            <a href={`mailto:${SITE.email}`} className="btn btn-primary btn-lg">
+              <span>📧</span>
+              <span>Get in Touch</span>
+            </a>
+          </div>
+          <div className="cta-banner-deco" aria-hidden="true">🚀</div>
         </div>
       </section>
+
     </div>
   );
 }
