@@ -1,6 +1,5 @@
-/* app/globals.css */
-/* Poppins (헤딩) + Inter (본문) + Noto Sans KR (한국어) + Cinzel (로고) */
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Poppins:wght@600;700;800&family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;1,14..32,400&family=Noto+Sans+KR:wght@400;500;600;700;800&display=swap');
+/* Poppins (헤딩) + Inter (본문) + Noto Sans KR (한국어) + Cinzel (로고) + Montserrat (사용자 로고) */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&family=Cinzel:wght@400;500;600;700&family=Poppins:wght@600;700;800&family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;1,14..32,400&family=Noto+Sans+KR:wght@400;500;600;700;800&display=swap');
 
 * { box-sizing: border-box; }
 html, body { padding: 0; margin: 0; }
@@ -138,11 +137,39 @@ body::after {
   line-height: 1;
 }
 
-.brand-logo-img {
-  height: 48px;
-  width: auto;
-  object-fit: contain;
-  display: block;
+.brand-letpang {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  color: var(--text);
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.brand-studio-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 100%;
+  padding: 0 4px;
+}
+
+.brand-studio {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.25em;
+  color: var(--text);
+  text-transform: uppercase;
+}
+
+.dotted-line {
+  flex-grow: 1;
+  width: 20px;
+  border-bottom: 2px dotted var(--text);
+  opacity: 0.6;
 }
 
 .navLinks {
