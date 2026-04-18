@@ -33,6 +33,11 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://www.letpang.com",
   },
+  verification: {
+    other: {
+      "naver-site-verification": ["b72b48c691a43c63b14581fe4da34b1f871e6a8f"],
+    },
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
