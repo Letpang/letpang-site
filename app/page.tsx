@@ -12,20 +12,20 @@ export default function HomePage() {
         <div className="hero-text">
           <div className="hero-badge">🎮 Indie Game Studio</div>
           <h1 className="hero-title">
-            Fun Games,<br />
-            <span className="hero-title-accent">Big Smiles</span>
+            Small Studio,<br />
+            <span className="hero-title-accent">Big Hearts</span>
           </h1>
           <p className="hero-subtitle">
-            We build and publish delightful indie games for iOS and Android.
-            Creating fun experiences, one game at a time.
+            렛팡 스튜디오는 누구나 쉽게 즐길 수 있는 캐주얼 모바일 게임을 만들고 있습니다.
+            감성적인 디자인과 따뜻한 경험을 게임에 담아, 일상 속 작은 즐거움을 선물합니다.
           </p>
           <div className="hero-buttons">
             <Link href={SITE.games.hanja.path} className="btn btn-primary">
-              <span>신작 보기</span>
+              <span>신작 보러 가기</span>
               <span className="btn-arrow">→</span>
             </Link>
             <Link href="/about" className="btn btn-outline">
-              <span>About Us</span>
+              <span>스튜디오 소개</span>
             </Link>
           </div>
         </div>
@@ -33,7 +33,7 @@ export default function HomePage() {
         <div className="hero-visual">
           <Image
             src="/hero-illustration.png"
-            alt="Letpang Studio Games Illustration"
+            alt="렛팡 스튜디오 게임 일러스트레이션"
             width={520}
             height={520}
             className="hero-img"
@@ -45,7 +45,7 @@ export default function HomePage() {
       {/* ── Our Games ── */}
       <section className="games-section">
         <div className="section-header">
-          <p className="section-eyebrow">Our Portfolio</p>
+          <p className="section-eyebrow">Portfolio</p>
           <h2 className="section-title">Our Games</h2>
         </div>
 
@@ -93,7 +93,7 @@ export default function HomePage() {
               <h3 className="game-card-title">{SITE.games.pastelOthello.titleKr}</h3>
               <p className="game-card-desc">{SITE.games.pastelOthello.descriptionKr}</p>
               <div className="game-cta">
-                <span>Play Store에서 보기</span>
+                <span>다운로드 하기</span>
                 <span className="cta-arrow">→</span>
               </div>
             </div>
@@ -119,7 +119,7 @@ export default function HomePage() {
               <h3 className="game-card-title">{SITE.games.colorSense.titleKr}</h3>
               <p className="game-card-desc">{SITE.games.colorSense.descriptionKr}</p>
               <div className="game-cta">
-                <span>Play Store에서 보기</span>
+                <span>다운로드 하기</span>
                 <span className="cta-arrow">→</span>
               </div>
             </div>
@@ -130,24 +130,30 @@ export default function HomePage() {
       {/* ── Studio Values ── */}
       <section className="values-section">
         <div className="section-header">
-          <p className="section-eyebrow">What we do</p>
-          <h2 className="section-title">Our Studio</h2>
+          <p className="section-eyebrow">What We Believe</p>
+          <h2 className="section-title">Our Values</h2>
         </div>
         <div className="values-grid">
           <div className="value-card value-card--pink">
-            <span className="value-icon">🎯</span>
-            <h3>Casual Games</h3>
-            <p>Fun and accessible games for everyone</p>
+            <div className="value-card-header">
+              <Image src="/icons/casual-games.png" alt="Casual Games" width={48} height={48} className="value-icon-img" />
+              <h3>Casual Games</h3>
+            </div>
+            <p>복잡한 조작 없이도 누구나 바로 즐길 수 있는 게임을 추구합니다. 5살 아이부터 70대 어르신까지, 모두를 위한 즐거움을 만듭니다.</p>
           </div>
           <div className="value-card value-card--purple">
-            <span className="value-icon">📱</span>
-            <h3>Mobile First</h3>
-            <p>Optimized for iOS and Android</p>
+            <div className="value-card-header">
+              <Image src="/icons/mobile-first.png" alt="Mobile First" width={48} height={48} className="value-icon-img" />
+              <h3>Mobile First</h3>
+            </div>
+            <p>언제 어디서나 꺼내 즐길 수 있도록 모바일에 최적화합니다. iOS와 Android 모두에서 매끄러운 경험을 제공합니다.</p>
           </div>
           <div className="value-card value-card--yellow">
-            <span className="value-icon">✨</span>
-            <h3>Indie Spirit</h3>
-            <p>Crafted with passion and creativity</p>
+            <div className="value-card-header">
+              <Image src="/icons/indie-spirit.png" alt="Indie Spirit" width={48} height={48} className="value-icon-img" />
+              <h3>Indie Spirit</h3>
+            </div>
+            <p>대형 스튜디오가 만들지 않는, 작지만 특별한 게임을 만듭니다. 하나하나에 정성과 개성을 담아 플레이어에게 따뜻한 경험을 전합니다.</p>
           </div>
         </div>
       </section>
@@ -156,13 +162,16 @@ export default function HomePage() {
       <section className="cta-banner">
         <div className="cta-banner-inner">
           <div className="cta-banner-text">
-            <h2>Let&apos;s make something<br /><span>amazing together</span></h2>
+            <h2>Let&apos;s Create<br /><span>Something Special</span></h2>
+            <p className="cta-banner-desc">제안, 피드백, 협업 문의 등 어떤 이야기든 환영합니다.</p>
             <a href={`mailto:${SITE.email}`} className="btn btn-primary btn-lg">
               <span>📧</span>
               <span>Get in Touch</span>
             </a>
           </div>
-          <div className="cta-banner-deco" aria-hidden="true">🚀</div>
+          <div className="cta-banner-deco" aria-hidden="true">
+            <Image src="/cta-mockup.png" alt="한자탐험 게임 목업" width={360} height={360} className="cta-mockup-img" />
+          </div>
         </div>
       </section>
 

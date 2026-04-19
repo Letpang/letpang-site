@@ -8,11 +8,10 @@ export default function SiteHeader() {
   const pathname = usePathname();
   
   const navItems = [
-    { href: "/explore", label: "Explore" },
-    { href: "/about", label: "About" },
-    { href: "/support", label: "Support" },
-    { href: "/privacy", label: "Privacy" },
-    { href: "/terms", label: "Terms" },
+    { href: "/about", label: "소개" },
+    { href: "/support", label: "고객지원" },
+    { href: "/privacy", label: "개인정보" },
+    { href: "/terms", label: "이용약관" },
   ];
 
   return (
@@ -24,28 +23,15 @@ export default function SiteHeader() {
       </Link>
 
       <nav className="navLinks" aria-label="Primary">
-        {navItems.map((item) => {
-          if (item.href === "/explore") {
-            return (
-              <a 
-                key={item.href} 
-                href="/explore/"
-                className={pathname === item.href ? "active" : ""}
-              >
-                {item.label}
-              </a>
-            );
-          }
-          return (
-            <Link 
-              key={item.href} 
-              href={item.href}
-              className={pathname === item.href ? "active" : ""}
-            >
-              {item.label}
-            </Link>
-          );
-        })}
+        {navItems.map((item) => (
+          <Link 
+            key={item.href} 
+            href={item.href}
+            className={pathname === item.href ? "active" : ""}
+          >
+            {item.label}
+          </Link>
+        ))}
       </nav>
     </div>
   );

@@ -62,10 +62,9 @@ body {
   font-feature-settings: 'kern' 1, 'liga' 1, 'calt' 1;
 }
 
-/* 영문 헤딩: Poppins (레퍼런스 이미지와 동일한 폰트) */
+/* 헤딩: 한국어 Noto Sans KR 우선, 영문은 Poppins */
 h1, h2, h3, h4, h5, h6 {
-  /* 영문자엔 Poppins, 한국어엔 Noto Sans KR이 자동 적용됨 */
-  font-family: 'Poppins', 'Noto Sans KR', ui-sans-serif, sans-serif;
+  font-family: 'Noto Sans KR', 'Poppins', ui-sans-serif, sans-serif;
   font-feature-settings: 'kern' 1;
 }
 
@@ -566,18 +565,31 @@ body::after {
   display: block;
 }
 
+.value-icon-img {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+}
+
+.value-card-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
 .value-card h3 {
-  font-size: 18px;
-  font-weight: 700;
+  font-size: 22px;
+  font-weight: 800;
   margin: 0;
   color: var(--text);
+  letter-spacing: -0.02em;
 }
 
 .value-card p {
   font-size: 14px;
   color: var(--text-secondary);
   margin: 0;
-  line-height: 1.65;
+  line-height: 1.8;
 }
 
 /* ── CTA Banner ──────────────────────────────── */
@@ -617,10 +629,26 @@ body::after {
   background-clip: text;
 }
 
+.cta-banner-desc {
+  font-size: 15px;
+  color: var(--text-secondary);
+  margin: 0;
+  line-height: 1.7;
+}
+
 .cta-banner-deco {
-  font-size: 96px;
-  animation: float 4s ease-in-out infinite;
-  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cta-mockup-img {
+  width: 420px;
+  height: 420px;
+  object-fit: contain;
+  border-radius: 20px;
+  -webkit-mask-image: radial-gradient(ellipse 80% 80% at center, black 55%, transparent 95%);
+  mask-image: radial-gradient(ellipse 80% 80% at center, black 55%, transparent 95%);
 }
 
 /* ── Footer ───────────────────────────────────── */
