@@ -1,7 +1,7 @@
 // lib/site.ts
 export const SITE = {
   name: "Letpang Studio",
-  description: "Indie studio focused on game development.",
+  description: "감성적인 캐주얼 모바일 게임을 만드는 인디 게임 스튜디오",
   email: "hello@letpang.com",
   games: {
     hanja: {

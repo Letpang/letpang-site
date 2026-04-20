@@ -3,8 +3,19 @@ import Link from "next/link";
 import { SITE } from "@/lib/site";
 
 export const metadata = {
-  title: `${SITE.games.hanja.title} - ${SITE.name}`,
-  description: SITE.games.hanja.description,
+  title: "즐거운 한자탐험 — 어린이 한자 학습 게임",
+  description: "우주 탐험 테마로 즐겁게 배우는 어린이 한자 학습 게임. 인터랙티브 카드, 스테이지 잠금 해제, 스티커 수집으로 한자를 재미있게 익혀보세요. iOS·Android 무료 다운로드.",
+  keywords: ["즐거운 한자탐험", "한자 학습 게임", "어린이 한자", "한자 앱", "한자 공부", "한자 게임", "Joyful Hanja Explorer"],
+  openGraph: {
+    title: "즐거운 한자탐험 — 어린이 한자 학습 게임",
+    description: "우주 탐험 테마로 즐겁게 배우는 어린이 한자 학습 게임. iOS·Android 무료 다운로드.",
+    images: [{ url: "/icons/hanja-explorer.png", width: 512, height: 512, alt: "즐거운 한자탐험 아이콘" }],
+  },
+  twitter: {
+    card: "summary",
+    title: "즐거운 한자탐험 — 어린이 한자 학습 게임",
+    description: "우주 탐험 테마로 즐겁게 배우는 어린이 한자 학습 게임. iOS·Android 무료 다운로드.",
+  },
 };
 
 export default function HanjaExplorerPage() {

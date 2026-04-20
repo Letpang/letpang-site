@@ -2,6 +2,7 @@ import Link from "next/link";
 
 export const metadata = {
   title: "스튜디오 소개",
+  description: "렛팡 스튜디오는 즐거운 한자탐험, 파스텔 오셀로 등 감성적인 캐주얼 모바일 게임을 만드는 1인 인디 게임 스튜디오입니다. 스튜디오 철학과 만들어온 게임들을 소개합니다.",
 };
 
 export default function AboutPage() {
