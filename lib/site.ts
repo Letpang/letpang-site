@@ -12,6 +12,7 @@ export const SITE = {
       descriptionKr: "우주 탐험과 함께 즐겁게 배우는 어린이 한자 학습 게임",
       path: "/games/hanja-explorer",
       privacyPath: "/games/hanja-explorer/privacy",
+      playStoreUrl: "https://play.google.com/store/apps/details?id=com.soujinne.hanjaexplorer",
       appStoreUrl: "https://apps.apple.com/kr/app/id6762037956",
       isNew: true,
     },
