@@ -499,7 +499,7 @@ body::after {
   line-height: 1.65;
 }
 
-/* Badges */
+/* ── Badges & Buttons ────────────────── */
 .badge {
   display: inline-block;
   padding: 4px 12px;
@@ -516,145 +516,55 @@ body::after {
   color: #fff;
 }
 
-.badge-store {
-  background: var(--purple-light);
-  color: var(--purple);
-}
-
-/* CTA link inside cards */
-.game-cta {
-  display: flex;
+.btn-store {
+  display: inline-flex;
   align-items: center;
-  gap: 6px;
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--primary);
-  margin-top: 4px;
+  gap: 8px;
+  padding: 10px 18px;
+  border-radius: 14px;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-shadow: 0 2px 5px rgba(0,0,0,0.08);
+  border: 1px solid transparent;
 }
 
-.cta-arrow {
-  transition: transform 0.2s;
-}
-.game-featured-card:hover .cta-arrow,
-.game-card:hover .cta-arrow {
-  transform: translateX(5px);
+.btn-store svg {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
 }
 
-/* ── Values Section ─────────────────────── */
-
-.values-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
+.btn-google {
+  background: #1a1a2e;
+  color: #fff;
+}
+.btn-google:hover {
+  background: #2a2a4e;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+  border-color: #3b82f6;
 }
 
-.value-card {
-  border-radius: var(--radius-lg);
-  padding: 36px 28px;
+.btn-apple {
+  background: #ffffff;
+  color: #1a1a2e;
+  border: 1.5px solid #d1d5db;
+}
+.btn-apple:hover {
+  background: #f9fafb;
+  border-color: #1a1a2e;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+}
+
+.games-buttons {
   display: flex;
-  flex-direction: column;
-  gap: 14px;
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
-}
-
-.value-card:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-md);
-}
-
-.value-card--pink   { background: var(--primary-light); }
-.value-card--purple { background: var(--purple-light); }
-.value-card--yellow { background: var(--secondary-light); }
-
-.value-icon {
-  font-size: 40px;
-  display: block;
-}
-
-.value-icon-img {
-  width: 48px;
-  height: 48px;
-  object-fit: contain;
-}
-
-.value-card-header {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-}
-
-.value-card h3 {
-  font-size: 22px;
-  font-weight: 800;
-  margin: 0;
-  color: var(--text);
-  letter-spacing: -0.02em;
-}
-
-.value-card p {
-  font-size: 14px;
-  color: var(--text-secondary);
-  margin: 0;
-  line-height: 1.8;
-}
-
-/* ── CTA Banner ──────────────────────────────── */
-.cta-banner {
-  background: var(--gradient-cta);
-  border-radius: var(--radius-xl);
-  overflow: hidden;
-}
-
-.cta-banner-inner {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 60px 72px;
-  gap: 40px;
-}
-
-.cta-banner-text {
-  display: flex;
-  flex-direction: column;
-  gap: 28px;
-}
-
-.cta-banner-text h2 {
-  font-size: clamp(28px, 3vw, 42px);
-  font-weight: 800;
-  margin: 0;
-  letter-spacing: -0.03em;
-  line-height: 1.25;
-  color: var(--text);
-}
-
-.cta-banner-text h2 span {
-  background: var(--gradient-hero);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.cta-banner-desc {
-  font-size: 15px;
-  color: var(--text-secondary);
-  margin: 0;
-  line-height: 1.7;
-}
-
-.cta-banner-deco {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.cta-mockup-img {
-  width: 420px;
-  height: 420px;
-  object-fit: contain;
-  border-radius: 20px;
-  -webkit-mask-image: radial-gradient(ellipse 80% 80% at center, black 55%, transparent 95%);
-  mask-image: radial-gradient(ellipse 80% 80% at center, black 55%, transparent 95%);
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 10px;
 }
 
 /* ── Footer ───────────────────────────────────── */
@@ -678,12 +588,16 @@ body::after {
   gap: 40px;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 960px) {
   .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
 }
-@media (max-width: 480px) {
-  .footer-grid { grid-template-columns: 1fr; }
+@media (max-width: 640px) {
+  .footer-grid { 
+    grid-template-columns: 1fr 1fr; 
+    gap: 32px 16px; 
+  }
 }
+
 
 .footer-section { display: flex; flex-direction: column; gap: 12px; }
 
