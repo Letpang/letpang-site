@@ -50,8 +50,8 @@ export default function HomePage() {
         </div>
 
         {/* 한자탐험 — Featured big card */}
-        <Link href={SITE.games.hanja.path} className="game-featured-card">
-          <div className="game-featured-icon">
+        <div className="game-featured-card">
+          <Link href={SITE.games.hanja.path} className="game-featured-icon">
             <Image
               src="/icons/hanja-explorer.png"
               alt={SITE.games.hanja.titleKr}
@@ -59,26 +59,30 @@ export default function HomePage() {
               height={100}
               className="game-icon-img"
             />
-          </div>
+          </Link>
           <div className="game-featured-body">
-            <span className="badge badge-new">✨ New Release</span>
-            <h3 className="game-featured-title">{SITE.games.hanja.titleKr}</h3>
+            <div className="flex items-center gap-2">
+              <span className="badge badge-new">✨ New Release</span>
+              {SITE.games.hanja.appStoreUrl && (
+                <a href={SITE.games.hanja.appStoreUrl} target="_blank" rel="noopener noreferrer" className="badge badge-store">iOS AVAILABLE</a>
+              )}
+            </div>
+            <Link href={SITE.games.hanja.path}>
+              <h3 className="game-featured-title">{SITE.games.hanja.titleKr}</h3>
+            </Link>
             <p className="game-featured-desc">{SITE.games.hanja.descriptionKr}</p>
-            <div className="game-cta">
-              <span>자세히 보기</span>
-              <span className="cta-arrow">→</span>
+            <div className="flex gap-3 mt-2">
+              <Link href={SITE.games.hanja.path} className="game-cta">
+                <span>자세히 보기</span>
+                <span className="cta-arrow">→</span>
+              </Link>
             </div>
           </div>
-        </Link>
+        </div>
 
         {/* 기존 게임 2종 */}
         <div className="games-row">
-          <a
-            href={SITE.games.pastelOthello.playStoreUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="game-card"
-          >
+          <div className="game-card">
             <div className="game-card-icon">
               <Image
                 src="/icons/pastel-othello.png"
@@ -89,22 +93,18 @@ export default function HomePage() {
               />
             </div>
             <div className="game-card-body">
-              <span className="badge badge-store">Google Play</span>
               <h3 className="game-card-title">{SITE.games.pastelOthello.titleKr}</h3>
               <p className="game-card-desc">{SITE.games.pastelOthello.descriptionKr}</p>
-              <div className="game-cta">
-                <span>다운로드 하기</span>
-                <span className="cta-arrow">→</span>
+              <div className="flex flex-wrap gap-2 mt-2">
+                <a href={SITE.games.pastelOthello.playStoreUrl} target="_blank" rel="noopener noreferrer" className="badge badge-store">Google Play</a>
+                {SITE.games.pastelOthello.appStoreUrl && (
+                  <a href={SITE.games.pastelOthello.appStoreUrl} target="_blank" rel="noopener noreferrer" className="badge badge-store">App Store</a>
+                )}
               </div>
             </div>
-          </a>
+          </div>
 
-          <a
-            href={SITE.games.colorSense.playStoreUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="game-card"
-          >
+          <div className="game-card">
             <div className="game-card-icon">
               <Image
                 src="/icons/color-sense.png"
@@ -115,15 +115,16 @@ export default function HomePage() {
               />
             </div>
             <div className="game-card-body">
-              <span className="badge badge-store">Google Play</span>
               <h3 className="game-card-title">{SITE.games.colorSense.titleKr}</h3>
               <p className="game-card-desc">{SITE.games.colorSense.descriptionKr}</p>
-              <div className="game-cta">
-                <span>다운로드 하기</span>
-                <span className="cta-arrow">→</span>
+              <div className="flex flex-wrap gap-2 mt-2">
+                <a href={SITE.games.colorSense.playStoreUrl} target="_blank" rel="noopener noreferrer" className="badge badge-store">Google Play</a>
+                {SITE.games.colorSense.appStoreUrl && (
+                  <a href={SITE.games.colorSense.appStoreUrl} target="_blank" rel="noopener noreferrer" className="badge badge-store">App Store</a>
+                )}
               </div>
             </div>
-          </a>
+          </div>
         </div>
       </section>
 

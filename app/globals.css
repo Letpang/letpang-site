@@ -830,6 +830,20 @@ body::after {
     padding: 40px 0 0;
     min-height: auto;
   }
+  .hero-text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .hero-subtitle { 
+    margin-left: auto; 
+    margin-right: auto; 
+    word-break: keep-all;
+  }
+  .hero-buttons { 
+    justify-content: center; 
+    width: 100%;
+  }
   .hero-visual { flex: none; width: 100%; max-width: 380px; margin-top: 20px; }
   .values-grid { grid-template-columns: 1fr 1fr; }
   .container { padding-left: 20px; padding-right: 20px; }
