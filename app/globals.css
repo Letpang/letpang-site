@@ -567,6 +567,142 @@ body::after {
   margin-top: 10px;
 }
 
+/* CTA link inside cards */
+.game-cta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--primary);
+  margin-top: 4px;
+}
+
+.cta-arrow {
+  transition: transform 0.2s;
+}
+.game-featured-card:hover .cta-arrow,
+.game-card:hover .cta-arrow {
+  transform: translateX(5px);
+}
+
+/* ── Values Section ─────────────────────── */
+
+.values-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.value-card {
+  border-radius: var(--radius-lg);
+  padding: 36px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.value-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+}
+
+.value-card--pink   { background: var(--primary-light); }
+.value-card--purple { background: var(--purple-light); }
+.value-card--yellow { background: var(--secondary-light); }
+
+.value-icon {
+  font-size: 40px;
+  display: block;
+}
+
+.value-icon-img {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+}
+
+.value-card-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.value-card h3 {
+  font-size: 22px;
+  font-weight: 800;
+  margin: 0;
+  color: var(--text);
+  letter-spacing: -0.02em;
+}
+
+.value-card p {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin: 0;
+  line-height: 1.8;
+}
+
+/* ── CTA Banner ──────────────────────────────── */
+.cta-banner {
+  background: var(--gradient-cta);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+}
+
+.cta-banner-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 60px 72px;
+  gap: 40px;
+}
+
+.cta-banner-text {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.cta-banner-text h2 {
+  font-size: clamp(28px, 3vw, 42px);
+  font-weight: 800;
+  margin: 0;
+  letter-spacing: -0.03em;
+  line-height: 1.25;
+  color: var(--text);
+}
+
+.cta-banner-text h2 span {
+  background: var(--gradient-hero);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.cta-banner-desc {
+  font-size: 15px;
+  color: var(--text-secondary);
+  margin: 0;
+  line-height: 1.7;
+}
+
+.cta-banner-deco {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cta-mockup-img {
+  width: 420px;
+  height: 420px;
+  object-fit: contain;
+  border-radius: 20px;
+  -webkit-mask-image: radial-gradient(ellipse 80% 80% at center, black 55%, transparent 95%);
+  mask-image: radial-gradient(ellipse 80% 80% at center, black 55%, transparent 95%);
+}
+
 /* ── Footer ───────────────────────────────────── */
 .footer {
   border-top: 1px solid rgba(0,0,0,0.07);

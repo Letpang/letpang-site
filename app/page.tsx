@@ -63,22 +63,22 @@ export default function HomePage() {
           <div className="game-featured-body">
             <div className="flex items-center gap-2">
               <span className="badge badge-new">✨ New Release</span>
-              {SITE.games.hanja.appStoreUrl && (
-                <a href={SITE.games.hanja.appStoreUrl} target="_blank" rel="noopener noreferrer" className="btn-store btn-apple" style={{ padding: '4px 10px', fontSize: '10px', borderRadius: '8px' }}>
-                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.05 20.28c-.98.95-2.05 1.72-3.23 1.72-1.15 0-1.52-.71-2.88-.71-1.35 0-1.78.71-2.85.71-1.11 0-2.32-1.02-3.29-1.99C2.81 18.02 1.41 14.54 1.41 11.23c0-3.41 2.1-5.18 4.19-5.18 1.11 0 2.16.43 2.76.43.6 0 1.95-.53 3.32-.53 1.43 0 2.7.53 3.53 1.58-2.6 1.5-2.18 5 1.13 6.1-.73 1.83-1.68 3.65-3.29 6.65zM11.83 5.48c0-2.3 1.88-4.23 4.23-4.23.18 0 .36.01.53.05-.18 2.54-2.22 4.67-4.76 4.67-.18 0-.36-.01-.53-.05.18-.18.35-.33.53-.44z"/></svg>
-                  iOS AVAILABLE
-                </a>
-              )}
             </div>
             <Link href={SITE.games.hanja.path}>
               <h3 className="game-featured-title">{SITE.games.hanja.titleKr}</h3>
             </Link>
             <p className="game-featured-desc">{SITE.games.hanja.descriptionKr}</p>
-            <div className="flex gap-3 mt-2">
+            <div className="flex flex-wrap items-center gap-4 mt-2">
               <Link href={SITE.games.hanja.path} className="game-cta">
                 <span>자세히 보기</span>
                 <span className="cta-arrow">→</span>
               </Link>
+              {SITE.games.hanja.appStoreUrl && (
+                <a href={SITE.games.hanja.appStoreUrl} target="_blank" rel="noopener noreferrer" className="btn-store btn-apple">
+                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.05 20.28c-.98.95-2.05 1.72-3.23 1.72-1.15 0-1.52-.71-2.88-.71-1.35 0-1.78.71-2.85.71-1.11 0-2.32-1.02-3.29-1.99C2.81 18.02 1.41 14.54 1.41 11.23c0-3.41 2.1-5.18 4.19-5.18 1.11 0 2.16.43 2.76.43.6 0 1.95-.53 3.32-.53 1.43 0 2.7.53 3.53 1.58-2.6 1.5-2.18 5 1.13 6.1-.73 1.83-1.68 3.65-3.29 6.65zM11.83 5.48c0-2.3 1.88-4.23 4.23-4.23.18 0 .36.01.53.05-.18 2.54-2.22 4.67-4.76 4.67-.18 0-.36-.01-.53-.05.18-.18.35-.33.53-.44z"/></svg>
+                  App Store
+                </a>
+              )}
             </div>
           </div>
         </div>
