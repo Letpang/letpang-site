@@ -9,7 +9,7 @@ export const SITE = {
       title: "Hanja Pop",
       titleKr: "한자팝",
       description: "A 3D Hanja learning game where you shoot and match to learn in a fun way.",
-      descriptionKr: "쏘고 맞추며 재미있게 배우는 3D 한자 학습 게임",
+      descriptionKr: "쏘고 맞추며 재미있게 배우는 한자 학습 게임",
       path: "/games/hanja-explorer",
       privacyPath: "/games/hanja-explorer/privacy",
       playStoreUrl: "https://play.google.com/store/apps/details?id=com.soujinne.hanjaexplorer",
