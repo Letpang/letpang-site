@@ -182,14 +182,12 @@ body::after {
   font-weight: 600;
   color: var(--purple);
   border-radius: 10px;
-  border: 1.5px solid var(--purple-light);
   background: var(--purple-light);
   transition: all 0.18s ease;
 }
 .nav-external:hover {
   background: var(--purple);
   color: #fff;
-  border-color: var(--purple);
 }
 
 /* ── Main ─────────────────────────────────────── */
