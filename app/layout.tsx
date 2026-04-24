@@ -10,12 +10,12 @@ export const metadata: Metadata = {
     default: "Letpang Studio — 인디 게임 스튜디오",
     template: "%s | Letpang Studio",
   },
-  description: "렛팡 스튜디오는 즐거운 한자탐험, 파스텔 오셀로 등 감성적인 캐주얼 모바일 게임을 만드는 인디 게임 스튜디오입니다. iOS·Android 무료 게임 다운로드.",
-  keywords: ["렛팡", "Letpang", "인디 게임", "게임 스튜디오", "즐거운 한자탐험", "한자 학습 게임", "파스텔 오셀로", "색감 능력 테스트", "캐주얼 게임", "모바일 게임", "무료 게임", "어린이 한자"],
+  description: "렛팡 스튜디오는 한자팝, 파스텔 오셀로 등 감성적인 캐주얼 모바일 게임을 만드는 인디 게임 스튜디오입니다. iOS·Android 무료 게임 다운로드.",
+  keywords: ["렛팡", "Letpang", "인디 게임", "게임 스튜디오", "한자팝", "한자", "한자 학습 게임", "어린이 한자", "파스텔 오셀로", "색감 능력 테스트", "캐주얼 게임", "모바일 게임", "무료 게임"],
   metadataBase: new URL("https://www.letpang.com"),
   openGraph: {
     title: "Letpang Studio — 인디 게임 스튜디오",
-    description: "렛팡 스튜디오는 즐거운 한자탐험, 파스텔 오셀로 등 감성적인 캐주얼 모바일 게임을 만드는 인디 게임 스튜디오입니다.",
+    description: "렛팡 스튜디오는 한자팝, 파스텔 오셀로 등 감성적인 캐주얼 모바일 게임을 만드는 인디 게임 스튜디오입니다.",
     url: "https://www.letpang.com",
     siteName: "Letpang Studio",
     locale: "ko_KR",
@@ -32,7 +32,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Letpang Studio — 인디 게임 스튜디오",
-    description: "렛팡 스튜디오는 즐거운 한자탐험, 파스텔 오셀로 등 감성적인 캐주얼 모바일 게임을 만드는 인디 게임 스튜디오입니다.",
+    description: "렛팡 스튜디오는 한자팝, 파스텔 오셀로 등 감성적인 캐주얼 모바일 게임을 만드는 인디 게임 스튜디오입니다.",
     images: ["/hero-illustration.png"],
   },
   robots: {
