@@ -14,6 +14,10 @@ export default function SiteHeader() {
     { href: "/terms", label: "이용약관" },
   ];
 
+  const externalItems = [
+    { href: "https://tools.letpang.com", label: "Letpang Docs" },
+  ];
+
   return (
     <div className="nav">
       <Link href="/" className="brand" aria-label="Letpang Studio">
@@ -24,13 +28,24 @@ export default function SiteHeader() {
 
       <nav className="navLinks" aria-label="Primary">
         {navItems.map((item) => (
-          <Link 
-            key={item.href} 
+          <Link
+            key={item.href}
             href={item.href}
             className={pathname === item.href ? "active" : ""}
           >
             {item.label}
           </Link>
+        ))}
+        {externalItems.map((item) => (
+          <a
+            key={item.href}
+            href={item.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="nav-external"
+          >
+            {item.label}
+          </a>
         ))}
       </nav>
     </div>
