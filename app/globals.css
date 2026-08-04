@@ -404,6 +404,14 @@ body::after {
 
 /* ── Games Section ──────────────────────── */
 
+/* Featured row: 2 featured cards side by side */
+.featured-row {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
 /* Featured card */
 .game-featured-card {
   display: flex;
@@ -412,7 +420,7 @@ body::after {
   background: #fff;
   border-radius: var(--radius-xl);
   padding: 44px 52px;
-  margin-bottom: 24px;
+  margin-bottom: 0;
   box-shadow: var(--shadow-md);
   transition: all 0.3s ease;
   text-decoration: none;
@@ -536,6 +544,11 @@ body::after {
   color: #fff;
 }
 
+.badge-soon {
+  background: #f1f1f4;
+  color: var(--text-secondary);
+}
+
 .btn-store {
   display: inline-flex;
   align-items: center;
@@ -578,6 +591,16 @@ body::after {
   border-color: #1a1a2e;
   transform: translateY(-2px);
   box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+}
+
+.btn-web {
+  background: var(--primary);
+  color: #fff;
+}
+.btn-web:hover {
+  background: #2a2a4e;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
 }
 
 .games-buttons {
@@ -917,6 +940,7 @@ body::after {
   .hero-visual { flex: none; width: 100%; max-width: 380px; margin-top: 20px; }
   .values-grid { grid-template-columns: 1fr 1fr; }
   .container { padding-left: 20px; padding-right: 20px; }
+  .featured-row { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 640px) {

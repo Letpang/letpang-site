@@ -36,5 +36,17 @@ export const SITE = {
       appStoreUrl: "https://apps.apple.com/kr/app/id6756197799",
       icon: "🎨",
     },
+    hangulChosung: {
+      id: "hangul-chosung",
+      title: "Hangul Word Puzzle",
+      titleKr: "한글 낱말 퍼즐",
+      description: "A Korean vocabulary game with crossword and fill-in-the-blank modes using initial-consonant hints.",
+      descriptionKr: "십자말풀이와 문장완성형 두 가지 모드로 초성 힌트를 보며 한글 낱말을 맞히는 게임.",
+      // 스토어 심사 완료되면 아래 값 채우기
+      playStoreUrl: undefined as string | undefined,
+      appStoreUrl: undefined as string | undefined,
+      playUrl: "https://hangul-chosung.letpang.com" as string | undefined,
+      comingSoon: false,
+    },
   }
 };
