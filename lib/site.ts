@@ -48,5 +48,16 @@ export const SITE = {
       playUrl: "https://hangul-chosung.letpang.com" as string | undefined,
       comingSoon: false,
     },
+    hangulStreet: {
+      id: "hangul-street",
+      title: "Hangul Street: Learn Korean",
+      titleKr: "Hangul Street: Learn Korean",
+      description: "Learn Korean words through a cute virtual trip around Seoul.",
+      descriptionKr: "귀여운 서울 여행 게임으로 한국어 단어를 배워요.",
+      playStoreUrl: "https://play.google.com/store/apps/details?id=com.dh.hangulstreet",
+      appStoreUrl: undefined as string | undefined, // 아직 미출시
+      iconUrl:
+        "https://play-lh.googleusercontent.com/IV9KGwyBvWCPOhzsbNiuHrHGU-GX688WKAPwqjOGkFvnvs2RSRhuxUJq87n5CPkgunovEaOATT6PoYgQ21aK",
+    },
   }
 };
