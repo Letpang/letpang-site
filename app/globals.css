@@ -482,6 +482,19 @@ body::after {
   z-index: 1;
 }
 
+/* Featured card buttons: pinned to bottom, same width, one line */
+.game-featured-card .games-buttons {
+  flex-wrap: nowrap;
+  margin-top: auto;
+  padding-top: 10px;
+  width: 100%;
+}
+
+.game-featured-card .btn-store {
+  flex: 1;
+  justify-content: center;
+}
+
 /* Small game cards row */
 .games-row {
   display: grid;
