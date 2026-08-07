@@ -438,6 +438,7 @@ body::after {
   background: linear-gradient(135deg, rgba(236,72,153,0.04) 0%, rgba(245,158,11,0.04) 100%);
   opacity: 0;
   transition: opacity 0.3s;
+  pointer-events: none;
 }
 
 .game-featured-card:hover {
@@ -488,6 +489,8 @@ body::after {
   margin-top: auto;
   padding-top: 10px;
   width: 100%;
+  position: relative;
+  z-index: 1;
 }
 
 .game-featured-card .btn-store {
