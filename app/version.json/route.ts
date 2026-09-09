@@ -14,7 +14,12 @@
 // 사용자를 몰아넣는다.
 import 버전 from './data.json';
 
-export const dynamic = 'force-static';
+// force-static 으로 구우면 Vercel 이 이것을 CDN 정적 파일로 내보내는데,
+// 그때 위에서 붙인 헤더가 따라가지 않았다. 내용은 새 값으로 바뀌었는데
+// access-control-allow-origin 만 빠져 있었다. (2026-09-09 확인)
+// 요청마다 서버가 응답을 만들게 해서 헤더를 확실히 붙인다.
+// 하루에 몇 번 불리는 주소라 비용은 문제되지 않는다.
+export const dynamic = 'force-dynamic';
 
 export function GET() {
   return new Response(JSON.stringify(버전, null, 2) + '\n', {
