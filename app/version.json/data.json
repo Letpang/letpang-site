@@ -3,5 +3,20 @@
   "ios": "2.9.24",
   "storeUrlIos": "https://apps.apple.com/app/id6762037956",
   "storeUrlAndroid": "https://play.google.com/store/apps/details?id=com.soujinne.hanjaexplorer",
-  "forceUpdate": true
+  "forceUpdate": true,
+  "schemaVersion": 1,
+  "apps": {
+    "wakppop": {
+      "ios": {
+        "latestVersion": "2.4.3",
+        "minimumVersion": "2.4.3",
+        "storeUrl": "https://apps.apple.com/app/id6755481318"
+      },
+      "android": {
+        "latestVersion": "2.3.4",
+        "minimumVersion": "2.3.4",
+        "storeUrl": "https://play.google.com/store/apps/details?id=com.dh.pastelothello"
+      }
+    }
+  }
 }
