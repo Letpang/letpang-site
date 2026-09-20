@@ -51,6 +51,23 @@ export default function HomePage() {
 
         {/* 한자탐험 + Hangul Street + 한글초성 — Featured 3종 */}
         <div className="featured-row">
+          <div className="game-featured-card game-featured-card--hangulpop">
+            <span className="badge badge-new">✨ New Release</span>
+            <div className="game-featured-header">
+              <a href={SITE.games.hangulPop.playUrl} target="_blank" rel="noopener noreferrer" className="game-featured-icon game-featured-icon--hangulpop" aria-label={`${SITE.games.hangulPop.titleKr} 열기`}>
+                <span aria-hidden="true">ㅎ</span>
+              </a>
+              <h3 className="game-featured-title">{SITE.games.hangulPop.title}</h3>
+            </div>
+            <p className="game-featured-desc">{SITE.games.hangulPop.descriptionKr}</p>
+            <div className="games-buttons">
+              <a href={SITE.games.hangulPop.playUrl} target="_blank" rel="noopener noreferrer" className="btn-store btn-web">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm7.93 9h-3.05a15.6 15.6 0 00-1.31-5.61A8.03 8.03 0 0119.93 11zM12 4.06c.86 1.16 1.94 3.16 2.31 6.94H9.69c.37-3.78 1.45-5.78 2.31-6.94zM9.69 13h4.62c-.37 3.78-1.45 5.78-2.31 6.94-.86-1.16-1.94-3.16-2.31-6.94zM8.43 5.39A15.6 15.6 0 007.12 11H4.07a8.03 8.03 0 014.36-5.61zM4.07 13h3.05a15.6 15.6 0 001.31 5.61A8.03 8.03 0 014.07 13zm11.5 5.61A15.6 15.6 0 0016.88 13h3.05a8.03 8.03 0 01-4.36 5.61z"/></svg>
+                웹에서 시작하기
+              </a>
+            </div>
+          </div>
+
           <div className="game-featured-card">
             <span className="badge badge-new">✨ New Release</span>
             <div className="game-featured-header">

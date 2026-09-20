@@ -461,6 +461,29 @@ body::after {
   flex-shrink: 0;
 }
 
+.game-featured-card--hangulpop {
+  border-color: rgba(102, 95, 242, 0.22);
+  background: linear-gradient(145deg, #ffffff 0%, #faf9ff 100%);
+}
+
+.game-featured-card--hangulpop::after {
+  background: linear-gradient(135deg, rgba(102, 95, 242, 0.09) 0%, rgba(45, 205, 191, 0.07) 100%);
+}
+
+.game-featured-icon--hangulpop {
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 18px;
+  color: #fff;
+  background: linear-gradient(145deg, #23c6b7, #665ff2);
+  box-shadow: 0 9px 20px rgba(102, 95, 242, 0.26);
+  font-size: 32px;
+  font-weight: 800;
+  text-decoration: none;
+}
+
 .game-icon-img {
   border-radius: 16px;
   box-shadow: var(--shadow-md);

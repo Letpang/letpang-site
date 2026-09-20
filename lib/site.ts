@@ -59,5 +59,14 @@ export const SITE = {
       iconUrl:
         "https://play-lh.googleusercontent.com/IV9KGwyBvWCPOhzsbNiuHrHGU-GX688WKAPwqjOGkFvnvs2RSRhuxUJq87n5CPkgunovEaOATT6PoYgQ21aK",
     },
+    hangulPop: {
+      id: "hangulpop",
+      title: "hangulpop",
+      titleKr: "한글팝",
+      description: "Learn useful Korean through short, playable everyday conversations.",
+      descriptionKr: "짧고 실용적인 일상 대화를 풀며 한국어를 배우는 학습 게임",
+      playUrl: "https://hangulpop.letpang.com",
+      comingSoon: false,
+    },
   }
 };
