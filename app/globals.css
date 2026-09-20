@@ -646,6 +646,14 @@ body::after {
   box-shadow: 0 8px 20px rgba(0,0,0,0.15);
 }
 
+.btn-coming-soon {
+  background: #f1f1f4;
+  color: var(--text-secondary);
+  border-color: #e1e1e8;
+  cursor: default;
+  text-transform: none;
+}
+
 .games-buttons {
   display: flex;
   flex-wrap: wrap;

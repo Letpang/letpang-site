@@ -66,7 +66,7 @@ export const SITE = {
       description: "Learn useful Korean through short, playable everyday conversations.",
       descriptionKr: "짧고 실용적인 일상 대화를 풀며 한국어를 배우는 학습 게임",
       playUrl: "https://hangulpop.letpang.com",
-      comingSoon: false,
+      comingSoon: true,
     },
   }
 };
