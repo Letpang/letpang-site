@@ -1,20 +1,25 @@
 // app/games/hanja-explorer/page.tsx
+import Image from "next/image";
 import Link from "next/link";
 import { SITE } from "@/lib/site";
 
+const game = SITE.games.hanja;
+const title = `${game.titleKr} — 한자 학습 게임`;
+const description = `${game.descriptionKr}. iOS·Android에서 만나보세요.`;
+
 export const metadata = {
-  title: "즐거운 한자탐험 — 어린이 한자 학습 게임",
-  description: "우주 탐험 테마로 즐겁게 배우는 어린이 한자 학습 게임. 인터랙티브 카드, 스테이지 잠금 해제, 스티커 수집으로 한자를 재미있게 익혀보세요. iOS·Android 무료 다운로드.",
-  keywords: ["즐거운 한자탐험", "한자 학습 게임", "어린이 한자", "한자 앱", "한자 공부", "한자 게임", "Joyful Hanja Explorer"],
+  title,
+  description,
+  keywords: [game.titleKr, game.title, "한자 학습 게임", "어린이 한자", "한자 앱", "한자 공부", "한자 게임"],
   openGraph: {
-    title: "즐거운 한자탐험 — 어린이 한자 학습 게임",
-    description: "우주 탐험 테마로 즐겁게 배우는 어린이 한자 학습 게임. iOS·Android 무료 다운로드.",
-    images: [{ url: "/icons/hanja-explorer.png", width: 512, height: 512, alt: "즐거운 한자탐험 아이콘" }],
+    title,
+    description,
+    images: [{ url: game.iconUrl, width: 512, height: 512, alt: `${game.titleKr} 아이콘` }],
   },
   twitter: {
     card: "summary",
-    title: "즐거운 한자탐험 — 어린이 한자 학습 게임",
-    description: "우주 탐험 테마로 즐겁게 배우는 어린이 한자 학습 게임. iOS·Android 무료 다운로드.",
+    title,
+    description,
   },
 };
 
@@ -23,32 +28,26 @@ export default function HanjaExplorerPage() {
 
   const features = [
     {
-      title: "Space Exploration",
-      titleKr: "우주 탐험 테마",
-      desc: "Travel through planets while learning new Hanja characters.",
-      descKr: "행성을 여행하며 새로운 한자를 재미있게 학습합니다.",
-      icon: "🚀",
+      titleKr: "하루 5분 학습 루틴",
+      descKr: "오늘의 한자를 배우고 단어 퀴즈와 미니게임으로 복습해요.",
+      icon: "🎯",
     },
     {
-      title: "Interactive Cards",
-      titleKr: "인터랙티브 카드",
-      desc: "Flashcards with clear audio and visual associations.",
-      descKr: "선명한 오디오와 시각 자료를 통한 효과적인 암기.",
-      icon: "🎴",
+      titleKr: "급수별 시험 대비",
+      descKr: "8급부터 6급까지, 급수별 학습과 모의고사로 차근차근 준비해요.",
+      icon: "🎮",
     },
     {
-      title: "Gamified Learning",
-      titleKr: "게임화된 학습",
-      desc: "Unlock new stages and collect stickers as you progress.",
-      descKr: "학습 진행에 따라 새로운 스테이지와 스티커를 획득하세요.",
-      icon: "✨",
+      titleKr: "쓰고 복습하는 한자",
+      descKr: "획순 쓰기와 오답 단어장으로 헷갈리는 한자를 다시 익혀요.",
+      icon: "📱",
     },
   ];
 
   return (
     <div className="page-container">
       <header className="page-header">
-        <div className="page-icon">🛸</div>
+        <Image src={game.iconUrl} alt={`${game.titleKr} 아이콘`} width={96} height={96} className="game-icon-img" />
         <h1 className="page-title">{game.titleKr}</h1>
         <p className="page-subtitle">{game.descriptionKr}</p>
       </header>
@@ -63,8 +62,8 @@ export default function HanjaExplorerPage() {
         <div>
           <span className="lang-tag">KR</span>
           <p>
-            &quot;즐거운 한자탐험&quot;은 어린이들이 한자를 더 쉽고 재미있게 배울 수 있도록 설계된 교육용 게임입니다. 
-            우주 탐험이라는 테마를 통해 아이들이 호기심을 유지하며 자연스럽게 한자와 친숙해질 수 있습니다.
+            {game.titleKr}은 매일 짧은 학습으로 한자를 익히는 급수별 한자 학습 앱입니다.
+            한자 카드와 획순 쓰기, 단어 퀴즈와 미니게임으로 복습하고 8급부터 6급까지 시험을 준비해 보세요.
           </p>
         </div>
       </section>
@@ -80,18 +79,18 @@ export default function HanjaExplorerPage() {
         ))}
       </div>
 
-      {/* Download Section (Placeholder) */}
+      {/* Download Section */}
       <section className="contact-section" style={{ marginBottom: 40 }}>
         <div className="contact-card">
           <h2>Download Now</h2>
-          <p>Coming soon to iOS and Android</p>
+          <p>iOS와 Android에서 한자팝을 만나보세요.</p>
           <div className="hero-buttons">
-            <div className="btn btn-secondary" style={{ cursor: "default", opacity: 0.7 }}>
+            <a href={game.appStoreUrl} target="_blank" rel="noopener noreferrer" className="btn btn-secondary">
               <span>🍎</span> App Store
-            </div>
-            <div className="btn btn-secondary" style={{ cursor: "default", opacity: 0.7 }}>
+            </a>
+            <a href={game.playStoreUrl} target="_blank" rel="noopener noreferrer" className="btn btn-secondary">
               <span>🤖</span> Play Store
-            </div>
+            </a>
           </div>
         </div>
       </section>

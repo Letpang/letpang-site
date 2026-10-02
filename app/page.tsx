@@ -1,6 +1,7 @@
 // app/page.tsx
 import Image from "next/image";
 import Link from "next/link";
+import GameCard from "@/components/GameCard";
 import { SITE } from "@/lib/site";
 
 export default function HomePage() {
@@ -16,12 +17,12 @@ export default function HomePage() {
             <span className="hero-title-accent">Big Hearts</span>
           </h1>
           <p className="hero-subtitle">
-            렛팡 스튜디오는 누구나 쉽게 즐길 수 있는 캐주얼 모바일 게임을 만들고 있습니다.
+            렛팡 스튜디오는 일상에 배움과 즐거움을 더하는 모바일 게임과 앱을 만듭니다.
             감성적인 디자인과 따뜻한 경험을 게임에 담아, 일상 속 작은 즐거움을 선물합니다.
           </p>
           <div className="hero-buttons">
             <Link href={SITE.games.hanja.path} className="btn btn-primary">
-              <span>신작 보러 가기</span>
+              <span>한자팝 만나보기</span>
               <span className="btn-arrow">→</span>
             </Link>
             <Link href="/about" className="btn btn-outline">
@@ -31,14 +32,14 @@ export default function HomePage() {
         </div>
 
         <div className="hero-visual">
-          <Image
-            src="/hero-illustration.png"
-            alt="렛팡 스튜디오 게임 일러스트레이션"
-            width={520}
-            height={520}
-            className="hero-img"
-            priority
-          />
+          <div className="hero-game-grid" aria-label="Letpang Studio 출시 게임">
+            {[SITE.games.hanja, SITE.games.wakppop, SITE.games.colorSense, SITE.games.hangulStreet].map(game => (
+              <div className="hero-game-tile" key={game.id}>
+                <Image src={game.iconUrl} alt={`${game.titleKr} 아이콘`} width={180} height={180} priority />
+                <span>{game.titleKr}</span>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -49,178 +50,24 @@ export default function HomePage() {
           <h2 className="section-title">Our Games</h2>
         </div>
 
-        {/* 한자탐험 + Hangul Street + 한글초성 — Featured 3종 */}
+        <div className="featured-row released-games">
+          {[SITE.games.hanja, SITE.games.wakppop, SITE.games.colorSense, SITE.games.hangulStreet].map(game => (
+            <GameCard key={game.id} game={game} />
+          ))}
+        </div>
+        <div className="section-header" style={{ marginTop: 40 }}>
+          <p className="section-eyebrow">Coming Soon</p>
+          <h2 className="section-title">출시 예정</h2>
+        </div>
         <div className="featured-row">
           <div className="game-featured-card game-featured-card--hangulpop">
-            <span className="badge badge-soon">Coming Soon</span>
+            <span className="badge badge-soon">출시 예정</span>
             <div className="game-featured-header">
-              <div className="game-featured-icon game-featured-icon--hangulpop" aria-hidden="true">
-                <span aria-hidden="true">ㅎ</span>
-              </div>
-              <h3 className="game-featured-title">{SITE.games.hangulPop.title}</h3>
+              <div className="game-featured-icon game-featured-icon--hangulpop" aria-hidden="true">ㅎ</div>
+              <h3 className="game-featured-title">{SITE.games.hangulPop.titleKr}</h3>
             </div>
             <p className="game-featured-desc">{SITE.games.hangulPop.descriptionKr}</p>
-            <div className="games-buttons">
-              <span className="btn-store btn-coming-soon">🔒 비공개 테스트 준비 중</span>
-            </div>
-          </div>
-
-          <div className="game-featured-card">
-            <span className="badge badge-new">✨ New Release</span>
-            <div className="game-featured-header">
-              <Link href={SITE.games.hanja.path} className="game-featured-icon">
-                <Image
-                  src="/icons/hanja-explorer.png"
-                  alt={SITE.games.hanja.titleKr}
-                  width={64}
-                  height={64}
-                  className="game-icon-img"
-                />
-              </Link>
-              <h3 className="game-featured-title">{SITE.games.hanja.titleKr}</h3>
-            </div>
-            <p className="game-featured-desc">{SITE.games.hanja.descriptionKr}</p>
-            <div className="games-buttons">
-              {SITE.games.hanja.playStoreUrl && (
-                <a href={SITE.games.hanja.playStoreUrl} target="_blank" rel="noopener noreferrer" className="btn-store btn-google">
-                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3,20.5V3.5C3,2.95 3.45,2.5 4,2.5C4.22,2.5 4.44,2.58 4.61,2.72L19.22,11.22C19.67,11.48 19.82,12.06 19.56,12.51C19.49,12.64 19.37,12.75 19.22,12.83L4.61,21.33C4.14,21.6 3.53,21.43 3.26,20.96C3.12,20.73 3.03,20.46 3.03,20.19V20.5H3Z"/></svg>
-                  Google Play
-                </a>
-              )}
-              {SITE.games.hanja.appStoreUrl && (
-                <a href={SITE.games.hanja.appStoreUrl} target="_blank" rel="noopener noreferrer" className="btn-store btn-apple">
-                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.05 20.28c-.98.95-2.05 1.72-3.23 1.72-1.15 0-1.52-.71-2.88-.71-1.35 0-1.78.71-2.85.71-1.11 0-2.32-1.02-3.29-1.99C2.81 18.02 1.41 14.54 1.41 11.23c0-3.41 2.1-5.18 4.19-5.18 1.11 0 2.16.43 2.76.43.6 0 1.95-.53 3.32-.53 1.43 0 2.7.53 3.53 1.58-2.6 1.5-2.18 5 1.13 6.1-.73 1.83-1.68 3.65-3.29 6.65zM11.83 5.48c0-2.3 1.88-4.23 4.23-4.23.18 0 .36.01.53.05-.18 2.54-2.22 4.67-4.76 4.67-.18 0-.36-.01-.53-.05.18-.18.35-.33.53-.44z"/></svg>
-                  App Store
-                </a>
-              )}
-            </div>
-          </div>
-
-          <div className="game-featured-card">
-            <span className="badge badge-new">✨ New Release</span>
-            <div className="game-featured-header">
-              <a href={SITE.games.hangulStreet.playStoreUrl} target="_blank" rel="noopener noreferrer" className="game-featured-icon">
-                <Image
-                  src={SITE.games.hangulStreet.iconUrl}
-                  alt={SITE.games.hangulStreet.titleKr}
-                  width={64}
-                  height={64}
-                  className="game-icon-img"
-                />
-              </a>
-              <h3 className="game-featured-title">{SITE.games.hangulStreet.titleKr}</h3>
-            </div>
-            <p className="game-featured-desc">{SITE.games.hangulStreet.descriptionKr}</p>
-            <div className="games-buttons">
-              {SITE.games.hangulStreet.playStoreUrl && (
-                <a href={SITE.games.hangulStreet.playStoreUrl} target="_blank" rel="noopener noreferrer" className="btn-store btn-google">
-                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3,20.5V3.5C3,2.95 3.45,2.5 4,2.5C4.22,2.5 4.44,2.58 4.61,2.72L19.22,11.22C19.67,11.48 19.82,12.06 19.56,12.51C19.49,12.64 19.37,12.75 19.22,12.83L4.61,21.33C4.14,21.6 3.53,21.43 3.26,20.96C3.12,20.73 3.03,20.46 3.03,20.19V20.5H3Z"/></svg>
-                  Google Play
-                </a>
-              )}
-              {SITE.games.hangulStreet.appStoreUrl && (
-                <a href={SITE.games.hangulStreet.appStoreUrl} target="_blank" rel="noopener noreferrer" className="btn-store btn-apple">
-                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.05 20.28c-.98.95-2.05 1.72-3.23 1.72-1.15 0-1.52-.71-2.88-.71-1.35 0-1.78.71-2.85.71-1.11 0-2.32-1.02-3.29-1.99C2.81 18.02 1.41 14.54 1.41 11.23c0-3.41 2.1-5.18 4.19-5.18 1.11 0 2.16.43 2.76.43.6 0 1.95-.53 3.32-.53 1.43 0 2.7.53 3.53 1.58-2.6 1.5-2.18 5 1.13 6.1-.73 1.83-1.68 3.65-3.29 6.65zM11.83 5.48c0-2.3 1.88-4.23 4.23-4.23.18 0 .36.01.53.05-.18 2.54-2.22 4.67-4.76 4.67-.18 0-.36-.01-.53-.05.18-.18.35-.33.53-.44z"/></svg>
-                  App Store
-                </a>
-              )}
-            </div>
-          </div>
-
-          <div className="game-featured-card">
-            <span className="badge badge-new">✨ New Release</span>
-            <div className="game-featured-header">
-              <a href={SITE.games.hangulChosung.playUrl} target="_blank" rel="noopener noreferrer" className="game-featured-icon">
-                <Image
-                  src="/icons/hangul-chosung.png"
-                  alt={SITE.games.hangulChosung.titleKr}
-                  width={64}
-                  height={64}
-                  className="game-icon-img"
-                />
-              </a>
-              <h3 className="game-featured-title">{SITE.games.hangulChosung.titleKr}</h3>
-            </div>
-            <p className="game-featured-desc">{SITE.games.hangulChosung.descriptionKr}</p>
-            <div className="games-buttons">
-              {SITE.games.hangulChosung.playStoreUrl && (
-                <a href={SITE.games.hangulChosung.playStoreUrl} target="_blank" rel="noopener noreferrer" className="btn-store btn-google">
-                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3,20.5V3.5C3,2.95 3.45,2.5 4,2.5C4.22,2.5 4.44,2.58 4.61,2.72L19.22,11.22C19.67,11.48 19.82,12.06 19.56,12.51C19.49,12.64 19.37,12.75 19.22,12.83L4.61,21.33C4.14,21.6 3.53,21.43 3.26,20.96C3.12,20.73 3.03,20.46 3.03,20.19V20.5H3Z"/></svg>
-                  Google Play
-                </a>
-              )}
-              {SITE.games.hangulChosung.appStoreUrl && (
-                <a href={SITE.games.hangulChosung.appStoreUrl} target="_blank" rel="noopener noreferrer" className="btn-store btn-apple">
-                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.05 20.28c-.98.95-2.05 1.72-3.23 1.72-1.15 0-1.52-.71-2.88-.71-1.35 0-1.78.71-2.85.71-1.11 0-2.32-1.02-3.29-1.99C2.81 18.02 1.41 14.54 1.41 11.23c0-3.41 2.1-5.18 4.19-5.18 1.11 0 2.16.43 2.76.43.6 0 1.95-.53 3.32-.53 1.43 0 2.7.53 3.53 1.58-2.6 1.5-2.18 5 1.13 6.1-.73 1.83-1.68 3.65-3.29 6.65zM11.83 5.48c0-2.3 1.88-4.23 4.23-4.23.18 0 .36.01.53.05-.18 2.54-2.22 4.67-4.76 4.67-.18 0-.36-.01-.53-.05.18-.18.35-.33.53-.44z"/></svg>
-                  App Store
-                </a>
-              )}
-              {SITE.games.hangulChosung.playUrl && (
-                <a href={SITE.games.hangulChosung.playUrl} target="_blank" rel="noopener noreferrer" className="btn-store btn-web">
-                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm7.93 9h-3.05a15.6 15.6 0 00-1.31-5.61A8.03 8.03 0 0119.93 11zM12 4.06c.86 1.16 1.94 3.16 2.31 6.94H9.69c.37-3.78 1.45-5.78 2.31-6.94zM9.69 13h4.62c-.37 3.78-1.45 5.78-2.31 6.94-.86-1.16-1.94-3.16-2.31-6.94zM8.43 5.39A15.6 15.6 0 007.12 11H4.07a8.03 8.03 0 014.36-5.61zM4.07 13h3.05a15.6 15.6 0 001.31 5.61A8.03 8.03 0 014.07 13zm11.5 5.61A15.6 15.6 0 0016.88 13h3.05a8.03 8.03 0 01-4.36 5.61z"/></svg>
-                  웹에서 플레이
-                </a>
-              )}
-            </div>
-          </div>
-        </div>
-
-        {/* 기존 게임 2종 */}
-        <div className="games-row">
-          <div className="game-card">
-            <div className="game-card-icon">
-              <Image
-                src="/icons/pastel-othello.png"
-                alt={SITE.games.pastelOthello.titleKr}
-                width={72}
-                height={72}
-                className="game-icon-img"
-              />
-            </div>
-            <div className="game-card-body">
-              <h3 className="game-card-title">{SITE.games.pastelOthello.titleKr}</h3>
-              <p className="game-card-desc">{SITE.games.pastelOthello.descriptionKr}</p>
-              <div className="games-buttons">
-                <a href={SITE.games.pastelOthello.playStoreUrl} target="_blank" rel="noopener noreferrer" className="btn-store btn-google">
-                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3,20.5V3.5C3,2.95 3.45,2.5 4,2.5C4.22,2.5 4.44,2.58 4.61,2.72L19.22,11.22C19.67,11.48 19.82,12.06 19.56,12.51C19.49,12.64 19.37,12.75 19.22,12.83L4.61,21.33C4.14,21.6 3.53,21.43 3.26,20.96C3.12,20.73 3.03,20.46 3.03,20.19V20.5H3Z"/></svg>
-                  Google Play
-                </a>
-                {SITE.games.pastelOthello.appStoreUrl && (
-                  <a href={SITE.games.pastelOthello.appStoreUrl} target="_blank" rel="noopener noreferrer" className="btn-store btn-apple">
-                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.05 20.28c-.98.95-2.05 1.72-3.23 1.72-1.15 0-1.52-.71-2.88-.71-1.35 0-1.78.71-2.85.71-1.11 0-2.32-1.02-3.29-1.99C2.81 18.02 1.41 14.54 1.41 11.23c0-3.41 2.1-5.18 4.19-5.18 1.11 0 2.16.43 2.76.43.6 0 1.95-.53 3.32-.53 1.43 0 2.7.53 3.53 1.58-2.6 1.5-2.18 5 1.13 6.1-.73 1.83-1.68 3.65-3.29 6.65zM11.83 5.48c0-2.3 1.88-4.23 4.23-4.23.18 0 .36.01.53.05-.18 2.54-2.22 4.67-4.76 4.67-.18 0-.36-.01-.53-.05.18-.18.35-.33.53-.44z"/></svg>
-                    App Store
-                  </a>
-                )}
-              </div>
-            </div>
-          </div>
-
-          <div className="game-card">
-            <div className="game-card-icon">
-              <Image
-                src="/icons/color-sense.png"
-                alt={SITE.games.colorSense.titleKr}
-                width={72}
-                height={72}
-                className="game-icon-img"
-              />
-            </div>
-            <div className="game-card-body">
-              <h3 className="game-card-title">{SITE.games.colorSense.titleKr}</h3>
-              <p className="game-card-desc">{SITE.games.colorSense.descriptionKr}</p>
-              <div className="games-buttons">
-                <a href={SITE.games.colorSense.playStoreUrl} target="_blank" rel="noopener noreferrer" className="btn-store btn-google">
-                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3,20.5V3.5C3,2.95 3.45,2.5 4,2.5C4.22,2.5 4.44,2.58 4.61,2.72L19.22,11.22C19.67,11.48 19.82,12.06 19.56,12.51C19.49,12.64 19.37,12.75 19.22,12.83L4.61,21.33C4.14,21.6 3.53,21.43 3.26,20.96C3.12,20.73 3.03,20.46 3.03,20.19V20.5H3Z"/></svg>
-                  Google Play
-                </a>
-                {SITE.games.colorSense.appStoreUrl && (
-                  <a href={SITE.games.colorSense.appStoreUrl} target="_blank" rel="noopener noreferrer" className="btn-store btn-apple">
-                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.05 20.28c-.98.95-2.05 1.72-3.23 1.72-1.15 0-1.52-.71-2.88-.71-1.35 0-1.78.71-2.85.71-1.11 0-2.32-1.02-3.29-1.99C2.81 18.02 1.41 14.54 1.41 11.23c0-3.41 2.1-5.18 4.19-5.18 1.11 0 2.16.43 2.76.43.6 0 1.95-.53 3.32-.53 1.43 0 2.7.53 3.53 1.58-2.6 1.5-2.18 5 1.13 6.1-.73 1.83-1.68 3.65-3.29 6.65zM11.83 5.48c0-2.3 1.88-4.23 4.23-4.23.18 0 .36.01.53.05-.18 2.54-2.22 4.67-4.76 4.67-.18 0-.36-.01-.53-.05.18-.18.35-.33.53-.44z"/></svg>
-                    App Store
-                  </a>
-                )}
-              </div>
-            </div>
+            <div className="games-buttons"><span className="btn-store btn-coming-soon">출시 준비 중</span></div>
           </div>
         </div>
       </section>
@@ -268,7 +115,7 @@ export default function HomePage() {
             </a>
           </div>
           <div className="cta-banner-deco" aria-hidden="true">
-            <Image src="/cta-mockup.png" alt="한자탐험 게임 목업" width={360} height={360} className="cta-mockup-img" />
+            <Image src={SITE.games.hanja.iconUrl} alt={`${SITE.games.hanja.titleKr} 아이콘`} width={360} height={360} className="cta-mockup-img" />
           </div>
         </div>
       </section>
