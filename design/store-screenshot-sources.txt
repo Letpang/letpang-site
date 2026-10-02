@@ -1,0 +1,7 @@
+Color Sense cat puzzle screenshot, verified 2026-10-03:
+https://play.google.com/store/apps/details?id=com.dh.chroma&hl=ko
+Screenshot index 0 (current cat color puzzle, not the legacy color-grid test):
+https://play-lh.googleusercontent.com/fU5PUS_9D5egeKBBRDhmNZ6y3N5YWiOLzPQcwy0t07lFP9tlmTK-6HYd1pWOn5f5S4G4UMR79-Y2q4BuuddN2VI=w1052-h592
+Saved production asset: public/screens/cats-puzzle-v2.webp
+
+The Korean Apple lookup for ID 6756197799 still returned version 3.0.5 legacy color-test screenshots on this date. Do not reuse those for the current cat game.

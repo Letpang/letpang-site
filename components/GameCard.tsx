@@ -4,7 +4,7 @@ type Game = { id: string; titleKr: string; descriptionKr: string; iconUrl: strin
 const presentation: Record<string, { theme: string; category: string; headline: string; screen: string; word: string }> = {
   "hanja-explorer": { theme: "mint", category: "LEARN / 한자 학습", headline: "하루 5분,\n한자가 쌓입니다.", screen: "/screens/hanja.jpg", word: "學" },
   wakppop: { theme: "pink", category: "RELAX / ASMR 놀이터", headline: "톡, 바삭, 말랑.\n손끝으로 쉬어 가요.", screen: "/screens/wakppop.jpg", word: "pop!" },
-  "color-sense": { theme: "peach", category: "PLAY / 고양이 컬러 퍼즐", headline: "다른 색 한 마리,\n찾아볼 고양?", screen: "/screens/cats.jpg", word: "meow" },
+  "color-sense": { theme: "peach", category: "PLAY / 고양이 컬러 퍼즐", headline: "다른 색 한 마리,\n찾아볼 고양?", screen: "/screens/cats-puzzle-v2.webp", word: "meow" },
   "hangul-street": { theme: "lavender", category: "EXPLORE / 한국어 학습", headline: "서울을 걸으며,\n한국어 한 걸음.", screen: "/screens/street.jpg", word: "안녕" },
 };
 function StoreIcon({ apple = false }: { apple?: boolean }) {
