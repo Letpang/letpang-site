@@ -1,4 +1,15 @@
 Mode: built-in image_gen (no CLI)
+New logo asset: public/art/letpang-logo-v2.png and lossless WebP copy.
+
+LOGO PROMPT
+Use case: logo-brand
+Asset type: compact production logo for Letpang Studio website navigation, rendered at approximately 137px wide by 50px tall.
+Primary request: Design a beautiful professional typographic logo for a warm playful Korean indie game studio. A restrained lavender-and-mint little four-petal rounded pop/spark symbol sits just to the left of a bold legible wordmark "LETPANG"; below the wordmark, much smaller letter-spaced "STUDIO" centered. A single tiny coral center in the symbol connects the colors. Make it coherent, memorable and polished.
+Text verbatim: "LETPANG" on first line, "STUDIO" on second line. Exactly these letters, perfectly legible, no extra text.
+Style: crisp flat graphic brand design, clean smooth edges like a carefully designed vector logo, slightly rounded custom geometric sans letters with personality and balanced spacing. Dark plum #332b43 wordmark, lavender #9373bf and soft mint #8fbfae symbol, coral #e7a18c small center. No illustrations or mascot; no gradients, no 3D, no metallic gloss, no shadows, no mockup.
+Composition: transparent background. Wide 3:1 canvas, entire compact horizontal logo fills 90% of width and 80% height. The symbol is approximately the height of the two text lines together. Minimal canvas margin, excellent readability when scaled down. Wordmark carries most of the visual weight; STUDIO small but clean. Letters have enough weight for mobile display.
+Constraints: real alpha transparency, no background or box, no watermarks, no decorative lines, no unrelated shapes, nothing clipped.
+
 Additional assets: public/art/studio-icons-v1.png and public/art/studio-letter-v1.png (WebP copies for production).
 
 ICON SPRITE PROMPT

@@ -21,7 +21,7 @@ export default function SiteHeader() {
     <div className="nav">
       <Link href="/" className="brand" aria-label="Letpang Studio">
         <div className="brand-text">
-          <Image src="/logo.png" alt="Letpang Studio" width={160} height={60} className="brand-logo-img" priority />
+          <Image src="/art/letpang-logo-v2.webp" alt="Letpang Studio" width={274} height={100} className="brand-logo-img" priority />
         </div>
       </Link>
 

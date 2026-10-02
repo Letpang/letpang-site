@@ -25,6 +25,7 @@ h1,h2,h3,h4,p { margin-top: 0; }
 .nav { min-height: 86px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
 .brand { flex-shrink: 0; }
 .brand-logo-img { width: 137px; height: 50px; object-fit: contain; mix-blend-mode: multiply; }
+.footer-logo-img { width: 150px; height: 55px; object-fit: contain; }
 .navLinks { display: flex; align-items: center; gap: 10px; }
 .navLinks a { padding: 9px 15px; font-size: 13px; font-weight: 600; color: #575363; border-radius: 30px; transition: background .2s,color .2s; }
 .navLinks a:hover, .navLinks a.active { background: #ece5fa; color: #513c95; }
