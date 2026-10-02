@@ -1,5 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
+import { FaApple, FaGooglePlay } from "react-icons/fa6";
+import { ArrowUpRight } from "lucide-react";
 type Game = { id: string; titleKr: string; descriptionKr: string; iconUrl: string; path?: string; appStoreUrl: string; playStoreUrl: string };
 const presentation: Record<string, { theme: string; category: string; headline: string; screen: string; word: string }> = {
   "hanja-explorer": { theme: "mint", category: "LEARN / 한자 학습", headline: "하루 5분,\n한자가 쌓입니다.", screen: "/screens/hanja.jpg", word: "學" },
@@ -8,7 +10,7 @@ const presentation: Record<string, { theme: string; category: string; headline: 
   "hangul-street": { theme: "lavender", category: "EXPLORE / 한국어 학습", headline: "서울을 걸으며,\n한국어 한 걸음.", screen: "/screens/street.jpg", word: "안녕" },
 };
 function StoreIcon({ apple = false }: { apple?: boolean }) {
-  return apple ? <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.1 12.3c0-2 1.6-3 1.7-3.1-1-1.5-2.5-1.7-3.1-1.7-1.3-.1-2.5.8-3.2.8-.6 0-1.6-.8-2.7-.7-1.4 0-2.6.8-3.3 2-1.4 2.4-.4 6 1 8 .7 1 1.4 2 2.5 1.9 1-.1 1.4-.6 2.7-.6s1.6.6 2.7.6 1.8-1 2.4-1.9c.8-1.1 1.1-2.1 1.1-2.2-.1 0-1.8-.7-1.8-3.1ZM14.9 6.2c.6-.8 1-1.8.9-2.9-1 .1-2.1.7-2.8 1.5-.6.7-1.1 1.8-1 2.8 1.1.1 2.2-.6 2.9-1.4Z" /></svg> : <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m5 3 10 9L5 21V3Z" fill="currentColor" /><path d="m16 10 4 2-4 2-2-2 2-2Z" fill="currentColor" /><path d="m7 3 8 5-2 2-6-7Zm0 18 8-5-2-2-6 7Z" fill="currentColor" /></svg>;
+  return apple ? <FaApple className="store-brand-icon" aria-hidden="true" /> : <FaGooglePlay className="store-brand-icon" aria-hidden="true" />;
 }
 export default function GameCard({ game }: { game: Game }) {
   const design = presentation[game.id];
@@ -23,11 +25,11 @@ export default function GameCard({ game }: { game: Game }) {
         <span className="art-circle" aria-hidden="true" />
       </div>
       <div className="game-info">
-        <div className="game-name-row"><h4>{game.path ? <Link href={game.path}>{game.titleKr}</Link> : game.titleKr}</h4>{game.path && <Link href={game.path} className="game-detail-link" aria-label={`${game.titleKr} 자세히 보기`}>↗</Link>}</div>
+        <div className="game-name-row"><h4>{game.path ? <Link href={game.path}>{game.titleKr}</Link> : game.titleKr}</h4>{game.path && <Link href={game.path} className="game-detail-link" aria-label={`${game.titleKr} 자세히 보기`}><ArrowUpRight size={19} strokeWidth={1.8} aria-hidden="true" /></Link>}</div>
         <p>{game.descriptionKr}</p>
         <div className="store-links">
-          <a href={game.appStoreUrl} target="_blank" rel="noopener noreferrer" aria-label={`${game.titleKr} App Store에서 다운로드`}><StoreIcon apple /> App Store <span>↗</span></a>
-          <a href={game.playStoreUrl} target="_blank" rel="noopener noreferrer" aria-label={`${game.titleKr} Google Play에서 다운로드`}><StoreIcon /> Google Play <span>↗</span></a>
+          <a href={game.appStoreUrl} target="_blank" rel="noopener noreferrer" aria-label={`${game.titleKr} App Store에서 다운로드`}><StoreIcon apple /> App Store <span><ArrowUpRight aria-hidden="true" /></span></a>
+          <a href={game.playStoreUrl} target="_blank" rel="noopener noreferrer" aria-label={`${game.titleKr} Google Play에서 다운로드`}><StoreIcon /> Google Play <span><ArrowUpRight aria-hidden="true" /></span></a>
         </div>
       </div>
     </article>
