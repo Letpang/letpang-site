@@ -1,0 +1,52 @@
+Mode: built-in image_gen (no CLI)
+New logo asset: public/art/letpang-logo-v2.png and lossless WebP copy.
+
+LOGO PROMPT
+Use case: logo-brand
+Asset type: compact production logo for Letpang Studio website navigation, rendered at approximately 137px wide by 50px tall.
+Primary request: Design a beautiful professional typographic logo for a warm playful Korean indie game studio. A restrained lavender-and-mint little four-petal rounded pop/spark symbol sits just to the left of a bold legible wordmark "LETPANG"; below the wordmark, much smaller letter-spaced "STUDIO" centered. A single tiny coral center in the symbol connects the colors. Make it coherent, memorable and polished.
+Text verbatim: "LETPANG" on first line, "STUDIO" on second line. Exactly these letters, perfectly legible, no extra text.
+Style: crisp flat graphic brand design, clean smooth edges like a carefully designed vector logo, slightly rounded custom geometric sans letters with personality and balanced spacing. Dark plum #332b43 wordmark, lavender #9373bf and soft mint #8fbfae symbol, coral #e7a18c small center. No illustrations or mascot; no gradients, no 3D, no metallic gloss, no shadows, no mockup.
+Composition: transparent background. Wide 3:1 canvas, entire compact horizontal logo fills 90% of width and 80% height. The symbol is approximately the height of the two text lines together. Minimal canvas margin, excellent readability when scaled down. Wordmark carries most of the visual weight; STUDIO small but clean. Letters have enough weight for mobile display.
+Constraints: real alpha transparency, no background or box, no watermarks, no decorative lines, no unrelated shapes, nothing clipped.
+
+Additional assets: public/art/studio-icons-v1.png and public/art/studio-letter-v1.png (WebP copies for production).
+
+ICON SPRITE PROMPT
+Use case: stylized-concept
+Asset type: website decorative icon sprite, 3 equally spaced icons in a single horizontal row.
+Primary request: Three exceptional miniature designer-toy 3D icons, isolated on actual transparent background: LEFT an open lavender book with one small mint bookmark; CENTER a beautiful lavender and ivory game controller with coral buttons and mint directional pad; RIGHT a plump apricot coral heart with a tiny butter yellow four-point sparkle beside it. No additional icons.
+Composition: panoramic 3:1 canvas, exactly three equal square cells, each object centered within its own cell at x=1/6, x=1/2, x=5/6, equal scale and consistent baseline, each fills 70 percent of its cell, ample margins. Nothing crosses between cells.
+Style: premium satin clay and soft ceramic, gentle finely detailed texture, three-quarter view, cohesive beautifully modeled playful editorial 3D, matching warm ivory, lavender, mint, coral, butter palette. Soft upper-left studio light and delicate isolated contact shadows.
+Constraints: genuine transparency, no backdrop, no text, no letters, no logos, no watermark, no cards or frames, clean readable silhouettes at 48px.
+
+CONTACT PROMPT
+Use case: stylized-concept
+Asset type: website contact section illustration, transparent cutout.
+Input image 1: reference for existing Letpang mascot identity and high quality satin clay style, not an edit target.
+Primary request: A delightful white rice-ball-shaped Letpang mascot, sparkling brown eyes, pink cheeks, green triangular hat with yellow 漢 and orange pompom, happily peeking over a large open lavender envelope holding a blank ivory letter. A small coral heart floats next to the letter, and two tiny butter yellow sparkles. Friendly collaboration and saying hello mood.
+Style: same designer toy quality as reference, premium softly textured satin clay, perfectly modeled character, tactile ceramic envelope, beautiful soft light and rich gentle shadows.
+Composition: compact centered still life, 3:2 landscape canvas, all objects fully visible with 12 percent clean edges, front three-quarter camera, readable at 380px. Entire scene isolated on actual transparent background for placement on a deep plum website section.
+Constraints: preserve mascot identity. No words, no watermark, no background, no UI or frame; the character hat may contain 漢 but letter is fully blank. No unrelated scenery, no cats, no city, no rainbow orb.
+
+Assets: public/art/letpang-world-v1.png and public/art/hangul-world-v1.png
+
+HERO PROMPT
+Use case: stylized-concept
+Asset type: premium illustration for Letpang Studio's website hero, placed to the right of real HTML headline.
+Input images: Image 1 is a character identity reference for Hanja Pop; Image 2 is a material and object reference for Wakppop's rainbow squishy sphere; Image 3 is a cat identity reference for Color Sense; Image 4 is a Seoul city and Korean learning mood reference. These are references, not images to paste into a collage.
+Primary request: Create a beautifully art-directed, cohesive miniature play world that brings these four Letpang games together. A friendly white round rice-ball-like mascot with sparkling brown eyes, rosy cheeks and a mint triangular hat with orange pompom sits on a soft mint platform at the front left; a charming cream and orange tabby cat with tiny magnifying glass sits beside it. Behind them a large pearlescent pastel rainbow squishy orb nestles among lilac rounded arches and a small tasteful Seoul miniature with a coral Korean letter ㅎ, a tiny traditional roof and slender N Seoul Tower. Arrange these into one delightful sculptural composition, with a few small star-shaped play pieces. Keep the mascot and cat recognizable from references.
+Style/medium: Exceptional designer toy photography meets polished high-end 3D editorial illustration. Sophisticated soft ceramic and satin clay materials, subtle microtexture, precise modeling, restrained colors, believable soft contact shadows and gentle ambient occlusion. Characters are appealing and expressive rather than generic.
+Composition: Landscape 3:2, entire compact scene visible, scene fills around 80 percent with generous clean edges, single grounded composition, slightly elevated three-quarter camera. No cards, no app icon tiles, no UI, no phones. Seamless warm ivory background #fbf9f4.
+Lighting: Large soft daylight studio light from upper left, quiet luminous atmosphere with depth and rich but delicate shadows.
+Palette: warm ivory, pale mint, lavender, apricot coral and touches of butter yellow. Rainbow sphere has elegant iridescent pastel swirls.
+Constraints: No headlines, no English words, no watermark, no logo, no random lettering. The single Korean letter ㅎ is allowed as a sculptural object; do not add any other writing. Clean, premium, playful and emotionally warm, not cluttered, no cheap clipart.
+
+COMING SOON PROMPT
+Use case: stylized-concept
+Asset type: supporting illustration for the coming-soon Hangul Pop section of Letpang Studio's website. Concept illustration, not a game screenshot.
+Primary request: A small beautifully crafted sculptural still life of a coral Korean letter ㅎ standing on an open lavender storybook, with one pale mint speech bubble and two buttery yellow tiny star pieces. Lovely tiny warm everyday language-learning world.
+Style: Premium 3D editorial illustration, satin ceramic and softly textured clay, exact modeling, beautifully believable contact shadows, sophisticated designer toy quality.
+Composition: compact centered still life, all objects fully visible with roomy edges, landscape 3:2, elevated three-quarter camera, warm ivory seamless background #fbf9f4. Main objects fill 70 percent, balanced silhouette.
+Lighting: soft daylight upper left. Palette: ivory, lavender, mint, apricot coral, butter yellow. Restrained, rich but delicate shadows.
+Constraints: no characters, no faces, no app UI, no phones, no logos or watermark, no English text, no words. Only ㅎ appears once as the sculptural letter. No lettering on the book.

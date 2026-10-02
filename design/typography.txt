@@ -1,0 +1,13 @@
+Korean typography: Wanted Sans variable, hosted locally.
+Official source: https://github.com/wanteddev/wanted-sans
+License: public/fonts/WantedSans-OFL.txt (SIL Open Font License).
+Asset: public/fonts/WantedSansVariable.woff2, complete Korean variable font.
+
+Main display titles: 750 weight, -0.045em tracking.
+Secondary portfolio line: 600 weight.
+Studio strip: 650 weight, -0.035em tracking.
+Body and UI: DM Sans for Latin, Wanted Sans for Korean.
+Varied weights keep titles distinct while the same Korean family brings the page together.
+
+Icon sprite: public/art/studio-icons-v1.webp, three square cells displayed with CSS background-position.
+Contact illustration: public/art/studio-letter-v1.webp.
