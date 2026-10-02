@@ -30,7 +30,7 @@ h1,h2,h3,h4,p { margin-top: 0; }
 .studio-home { display: flex; flex-direction: column; gap: 96px; }
 .eyebrow { display: flex; align-items: center; gap: 9px; font-size: 10px; font-weight: 800; letter-spacing: .13em; color: #70647f; line-height: 1.6; margin-bottom: 24px; }
 .status-dot { display: inline-block; width: 7px; height: 7px; background: #9481b6; border-radius: 50%; flex-shrink: 0; }
-.studio-hero { display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 48px; min-height: 560px; padding-block: 28px 10px; }
+.studio-hero { display: grid; grid-template-columns: .85fr 1.15fr; align-items: center; gap: 8px; min-height: 540px; padding-block: 28px 10px; }
 .hero-copy h1 { font-size: clamp(42px,4.6vw,62px); line-height: 1.32; letter-spacing: -.065em; font-weight: 800; margin-bottom: 25px; }
 .hero-highlight { position: relative; color: #7660a6; white-space: nowrap; }
 .hero-highlight::after { content: ''; position: absolute; bottom: 2px; left: 0; width: 96%; height: 10px; background: #e4d8f2; z-index: -1; border-radius: 100%; transform: rotate(-2deg); }
@@ -45,28 +45,9 @@ h1,h2,h3,h4,p { margin-top: 0; }
 .text-link:hover { color: var(--primary); }
 .hero-footnote { display: flex; align-items: center; gap: 12px; font-size: 10px; color: #797382; margin-top: 30px; }
 .tiny-platform { font-weight: 700; color: #665772; border-right: 1px solid #d7d0dd; padding-right: 12px; }
-.play-universe { position: relative; height: 500px; border-radius: 48% 48% 42% 46%; background: radial-gradient(ellipse at 40% 40%, #eee7fa 0%, #e9e1f4 62%,#f3ece5 100%); isolation: isolate; }
-.play-universe::before { content: ''; position: absolute; inset: 0; border-radius: inherit; background-image: radial-gradient(#8a70a52b 1px,transparent 1px); background-size: 19px 19px; opacity: .4; z-index: -1; }
-.universe-orbit { position: absolute; border: 1px solid #ffffffb0; border-radius: 50%; width: 87%; height: 63%; left: 6%; top: 19%; transform: rotate(-25deg); z-index: -1; }
-.orbit-two { transform: rotate(33deg); width: 65%; left: 17%; height: 75%; top: 12%; }
-.universe-word { position: absolute; left: 41%; top: 12%; font-size: 31px; font-weight: 800; line-height: 1.12; letter-spacing: -.055em; color: #86709e; transform: rotate(8deg); }
-.universe-word em { font-family: Georgia,serif; font-weight: 400; }
-.floating-app { position: absolute; filter: drop-shadow(0 17px 13px #5e3e771a); transition: transform .4s; }
-.floating-app img { border-radius: 28%; border: 5px solid #ffffffdc; }
-.floating-app span { display: block; width: fit-content; margin: -4px auto 0; padding: 6px 13px; background: #fffdf8; border-radius: 9px; font-size: 10px; font-weight: 700; white-space: nowrap; position: relative; box-shadow: 0 4px 12px #4230500a; }
-.app-hanja { width: 174px; top: 68px; left: 27px; transform: rotate(-12deg); animation: bob-one 7s ease-in-out infinite; }
-.app-wakppop { width: 186px; right: 31px; top: 217px; transform: rotate(12deg); animation: bob-two 8s ease-in-out infinite; }
-.app-cat { width: 107px; bottom: 40px; left: 50px; transform: rotate(9deg); }
-.app-street { width: 97px; right: 29px; top: 71px; transform: rotate(15deg); }
-.universe-spark { position: absolute; width: 39px; height: 39px; }
-.spark-one { right: 47%; bottom: 95px; color: #a992c3; }
-.spark-two { right: -10px; top: 183px; width: 44px; color: #e8b876; }
-.universe-sticker { position: absolute; bottom: 28px; right: 17px; background: #e6edcc; color: #5d6a43; font-size: 11px; padding: 16px 21px; border-radius: 50%; transform: rotate(-12deg); line-height: 1.5; text-align: center; }
-.universe-dot { position: absolute; border-radius: 50%; }
-.dot-one { width: 16px; height: 16px; left: 7px; bottom: 174px; background: #efba8c; }
-.dot-two { width: 9px; height: 9px; right: 174px; top: 25px; background: #a394c7; }
-@keyframes bob-one { 50% { transform: translateY(-9px) rotate(-9deg); } }
-@keyframes bob-two { 50% { transform: translateY(8px) rotate(9deg); } }
+.hero-world { margin: 0; min-width: 0; position: relative; }
+.hero-world img { width: 100%; mix-blend-mode: multiply; mask-image: linear-gradient(to right, transparent, #000 5%, #000 95%, transparent), linear-gradient(to bottom, transparent, #000 6%, #000 92%, transparent); mask-composite: intersect; }
+.hero-world figcaption { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 15px; font-size: 9px; font-weight: 700; letter-spacing: .12em; color: #8a7b94; }
 .studio-strip { display: flex; justify-content: space-between; align-items: center; gap: 20px; padding: 26px 8px; border-block: 1px solid #ddd6e2; margin-top: -35px; }
 .studio-strip span { font-size: 11px; letter-spacing: .15em; font-weight: 700; color: #766682; }
 .studio-strip svg { width: 17px; height: 17px; color: #bdabd0; flex-shrink: 0; }
@@ -104,10 +85,9 @@ h1,h2,h3,h4,p { margin-top: 0; }
 .store-links a:hover { background: #ece5fa; border-color: #baa8d2; }
 .store-links svg { width: 17px; height: 17px; }
 .store-links a > span { margin-left: auto; color: #91839c; }
-.next-world { display: flex; align-items: center; gap: 32px; padding: 38px 42px; background: #efebf5; border: 1px solid #e0d8eb; border-radius: 24px; }
-.next-symbol { position: relative; flex-shrink: 0; }
-.next-symbol > span { width: 91px; height: 91px; display: grid; place-items: center; background: #fffaf1; color: #8e79b0; font-weight: 900; font-size: 53px; border-radius: 24px; transform: rotate(-10deg); box-shadow: 0 8px 16px #4a315010; }
-.next-symbol svg { position: absolute; width: 29px; height: 29px; right: -12px; top: -12px; color: #cda4aa; }
+.next-world { display: flex; align-items: center; gap: 30px; padding: 28px 36px 28px 16px; background: #f7f3ee; border: 1px solid #e5ddea; border-radius: 24px; }
+.next-illustration { flex: 0 0 245px; }
+.next-illustration img { width: 100%; mix-blend-mode: multiply; mask-image: radial-gradient(ellipse, #000 55%, transparent 74%); }
 .next-copy { flex: 1; }
 .next-copy .eyebrow { margin-bottom: 11px; font-size: 9px; }
 .next-copy h2 { font-size: 26px; letter-spacing: -.04em; margin-bottom: 12px; }
@@ -170,13 +150,6 @@ h1,h2,h3,h4,p { margin-top: 0; }
 @media (max-width: 1000px) {
   .studio-hero { gap: 27px; min-height: 500px; }
   .hero-copy h1 { font-size: 44px; }
-  .play-universe { height: 440px; }
-  .app-hanja { width: 145px; top: 65px; left: 16px; }
-  .app-wakppop { width: 155px; right: 15px; top: 205px; }
-  .app-street { width: 85px; right: 9px; top: 60px; }
-  .app-cat { width: 90px; bottom: 26px; left: 27px; }
-  .universe-word { font-size: 26px; top: 12%; }
-  .universe-sticker { right: 0; bottom: 8px; }
   .game-art { height: 310px; padding: 23px; }
   .game-art-headline { font-size: 24px; max-width: 100%; }
   .game-poster { width: 145px; right: 12px; top: 137px; }
@@ -200,12 +173,6 @@ h1,h2,h3,h4,p { margin-top: 0; }
   .hero-copy h1 { font-size: 48px; }
   .desktop-break { display: none; }
   .hero-description { font-size: 14px; }
-  .play-universe { width: min(480px,100%); height: 440px; margin: auto; }
-  .app-hanja { width: 161px; left: 27px; }
-  .app-wakppop { width: 165px; right: 28px; top: 193px; }
-  .app-street { right: 24px; width: 94px; }
-  .app-cat { left: 40px; width: 96px; }
-  .universe-sticker { right: 23px; }
   .studio-strip { margin-top: 0; padding-block: 20px; gap: 12px; flex-wrap: wrap; justify-content: center; }
   .studio-strip span { font-size: 9px; }
   .studio-strip svg { width: 12px; height: 12px; }
@@ -227,7 +194,7 @@ h1,h2,h3,h4,p { margin-top: 0; }
   .next-world { gap: 23px; flex-wrap: wrap; }
   .next-copy { min-width: 200px; }
   .next-copy h2 { font-size: 23px; }
-  .coming-label { margin-left: 114px; }
+  .coming-label { margin-left: 0; }
   .studio-story { gap: 35px; grid-template-columns: 1fr 1.2fr; padding: 0; }
   .story-intro h2 { font-size: 34px; }
   .story-values > div { padding-left: 35px; }
@@ -255,17 +222,6 @@ h1,h2,h3,h4,p { margin-top: 0; }
   .button { font-size: 11px; padding-inline: 17px; gap: 17px; min-height: 47px; }
   .text-link { font-size: 11px; gap: 9px; }
   .hero-footnote { font-size: 9px; }
-  .play-universe { height: 350px; }
-  .app-hanja { width: 125px; left: 12px; top: 51px; }
-  .app-wakppop { width: 130px; right: 13px; top: 166px; }
-  .app-cat { width: 76px; bottom: 17px; left: 28px; }
-  .app-street { width: 75px; right: 16px; top: 49px; }
-  .floating-app img { border-width: 3px; }
-  .floating-app span { font-size: 8px; padding: 5px 9px; }
-  .universe-word { font-size: 22px; left: 43%; top: 11%; }
-  .universe-sticker { font-size: 8px; padding: 11px 14px; right: 5px; bottom: 4px; }
-  .spark-one { width: 26px; bottom: 68px; }
-  .spark-two { width: 27px; top: 125px; right: -4px; }
   .studio-strip { gap: 9px; }
   .studio-strip span { font-size: 8px; letter-spacing: .09em; }
   .portfolio-grid { grid-template-columns: 1fr; gap: 24px; }
@@ -279,7 +235,6 @@ h1,h2,h3,h4,p { margin-top: 0; }
   .game-info > p { font-size: 12px; min-height: 0; }
   .store-links { flex-direction: row; }
   .next-world { padding: 27px 24px; gap: 24px; }
-  .next-symbol > span { width: 69px; height: 69px; font-size: 42px; border-radius: 18px; }
   .next-copy { min-width: 100%; }
   .coming-label { margin-left: 0; }
   .studio-story { grid-template-columns: 1fr; gap: 30px; }
@@ -298,4 +253,23 @@ h1,h2,h3,h4,p { margin-top: 0; }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *,*::before,*::after { animation: none !important; transition: none !important; }
+}
+
+@media (min-width: 761px) and (max-width: 1000px) {
+  .studio-hero { gap: 16px; grid-template-columns: 1fr 1fr; }
+  .hero-copy h1 { font-size: 39px; }
+  .next-illustration { flex-basis: 180px; }
+}
+@media (max-width: 760px) {
+  .hero-world { width: min(580px, 100%); margin: auto; }
+  .studio-hero { gap: 24px; }
+  .next-world { padding: 24px; gap: 16px; }
+  .next-illustration { flex: 0 0 180px; }
+  .coming-label { margin-left: auto; }
+}
+@media (max-width: 480px) {
+  .hero-world figcaption { font-size: 7px; letter-spacing: .1em; }
+  .next-world { padding: 20px 24px 27px; }
+  .next-illustration { flex: 0 0 100%; max-width: 265px; margin: auto; }
+  .coming-label { margin-left: 0; }
 }

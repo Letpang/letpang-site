@@ -18,16 +18,10 @@ export default function HomePage() {
           <div className="hero-actions"><a className="button button-dark" href="#games">우리 게임 만나보기 <span>↗</span></a><Link className="text-link" href="/about">스튜디오 이야기 <span>→</span></Link></div>
           <div className="hero-footnote"><span className="tiny-platform">iOS + Android</span><span>손안에서 만나는 작은 세계</span></div>
         </div>
-        <div className="play-universe" aria-label="한자팝, 왁뿌팝, 고양이 색 찾기, Hangul Street">
-          <div className="universe-orbit orbit-one" /><div className="universe-orbit orbit-two" />
-          <span className="universe-word">a little<br /><em>more play.</em></span>
-          <div className="floating-app app-hanja"><Image src={SITE.games.hanja.iconUrl} alt="한자팝" width={180} height={180} priority /><span>배움이 쌓이는 하루</span></div>
-          <div className="floating-app app-wakppop"><Image src={SITE.games.wakppop.iconUrl} alt="왁뿌팝" width={180} height={180} priority /><span>톡. 바삭. 말랑.</span></div>
-          <div className="floating-app app-cat"><Image src={SITE.games.colorSense.iconUrl} alt="Color Sense: 고양이 색 찾기" width={108} height={108} priority /></div>
-          <div className="floating-app app-street"><Image src={SITE.games.hangulStreet.iconUrl} alt="Hangul Street" width={104} height={104} priority /></div>
-          <Spark className="universe-spark spark-one" /><Spark className="universe-spark spark-two" />
-          <span className="universe-sticker">made with<br /><strong>♥ & curiosity</strong></span><span className="universe-dot dot-one" /><span className="universe-dot dot-two" />
-        </div>
+        <figure className="hero-world">
+          <Image src="/art/letpang-world-v1.webp" alt="한자팝 캐릭터와 고양이, 무지갯빛 왁뿌볼, 서울 풍경이 어우러진 렛팡의 작은 놀이 세계" width={1536} height={1024} sizes="(max-width: 760px) 100vw, 60vw" priority />
+          <figcaption><span className="status-dot" /> FOUR LITTLE WORLDS, ONE HAPPY PLACE.</figcaption>
+        </figure>
       </section>
       <div className="studio-strip" aria-label="스튜디오의 관심사"><span>LEARN A LITTLE</span><Spark /><span>PLAY A LOT</span><Spark /><span>FEEL GOOD</span><Spark /><span>LET&apos;S LETPANG</span></div>
       <section className="portfolio-section" id="games" aria-labelledby="games-heading">
@@ -35,7 +29,7 @@ export default function HomePage() {
         <div className="portfolio-grid">{games.map(game => <GameCard key={game.id} game={game} />)}</div>
       </section>
       <section className="next-world" aria-labelledby="next-heading">
-        <div className="next-symbol" aria-hidden="true"><span>ㅎ</span><Spark /></div>
+        <div className="next-illustration" aria-hidden="true"><Image src="/art/hangul-world-v1.webp" alt="" width={1536} height={1024} sizes="(max-width: 760px) 70vw, 280px" /></div>
         <div className="next-copy"><p className="eyebrow">NEXT LITTLE WORLD / COMING SOON</p><h2 id="next-heading">다음 이야기는, 한글팝.</h2><p>{SITE.games.hangulPop.descriptionKr}.<br />실생활 속 한국어를 만나는 새로운 세계를 준비하고 있어요.</p></div>
         <span className="coming-label"><span className="status-dot" /> 출시 예정</span>
       </section>

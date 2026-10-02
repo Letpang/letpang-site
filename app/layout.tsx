@@ -1,7 +1,6 @@
 // app/layout.tsx
 import "./globals.css";
 import type { Metadata } from "next";
-import { SITE } from "@/lib/site";
 import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
 
@@ -22,10 +21,10 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: SITE.games.hanja.iconUrl,
-        width: 512,
-        height: 512,
-        alt: "한자팝 아이콘",
+        url: "/art/letpang-world-v1.webp",
+        width: 1536,
+        height: 1024,
+        alt: "렛팡 스튜디오의 작은 놀이 세계",
       },
     ],
   },
@@ -33,7 +32,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Letpang Studio — 인디 게임 스튜디오",
     description: "렛팡 스튜디오는 한자팝, 왁뿌팝 등 감성적인 캐주얼 모바일 게임을 만드는 인디 게임 스튜디오입니다.",
-    images: [SITE.games.hanja.iconUrl],
+    images: ["/art/letpang-world-v1.webp"],
   },
   robots: {
     index: true,

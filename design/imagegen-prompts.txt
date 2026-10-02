@@ -1,0 +1,22 @@
+Mode: built-in image_gen (no CLI)
+Assets: public/art/letpang-world-v1.png and public/art/hangul-world-v1.png
+
+HERO PROMPT
+Use case: stylized-concept
+Asset type: premium illustration for Letpang Studio's website hero, placed to the right of real HTML headline.
+Input images: Image 1 is a character identity reference for Hanja Pop; Image 2 is a material and object reference for Wakppop's rainbow squishy sphere; Image 3 is a cat identity reference for Color Sense; Image 4 is a Seoul city and Korean learning mood reference. These are references, not images to paste into a collage.
+Primary request: Create a beautifully art-directed, cohesive miniature play world that brings these four Letpang games together. A friendly white round rice-ball-like mascot with sparkling brown eyes, rosy cheeks and a mint triangular hat with orange pompom sits on a soft mint platform at the front left; a charming cream and orange tabby cat with tiny magnifying glass sits beside it. Behind them a large pearlescent pastel rainbow squishy orb nestles among lilac rounded arches and a small tasteful Seoul miniature with a coral Korean letter ㅎ, a tiny traditional roof and slender N Seoul Tower. Arrange these into one delightful sculptural composition, with a few small star-shaped play pieces. Keep the mascot and cat recognizable from references.
+Style/medium: Exceptional designer toy photography meets polished high-end 3D editorial illustration. Sophisticated soft ceramic and satin clay materials, subtle microtexture, precise modeling, restrained colors, believable soft contact shadows and gentle ambient occlusion. Characters are appealing and expressive rather than generic.
+Composition: Landscape 3:2, entire compact scene visible, scene fills around 80 percent with generous clean edges, single grounded composition, slightly elevated three-quarter camera. No cards, no app icon tiles, no UI, no phones. Seamless warm ivory background #fbf9f4.
+Lighting: Large soft daylight studio light from upper left, quiet luminous atmosphere with depth and rich but delicate shadows.
+Palette: warm ivory, pale mint, lavender, apricot coral and touches of butter yellow. Rainbow sphere has elegant iridescent pastel swirls.
+Constraints: No headlines, no English words, no watermark, no logo, no random lettering. The single Korean letter ㅎ is allowed as a sculptural object; do not add any other writing. Clean, premium, playful and emotionally warm, not cluttered, no cheap clipart.
+
+COMING SOON PROMPT
+Use case: stylized-concept
+Asset type: supporting illustration for the coming-soon Hangul Pop section of Letpang Studio's website. Concept illustration, not a game screenshot.
+Primary request: A small beautifully crafted sculptural still life of a coral Korean letter ㅎ standing on an open lavender storybook, with one pale mint speech bubble and two buttery yellow tiny star pieces. Lovely tiny warm everyday language-learning world.
+Style: Premium 3D editorial illustration, satin ceramic and softly textured clay, exact modeling, beautifully believable contact shadows, sophisticated designer toy quality.
+Composition: compact centered still life, all objects fully visible with roomy edges, landscape 3:2, elevated three-quarter camera, warm ivory seamless background #fbf9f4. Main objects fill 70 percent, balanced silhouette.
+Lighting: soft daylight upper left. Palette: ivory, lavender, mint, apricot coral, butter yellow. Restrained, rich but delicate shadows.
+Constraints: no characters, no faces, no app UI, no phones, no logos or watermark, no English text, no words. Only ㅎ appears once as the sculptural letter. No lettering on the book.
