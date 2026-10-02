@@ -8,4 +8,3 @@ export function ArrowIcon({ diagonal = false }: { diagonal?: boolean }) {
   const Icon = diagonal ? ArrowUpRight : ArrowRight;
   return <Icon className="arrow-icon" strokeWidth={1.8} aria-hidden="true" />;
 }
-

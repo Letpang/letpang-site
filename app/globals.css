@@ -283,9 +283,9 @@ h1,h2,h3,h4,p { margin-top: 0; }
 .hello-section { background: radial-gradient(ellipse at 82% 60%,#534265 0%,#392d4a 46%,#302638 100%); border: 1px solid #65516f; padding: 50px 56px; }
 .hello-copy { position: relative; z-index: 1; }
 .hello-section .eyebrow { letter-spacing: .12em; }
-.hello-art { min-height: 315px; display: flex; flex-direction: column; transform: none; }
-.hello-art img { width: 100%; max-width: 470px; filter: drop-shadow(0 14px 16px #21172e26); }
-.hello-note { position: static; text-align: center; margin-top: 8px; font-size: 8px; font-weight: 600; letter-spacing: .13em; line-height: 1.8; color: #d0bfdc; }
+.hello-art { min-height: 0; display: flex; flex-direction: column; transform: none; }
+.hello-art img { width: 132%; max-width: none; margin: -28px -16% -17px; filter: drop-shadow(0 14px 16px #21172e26); }
+.hello-note { position: static; text-align: center; margin-top: 0; font-size: 8px; font-weight: 600; letter-spacing: .13em; line-height: 1.8; color: #d0bfdc; z-index: 1; }
 .button-cream { background: linear-gradient(135deg,#fff5dd,#eadcc1); color: #493955; border-color: #fff8e652; }
 .button-cream .button-arrow { background: #604c7810; border-color: #604c7817; }
 .mail-icon { width: 22px; height: 22px; }
@@ -308,8 +308,8 @@ h1,h2,h3,h4,p { margin-top: 0; }
   .strip-item span:not(.clay-icon) { font-size: 7px; letter-spacing: .06em; }
   .clay-icon { width: 55px; height: 55px; }
   .hello-section { padding: 36px; grid-template-columns: 1fr; }
-  .hello-art { min-height: 0; margin-top: 24px; }
-  .hello-art img { max-width: 380px; }
+  .hello-art { min-height: 0; margin-top: 18px; }
+  .hello-art img { width: 125%; max-width: 460px; margin: -18px -12.5% -10px; }
 }
 @media (max-width: 480px) {
   .hero-copy h1 { font-size: clamp(37px,10.5vw,46px); }
