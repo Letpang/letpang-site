@@ -4,7 +4,7 @@ import type { MetadataRoute } from "next";
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = "https://www.letpang.com";
 
-  return [
+  const pages: MetadataRoute.Sitemap = [
     {
       url: baseUrl,
       lastModified: new Date(),
@@ -48,4 +48,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.3,
     },
   ];
+  return pages.flatMap(page => {
+    const path = page.url.slice(baseUrl.length);
+    const englishUrl = `${baseUrl}/en${path}`;
+    const alternates = { languages: { ko: page.url, en: englishUrl } };
+    return [{ ...page, alternates }, { ...page, url: englishUrl, alternates }];
+  });
 }

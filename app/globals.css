@@ -145,6 +145,27 @@ h1,h2,h3,h4,p { margin-top: 0; }
 .navLinks a { padding: 9px 15px; font-size: 13px; font-weight: 600; color: #575363; border-radius: 30px; transition: background .2s,color .2s; }
 .navLinks a:hover, .navLinks a.active { background: #ece5fa; color: #513c95; }
 .navLinks .nav-external { margin-left: 12px; border: 1px solid #cbc3d8; padding-inline: 19px; }
+.navLinks .language-switch { display: inline-flex; align-items: center; justify-content: center; min-width: 38px; min-height: 36px; padding: 7px 9px; color: #71558f; font-weight: 800; border: 1px solid #d9cce7; background: #efe8f6; border-radius: 11px; }
+.locale-en .hero-copy h1 { font-family: 'DM Sans','Wanted Sans',sans-serif; font-size: clamp(42px,4.2vw,58px); letter-spacing: -.055em; }
+.locale-en .hero-highlight { white-space: normal; }
+.locale-en .studio-subpage h1 { font-size: 46px; }
+.locale-en .strip-item p { font-size: 18px; }
+.locale-en .game-art-headline { font-size: 26px; }
+.locale-en .hello-section h2 { font-size: 36px; }
+@media (max-width: 760px) {
+  .locale-en .hero-copy h1 { font-size: 47px; }
+  .locale-en .studio-subpage h1 { font-size: 38px; }
+  .locale-en .game-art-headline { font-size: 21px; }
+  .locale-en .strip-item p { font-size: 15px; }
+}
+@media (max-width: 480px) {
+  .navLinks .language-switch { min-width: 30px; min-height: 30px; padding: 5px 6px; font-size: 10px; }
+  .locale-en .hero-copy h1 { font-size: clamp(35px,10vw,43px); }
+  .locale-en .studio-subpage h1 { font-size: 33px; }
+  .locale-en .strip-item p { font-size: 12px; }
+  .locale-en .game-art-headline { font-size: 24px; }
+  .locale-en .hello-section h2 { font-size: 29px; }
+}
 .studio-home { display: flex; flex-direction: column; gap: 96px; }
 .eyebrow { display: flex; align-items: center; gap: 9px; font-size: 10px; font-weight: 800; letter-spacing: .13em; color: #70647f; line-height: 1.6; margin-bottom: 24px; }
 .status-dot { display: inline-block; width: 7px; height: 7px; background: #9481b6; border-radius: 50%; flex-shrink: 0; }
