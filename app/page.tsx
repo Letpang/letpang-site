@@ -15,7 +15,7 @@ export default function HomePage() {
         <div className="hero-copy">
           <p className="eyebrow"><span className="status-dot" /> SMALL STUDIO. HAPPY LITTLE MOMENTS.</p>
           <h1 id="hero-heading">일상에 작은<br /><span className="hero-highlight">즐거움 한 스푼.<Spark /></span></h1>
-          <p className="hero-description">조금씩 배우고, 마음껏 놀고, 잠깐 쉬어 가요.<br />렛팡은 당신의 하루에 오래 남을<br className="desktop-break" /> 작고 다정한 게임과 앱을 만듭니다.</p>
+          <p className="hero-description">한 글자씩 배우고, 고양이를 찾고,<br />손끝으로 말랑한 휴식을 즐겨요.<br />렛팡의 게임으로 오늘을 조금 더 즐겁게.</p>
           <div className="hero-actions"><a className="button button-dark" href="#games"><ClayIcon kind="play" />우리 게임 만나보기 <span className="button-arrow"><ArrowIcon diagonal /></span></a><Link className="text-link story-link" href="/about">스튜디오 이야기 <span className="link-arrow"><ArrowIcon /></span></Link></div>
           <div className="hero-footnote"><span className="tiny-platform">iOS + Android</span><span>손안에서 만나는 작은 세계</span></div>
         </div>
@@ -30,12 +30,12 @@ export default function HomePage() {
         <div className="strip-item"><ClayIcon kind="heart" /><div><span>FEEL GOOD</span><p>기분 좋게 쉬어요</p></div></div>
       </div>
       <section className="portfolio-section" id="games" aria-labelledby="games-heading">
-        <div className="section-heading"><div><p className="eyebrow">01 / OUR LITTLE WORLDS</p><h2 id="games-heading">취향대로 골라요.<br /><span>즐거움은 여러 가지니까.</span></h2></div><p className="section-note">매일의 배움부터 말랑한 휴식까지.<br />렛팡이 만든 네 개의 작은 세계를 만나보세요.</p></div>
+        <div className="section-heading"><div><p className="eyebrow">01 / OUR LITTLE WORLDS</p><h2 id="games-heading">취향대로 골라요.<br /><span>즐거움은 여러 가지니까.</span></h2></div><p className="section-note">배우고 싶은 날도, 쉬고 싶은 날도.<br />지금의 기분에 맞는 게임을 만나보세요.</p></div>
         <div className="portfolio-grid">{games.map(game => <GameCard key={game.id} game={game} />)}</div>
       </section>
       <section className="next-world" aria-labelledby="next-heading">
         <div className="next-illustration" aria-hidden="true"><Image src="/art/hangul-world-v1.webp" alt="" width={1536} height={1024} sizes="(max-width: 760px) 70vw, 280px" /></div>
-        <div className="next-copy"><p className="eyebrow">NEXT LITTLE WORLD / COMING SOON</p><h2 id="next-heading">다음 이야기는, 한글팝.</h2><p>{SITE.games.hangulPop.descriptionKr}.<br />실생활 속 한국어를 만나는 새로운 세계를 준비하고 있어요.</p></div>
+        <div className="next-copy"><p className="eyebrow">NEXT LITTLE WORLD / COMING SOON</p><h2 id="next-heading">다음 이야기는, 한글팝.</h2><p>짧은 일상 대화를 풀며 한국어를 배우는 게임.<br />한글팝의 첫 이야기를 준비하고 있어요.</p></div>
         <span className="coming-label"><span className="status-dot" /> 출시 예정</span>
       </section>
       <section className="studio-story" aria-labelledby="story-heading">
