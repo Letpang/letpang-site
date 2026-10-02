@@ -1,5 +1,6 @@
 // components/SiteFooter.tsx
 import Link from "next/link";
+import { ClayIcon } from "@/components/StudioIcon";
 import { SITE } from "@/lib/site";
 
 export default function SiteFooter() {
@@ -8,7 +9,7 @@ export default function SiteFooter() {
       <div className="footer-grid">
         <div className="footer-section">
           <h3 className="footer-title">
-            <span className="logo-icon">🎮</span>
+            <ClayIcon kind="play" />
             {SITE.name}
           </h3>
           <p className="footer-desc">작지만 따뜻한 게임을 만드는 인디 스튜디오입니다.</p>

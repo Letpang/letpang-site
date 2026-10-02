@@ -1,4 +1,23 @@
 Mode: built-in image_gen (no CLI)
+Additional assets: public/art/studio-icons-v1.png and public/art/studio-letter-v1.png (WebP copies for production).
+
+ICON SPRITE PROMPT
+Use case: stylized-concept
+Asset type: website decorative icon sprite, 3 equally spaced icons in a single horizontal row.
+Primary request: Three exceptional miniature designer-toy 3D icons, isolated on actual transparent background: LEFT an open lavender book with one small mint bookmark; CENTER a beautiful lavender and ivory game controller with coral buttons and mint directional pad; RIGHT a plump apricot coral heart with a tiny butter yellow four-point sparkle beside it. No additional icons.
+Composition: panoramic 3:1 canvas, exactly three equal square cells, each object centered within its own cell at x=1/6, x=1/2, x=5/6, equal scale and consistent baseline, each fills 70 percent of its cell, ample margins. Nothing crosses between cells.
+Style: premium satin clay and soft ceramic, gentle finely detailed texture, three-quarter view, cohesive beautifully modeled playful editorial 3D, matching warm ivory, lavender, mint, coral, butter palette. Soft upper-left studio light and delicate isolated contact shadows.
+Constraints: genuine transparency, no backdrop, no text, no letters, no logos, no watermark, no cards or frames, clean readable silhouettes at 48px.
+
+CONTACT PROMPT
+Use case: stylized-concept
+Asset type: website contact section illustration, transparent cutout.
+Input image 1: reference for existing Letpang mascot identity and high quality satin clay style, not an edit target.
+Primary request: A delightful white rice-ball-shaped Letpang mascot, sparkling brown eyes, pink cheeks, green triangular hat with yellow 漢 and orange pompom, happily peeking over a large open lavender envelope holding a blank ivory letter. A small coral heart floats next to the letter, and two tiny butter yellow sparkles. Friendly collaboration and saying hello mood.
+Style: same designer toy quality as reference, premium softly textured satin clay, perfectly modeled character, tactile ceramic envelope, beautiful soft light and rich gentle shadows.
+Composition: compact centered still life, 3:2 landscape canvas, all objects fully visible with 12 percent clean edges, front three-quarter camera, readable at 380px. Entire scene isolated on actual transparent background for placement on a deep plum website section.
+Constraints: preserve mascot identity. No words, no watermark, no background, no UI or frame; the character hat may contain 漢 but letter is fully blank. No unrelated scenery, no cats, no city, no rainbow orb.
+
 Assets: public/art/letpang-world-v1.png and public/art/hangul-world-v1.png
 
 HERO PROMPT

@@ -1,0 +1,12 @@
+Display headings: Jua, by Woowahan Brothers, distributed through Google Fonts.
+Source: https://github.com/google/fonts/tree/main/ofl/jua
+License: public/fonts/Jua-OFL.txt (SIL Open Font License).
+Body and UI: DM Sans + Noto Sans KR, keeping store buttons and longer text clear.
+
+public/fonts/Jua-Studio.ttf is a Google Fonts text subset for the current studio headings and strip labels (67,308 bytes). It is TrueType, despite the CSS endpoint commonly offering WOFF2 for other requests.
+If display copy changes, regenerate the subset with the updated characters; missing characters fall back to Noto Sans KR.
+Subset text:
+일상에 작은 즐거움 한 스푼 취향대로 골라요 여러 가지니까 작지만 마음은 가득 다음 이야기는 한글팝 함께 만들면 더 즐거울 거예요 조금씩 배우고 마음껏 놀고 기분 좋게 쉬어요.abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789,!?
+
+Icon sprite: three square cells in public/art/studio-icons-v1.webp, displayed with CSS background-position to preserve transparency.
+Contact illustration: public/art/studio-letter-v1.webp, transparent and optimized to 960px wide.

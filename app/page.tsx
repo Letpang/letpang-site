@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import GameCard from "@/components/GameCard";
+import { ArrowIcon, ClayIcon } from "@/components/StudioIcon";
 import { SITE } from "@/lib/site";
 
 const games = [SITE.games.hanja, SITE.games.wakppop, SITE.games.colorSense, SITE.games.hangulStreet];
@@ -15,7 +16,7 @@ export default function HomePage() {
           <p className="eyebrow"><span className="status-dot" /> SMALL STUDIO. HAPPY LITTLE MOMENTS.</p>
           <h1 id="hero-heading">일상에 작은<br /><span className="hero-highlight">즐거움 한 스푼.<Spark /></span></h1>
           <p className="hero-description">조금씩 배우고, 마음껏 놀고, 잠깐 쉬어 가요.<br />렛팡은 당신의 하루에 오래 남을<br className="desktop-break" /> 작고 다정한 게임과 앱을 만듭니다.</p>
-          <div className="hero-actions"><a className="button button-dark" href="#games">우리 게임 만나보기 <span>↗</span></a><Link className="text-link" href="/about">스튜디오 이야기 <span>→</span></Link></div>
+          <div className="hero-actions"><a className="button button-dark" href="#games"><ClayIcon kind="play" />우리 게임 만나보기 <span className="button-arrow"><ArrowIcon diagonal /></span></a><Link className="text-link story-link" href="/about">스튜디오 이야기 <span className="link-arrow"><ArrowIcon /></span></Link></div>
           <div className="hero-footnote"><span className="tiny-platform">iOS + Android</span><span>손안에서 만나는 작은 세계</span></div>
         </div>
         <figure className="hero-world">
@@ -23,7 +24,11 @@ export default function HomePage() {
           <figcaption><span className="status-dot" /> FOUR LITTLE WORLDS, ONE HAPPY PLACE.</figcaption>
         </figure>
       </section>
-      <div className="studio-strip" aria-label="스튜디오의 관심사"><span>LEARN A LITTLE</span><Spark /><span>PLAY A LOT</span><Spark /><span>FEEL GOOD</span><Spark /><span>LET&apos;S LETPANG</span></div>
+      <div className="studio-strip" aria-label="렛팡이 만드는 즐거움">
+        <div className="strip-item"><ClayIcon kind="book" /><div><span>LEARN A LITTLE</span><p>조금씩 배우고</p></div></div>
+        <div className="strip-item"><ClayIcon kind="play" /><div><span>PLAY A LOT</span><p>마음껏 놀고</p></div></div>
+        <div className="strip-item"><ClayIcon kind="heart" /><div><span>FEEL GOOD</span><p>기분 좋게 쉬어요</p></div></div>
+      </div>
       <section className="portfolio-section" id="games" aria-labelledby="games-heading">
         <div className="section-heading"><div><p className="eyebrow">01 / OUR LITTLE WORLDS</p><h2 id="games-heading">취향대로 골라요.<br /><span>즐거움은 여러 가지니까.</span></h2></div><p className="section-note">매일의 배움부터 말랑한 휴식까지.<br />렛팡이 만든 네 개의 작은 세계를 만나보세요.</p></div>
         <div className="portfolio-grid">{games.map(game => <GameCard key={game.id} game={game} />)}</div>
@@ -42,8 +47,8 @@ export default function HomePage() {
         </div>
       </section>
       <section className="hello-section" aria-labelledby="hello-heading">
-        <div><p className="eyebrow">GOOD THINGS START WITH A HELLO.</p><h2 id="hello-heading">함께 만들면<br />더 즐거울 거예요.</h2><p>게임에 대한 이야기, 새로운 아이디어, 협업 제안.<br />어떤 이야기든 편하게 들려주세요.</p><a className="button button-cream" href={`mailto:${SITE.email}`}>hello@letpang.com <span>↗</span></a></div>
-        <div className="hello-art" aria-hidden="true"><span className="hello-big">hello<span>!</span></span><Spark /><span className="hello-note">from your friends<br />at letpang studio.</span></div>
+        <div className="hello-copy"><p className="eyebrow">GOOD THINGS START WITH A HELLO.</p><h2 id="hello-heading">함께 만들면<br />더 즐거울 거예요.</h2><p>게임에 대한 이야기, 새로운 아이디어, 협업 제안.<br />어떤 이야기든 편하게 들려주세요.</p><a className="button button-cream" href={`mailto:${SITE.email}`}><svg className="mail-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="4" stroke="currentColor" strokeWidth="1.7" /><path d="m4 7 8 6 8-6" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" /></svg>hello@letpang.com <span className="button-arrow"><ArrowIcon diagonal /></span></a></div>
+        <div className="hello-art" aria-hidden="true"><Image src="/art/studio-letter-v1.webp" alt="" width={1536} height={1024} sizes="(max-width: 760px) 80vw, 480px" /><span className="hello-note">A LITTLE HELLO.<br />A WHOLE LOT OF POSSIBILITIES.</span></div>
       </section>
     </div>
   );
