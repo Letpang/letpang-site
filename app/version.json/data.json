@@ -6,6 +6,18 @@
   "forceUpdate": true,
   "schemaVersion": 1,
   "apps": {
+    "hangeulpop": {
+      "ios": {
+        "latestVersion": "2.0.0",
+        "minimumVersion": "0.0.0",
+        "storeUrl": ""
+      },
+      "android": {
+        "latestVersion": "2.0.0",
+        "minimumVersion": "0.0.0",
+        "storeUrl": "https://play.google.com/store/apps/details?id=com.dh.hangulstreet"
+      }
+    },
     "wakppop": {
       "ios": {
         "latestVersion": "2.4.3",
