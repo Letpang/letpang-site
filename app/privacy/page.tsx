@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 export default function PrivacyPage() {
-  const effectiveDate = "2026-01-07";
+  const effectiveDate = "2026-10-23";
 
   return (
     <div className="page-container">
@@ -81,8 +81,30 @@ export default function PrivacyPage() {
         </p>
       </div>
 
+      <div className="content-card" id="wakppop-ios-analytics">
+        <h2>5. Wakppop iOS · Analytics and Privacy Choices</h2>
+        <p><span className="lang-tag">EN</span>
+          Wakppop for iOS uses Google Analytics for Firebase to measure first app launches, sessions and usage, and installation advertising performance through the linked Google Ads account. Depending on SDK features and consent, data may include an app-instance identifier, device and app characteristics, approximate location derived from IP addresses, lifecycle, screen and session events, and in-app purchase or subscription metadata such as product and price. This integration does not send your in-game nickname or account ID to Firebase.
+        </p>
+        <p><span className="lang-tag">KR</span>
+          iOS 왁뿌팝은 Google Analytics for Firebase로 최초 실행·세션·앱 이용과 연결된 Google Ads 계정의 설치 광고 성과를 측정합니다. SDK 기능과 동의 상태에 따라 앱 인스턴스 식별자, 기기·앱 정보, IP에서 추정한 대략적인 위치, 실행·화면·세션 정보 및 상품·가격 등 인앱 구매·구독 정보가 처리될 수 있습니다. 이번 연동 코드는 게임 닉네임이나 계정 ID를 Firebase에 전송하지 않습니다.
+        </p>
+        <p><span className="lang-tag">EN</span>
+          Google AdMob provides advertising and may process advertising identifiers, ad interactions and technical diagnostics in accordance with applicable privacy choices. Where required, Google's consent form lets you choose advertising and analytics purposes. You can revisit it in the app under My → Settings → Ad privacy choices when that option is required for your region. Analytics remains disabled while its consent status is missing, unknown, unconfigured or denied. Withdrawing analytics consent stops subsequent Analytics collection; it does not automatically delete data already processed. Apple's tracking permission is separate, and declining it does not prevent playing the game.
+        </p>
+        <p><span className="lang-tag">KR</span>
+          Google AdMob은 광고를 제공하며 해당 개인정보 선택에 따라 광고 식별자, 광고 이용 정보와 기술 진단 정보를 처리할 수 있습니다. 필요한 지역에서는 Google 동의 화면에서 광고·분석 목적을 선택합니다. 지역에 따라 제공되는 마이 → 설정 → 광고 개인정보 설정에서 다시 선택할 수 있습니다. 분석 동의 값이 없거나 미정·미설정·거부 상태이면 분석 수집을 끄며, 분석 동의를 철회하면 이후 분석 수집을 중단합니다. 철회가 이미 처리된 데이터의 자동 삭제를 의미하지는 않습니다. Apple 추적 권한은 별도이며 거부해도 게임을 이용할 수 있습니다.
+        </p>
+        <p><span className="lang-tag">EN</span>
+          Google processes this information through its Analytics and advertising services. For details, see <a href="https://policies.google.com/privacy">Google's Privacy Policy</a> and <a href="https://firebase.google.com/support/privacy">Firebase privacy information</a>. Contact hello@letpang.com for access, deletion or other privacy requests; we will handle requests subject to applicable requirements and available service controls.
+        </p>
+        <p><span className="lang-tag">KR</span>
+          Google의 분석·광고 서비스를 통해 위 정보가 처리됩니다. 자세한 내용은 <a href="https://policies.google.com/privacy?hl=ko">Google 개인정보처리방침</a>과 <a href="https://firebase.google.com/support/privacy?hl=ko">Firebase 개인정보 안내</a>에서 확인할 수 있습니다. 열람·삭제 등 개인정보 관련 요청은 hello@letpang.com으로 문의해 주세요. 관련 요건과 서비스에서 제공하는 제어 범위에 따라 처리합니다.
+        </p>
+      </div>
+
       <div className="content-card">
-        <h2>5. Contact</h2>
+        <h2>6. Contact</h2>
         <p>
           <span className="lang-tag">EN</span>
           For privacy questions, contact{" "}
