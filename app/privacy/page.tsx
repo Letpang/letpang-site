@@ -96,6 +96,12 @@ export default function PrivacyPage() {
           Google AdMob은 광고를 제공하며 해당 개인정보 선택에 따라 광고 식별자, 광고 이용 정보와 기술 진단 정보를 처리할 수 있습니다. 필요한 지역에서는 Google 동의 화면에서 광고·분석 목적을 선택합니다. 지역에 따라 제공되는 마이 → 설정 → 광고 개인정보 설정에서 다시 선택할 수 있습니다. 분석 동의 값이 없거나 미정·미설정·거부 상태이면 분석 수집을 끄며, 분석 동의를 철회하면 이후 분석 수집을 중단합니다. 철회가 이미 처리된 데이터의 자동 삭제를 의미하지는 않습니다. Apple 추적 권한은 별도이며 거부해도 게임을 이용할 수 있습니다.
         </p>
         <p><span className="lang-tag">EN</span>
+          As checked on October 23, 2026, this Analytics property is configured to retain event-level data for 2 months and user-level data for 14 months, with the user-data retention period reset on new activity. These settings do not apply to most standard reports based on aggregated data.
+        </p>
+        <p><span className="lang-tag">KR</span>
+          2026년 10월 23일 확인한 Analytics 속성의 보관 설정은 이벤트 수준 데이터 2개월, 사용자 수준 데이터 14개월이며 새 활동 시 사용자 데이터 보관 기간을 재설정합니다. 이 설정은 합산 데이터를 기반으로 하는 대부분의 표준 보고서에는 적용되지 않습니다.
+        </p>
+        <p><span className="lang-tag">EN</span>
           Google processes this information through its Analytics and advertising services. For details, see <a href="https://policies.google.com/privacy">Google's Privacy Policy</a> and <a href="https://firebase.google.com/support/privacy">Firebase privacy information</a>. Contact hello@letpang.com for access, deletion or other privacy requests; we will handle requests subject to applicable requirements and available service controls.
         </p>
         <p><span className="lang-tag">KR</span>
