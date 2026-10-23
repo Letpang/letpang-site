@@ -24,6 +24,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.9,
     },
     {
+      url: `${baseUrl}/games/wakppop`,
+      lastModified: new Date("2026-10-24T00:00:00+09:00"),
+      changeFrequency: "monthly",
+      priority: 0.9,
+    },
+    {
       url: `${baseUrl}/games/hanja-explorer/privacy`,
       lastModified: new Date(),
       changeFrequency: "yearly",

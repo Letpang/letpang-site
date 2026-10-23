@@ -21,6 +21,7 @@ export const SITE = {
       id: "wakppop",
       title: "Wakppop",
       titleKr: "왁뿌팝",
+      path: "/games/wakppop",
       description: "Relax with squishy ASMR toys, slime, crunchy balls, and clickable keycaps.",
       descriptionKr: "왁뿌볼·슬라임·키캡·스퀴시를 누르고 늘리며 즐기는 말랑한 ASMR 놀이터",
       playStoreUrl: "https://play.google.com/store/apps/details?id=com.dh.pastelothello",
