@@ -19,7 +19,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
     {
       url: `${baseUrl}/games/hanja-explorer`,
-      lastModified: new Date(),
+      lastModified: new Date("2026-10-24T00:00:00+09:00"),
       changeFrequency: "monthly",
       priority: 0.9,
     },
