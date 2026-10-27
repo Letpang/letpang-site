@@ -13,8 +13,8 @@
         "storeUrl": ""
       },
       "android": {
-        "latestVersion": "2.0.18",
-        "minimumVersion": "2.0.18",
+        "latestVersion": "2.0.21",
+        "minimumVersion": "2.0.21",
         "storeUrl": "https://play.google.com/store/apps/details?id=com.dh.hangulstreet"
       }
     },
