@@ -7,7 +7,7 @@ export const metadata = {
   title: "고객지원",
   description: "렛팡 게임 이용 중 궁금한 점이나 불편한 점을 알려주세요. 게임별 문의와 협업 제안을 안내합니다.",
 };
-const games = [SITE.games.hanja, SITE.games.wakppop, SITE.games.colorSense, SITE.games.hangulStreet];
+const games = [SITE.games.hangulPop, SITE.games.hanja, SITE.games.wakppop, SITE.games.colorSense];
 function supportLink(name: string) {
   const body = `게임 이름: ${name}\n기기 모델:\n운영체제 / 앱 버전:\n\n어떤 상황에서 문제가 생겼나요?\n\n`;
   return `mailto:${SITE.email}?subject=${encodeURIComponent(`[${name}] 문의`)}&body=${encodeURIComponent(body)}`;

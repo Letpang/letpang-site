@@ -7,7 +7,7 @@ const presentation: Record<string, { theme: string; category: string; headline: 
   "hanja-explorer": { theme: "mint", category: "LEARN / 한자 학습", headline: "하루 5분,\n한자가 쌓입니다.", screen: "/screens/hanja.jpg", word: "學" },
   wakppop: { theme: "pink", category: "RELAX / ASMR 놀이터", headline: "톡, 바삭, 말랑.\n손끝으로 쉬어 가요.", screen: "/screens/wakppop.jpg", word: "pop!" },
   "color-sense": { theme: "peach", category: "PLAY / 고양이 컬러 퍼즐", headline: "다른 색 한 마리,\n찾아볼 고양?", screen: "/screens/cats-puzzle-v2.webp", word: "meow" },
-  "hangul-street": { theme: "lavender", category: "EXPLORE / 한국어 학습", headline: "서울을 걸으며,\n한국어 한 걸음.", screen: "/screens/street.jpg", word: "안녕" },
+  hangulpop: { theme: "lavender", category: "SPEAK / 상황별 한국어", headline: "지금 필요한 말부터,\n한국어 한 장면.", screen: "/screens/hangul-pop-ko.jpg", word: "안녕" },
 };
 function StoreIcon({ apple = false }: { apple?: boolean }) {
   return apple ? <FaApple className="store-brand-icon" aria-hidden="true" /> : <FaGooglePlay className="store-brand-icon" aria-hidden="true" />;
@@ -18,9 +18,9 @@ export default function GameCard({ game, locale = "ko" }: { game: Game; locale?:
     "hanja-explorer": { category: "LEARN / DAILY HANJA", headline: "Five minutes,\na little more Hanja." },
     wakppop: { category: "RELAX / ASMR PLAYGROUND", headline: "Tap. Crunch. Squish.\nTake a little break." },
     "color-sense": { category: "PLAY / CAT COLOR PUZZLE", headline: "One different cat.\nCan you spot it?" },
-    "hangul-street": { category: "EXPLORE / LEARN KOREAN", headline: "Explore Seoul.\nLearn along the way." },
+    hangulpop: { category: "SPEAK / EVERYDAY KOREAN", headline: "Real situations.\nYour next conversation." },
   };
-  const design = { ...presentation[game.id], ...(en ? englishPresentation[game.id] : {}) };
+  const design = { ...presentation[game.id], ...(en ? englishPresentation[game.id] : {}), ...(en && game.id === "hangulpop" ? { screen: "/screens/hangul-pop-en.jpg" } : {}) };
   return (
     <article className={`portfolio-card theme-${design.theme}`}>
       <div className="game-art">
