@@ -15,7 +15,7 @@ export default function HomePage() {
         <div className="hero-copy">
           <p className="eyebrow"><span className="status-dot" /> SMALL STUDIO. HAPPY LITTLE MOMENTS.</p>
           <h1 id="hero-heading">일상에 작은<br /><span className="hero-highlight">즐거움 한 스푼.<Spark /></span></h1>
-          <p className="hero-description">한 글자씩 배우고, 고양이를 찾고,<br />손끝으로 말랑한 휴식을 즐겨요.<br />렛팡의 게임으로 오늘을 조금 더 즐겁게.</p>
+          <p className="hero-description">한 글자씩 배우고, 캡슐 속 친구를 모으고,<br />손끝으로 말랑한 휴식을 즐겨요.<br />렛팡의 게임으로 오늘을 조금 더 즐겁게.</p>
           <div className="hero-actions"><a className="button button-dark" href="#games"><ClayIcon kind="play" />우리 게임 만나보기 <span className="button-arrow"><ArrowIcon diagonal /></span></a><Link className="text-link story-link" href="/about">스튜디오 이야기 <span className="link-arrow"><ArrowIcon /></span></Link></div>
           <div className="hero-footnote"><span className="tiny-platform">iOS + Android</span><span>손안에서 만나는 작은 세계</span></div>
         </div>
