@@ -53,7 +53,7 @@ export const SITE = {
       title: "Hangul Pop",
       titleKr: "한글팝",
       description: "Choose from 100 released Korean scenes. Practise conversations, conjugations and speaking, then review with vocabulary games.",
-      descriptionKr: "100개 공개 장면에서 상황별 대화·활용형·말하기를 연습하고, 단어장과 게임으로 복습해요.",
+      descriptionKr: "100개 공개 장면에서 필요한 상황을 골라요. 대화를 듣고, 활용형을 익히고, 직접 말해 보세요.",
       playStoreUrl: "https://play.google.com/store/apps/details?id=com.dh.hangulstreet",
       appStoreUrl: "https://apps.apple.com/kr/app/id6793157518",
       iconUrl: "/icons/hangul-pop.png",
