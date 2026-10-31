@@ -8,6 +8,7 @@ const presentation: Record<string, { theme: string; category: string; headline: 
   wakppop: { theme: "pink", category: "RELAX / ASMR 놀이터", headline: "톡, 바삭, 말랑.\n손끝으로 쉬어 가요.", screen: "/screens/wakppop.jpg", word: "pop!" },
   "color-sense": { theme: "peach", category: "PLAY / 고양이 컬러 퍼즐", headline: "다른 색 한 마리,\n찾아볼 고양?", screen: "/screens/cats-puzzle-v2.webp", word: "meow" },
   hangulpop: { theme: "lavender", category: "SPEAK / 상황별 한국어", headline: "지금 필요한 말부터,\n한국어 한 장면.", screen: "/screens/hangul-pop-ko.jpg", word: "안녕" },
+  gachapop: { theme: "lime", category: "COLLECT / 캡슐 뽑기 수집", headline: "두근두근 캡슐 속,\n오늘의 친구는?", screen: "/screens/gachapop.jpg", word: "gacha" },
 };
 function StoreIcon({ apple = false }: { apple?: boolean }) {
   return apple ? <FaApple className="store-brand-icon" aria-hidden="true" /> : <FaGooglePlay className="store-brand-icon" aria-hidden="true" />;
@@ -34,10 +35,10 @@ export default function GameCard({ game, locale = "ko" }: { game: Game; locale?:
       <div className="game-info">
         <div className="game-name-row"><h4>{game.path ? <Link href={game.path}>{game.titleKr}</Link> : game.titleKr}</h4>{game.path && <Link href={game.path} className="game-detail-link" aria-label={en ? `More about ${game.titleKr}` : `${game.titleKr} 자세히 보기`}><ArrowUpRight size={19} strokeWidth={1.8} aria-hidden="true" /></Link>}</div>
         <p>{game.descriptionKr}</p>
-        <div className="store-links">
+        {!game.appStoreUrl && !game.playStoreUrl ? <div className="store-links"><span className="store-coming">{en ? "Coming soon" : "출시 준비 중"}</span></div> : <div className="store-links">
           <a href={game.appStoreUrl} target="_blank" rel="noopener noreferrer" aria-label={en ? `Download ${game.titleKr} on the App Store` : `${game.titleKr} App Store에서 다운로드`}><StoreIcon apple /> App Store <span><ArrowUpRight aria-hidden="true" /></span></a>
           <a href={game.playStoreUrl} target="_blank" rel="noopener noreferrer" aria-label={en ? `Get ${game.titleKr} on Google Play` : `${game.titleKr} Google Play에서 다운로드`}><StoreIcon /> Google Play <span><ArrowUpRight aria-hidden="true" /></span></a>
-        </div>
+        </div>}
       </div>
     </article>
   );

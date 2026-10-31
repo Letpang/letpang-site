@@ -38,6 +38,16 @@ export const SITE = {
       appStoreUrl: "https://apps.apple.com/kr/app/id6756197799",
       iconUrl: "/icons/color-sense-cat.jpg",
     },
+    gachaPop: {
+      id: "gachapop",
+      title: "Gacha Pop",
+      titleKr: "가챠팝",
+      description: "Collect 720 cute friends from capsule machines, merge orders, and decorate sticker books and shelves.",
+      descriptionKr: "랜덤뽑기로 귀여운 친구 720종을 모으고, 머지 주문과 스티커북·진열장 꾸미기를 즐겨요.",
+      playStoreUrl: "",
+      appStoreUrl: "",
+      iconUrl: "/icons/gachapop.jpg",
+    },
     hangulPop: {
       id: "hangulpop",
       title: "Hangul Pop",
