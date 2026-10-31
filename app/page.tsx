@@ -32,7 +32,7 @@ export default function HomePage() {
       </div>
       <section className="portfolio-section" id="games" aria-labelledby="games-heading">
         <div className="section-heading"><div><p className="eyebrow">01 / OUR LITTLE WORLDS</p><h2 id="games-heading">취향대로 골라요.<br /><span>즐거움은 여러 가지니까.</span></h2></div><p className="section-note">배우고 싶은 날도, 쉬고 싶은 날도.<br />지금의 기분에 맞는 게임을 만나보세요.</p></div>
-        <div className="portfolio-grid">{games.map(game => <GameCard key={game.id} game={game} />)}<div className="portfolio-card portfolio-empty" aria-hidden="true" /></div>
+        <div className="portfolio-grid">{games.map(game => <GameCard key={game.id} game={game} />)}<div className="portfolio-card portfolio-empty" aria-hidden="true"><span>?</span></div></div>
       </section>
       <HangulPopFeature />
       <section className="studio-story" aria-labelledby="story-heading">
