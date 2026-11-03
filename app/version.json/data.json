@@ -8,9 +8,9 @@
   "apps": {
     "hangeulpop": {
       "ios": {
-        "latestVersion": "2.0.0",
-        "minimumVersion": "0.0.0",
-        "storeUrl": ""
+        "latestVersion": "2.0.25",
+        "minimumVersion": "2.0.25",
+        "storeUrl": "https://apps.apple.com/app/id6793157518"
       },
       "android": {
         "latestVersion": "2.0.25",
