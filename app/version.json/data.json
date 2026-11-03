@@ -8,8 +8,8 @@
   "apps": {
     "hangeulpop": {
       "ios": {
-        "latestVersion": "2.0.25",
-        "minimumVersion": "2.0.25",
+        "latestVersion": "2.0.26",
+        "minimumVersion": "2.0.26",
         "storeUrl": "https://apps.apple.com/app/id6793157518"
       },
       "android": {
