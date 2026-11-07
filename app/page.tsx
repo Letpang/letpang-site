@@ -21,7 +21,7 @@ export default function HomePage() {
         </div>
         <figure className="hero-world">
           <Image src="/art/letpang-world-v1.webp" alt="한자팝 캐릭터와 고양이, 무지갯빛 왁뿌볼, 서울 풍경이 어우러진 렛팡의 작은 놀이 세계" width={1536} height={1024} sizes="(max-width: 760px) 100vw, 60vw" priority />
-          <figcaption><span className="status-dot" /> FOUR LITTLE WORLDS, ONE HAPPY PLACE.</figcaption>
+          <figcaption><span className="status-dot" /> LITTLE WORLDS, ONE HAPPY PLACE.</figcaption>
         </figure>
       </section>
       <div className="studio-strip" aria-label="렛팡이 만드는 즐거움">
