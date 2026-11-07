@@ -44,7 +44,7 @@ export const SITE = {
       titleKr: "가챠팝",
       description: "Collect 720 cute friends from capsule machines, merge orders, and decorate sticker books and shelves.",
       descriptionKr: "랜덤뽑기로 귀여운 친구 720종을 모으고, 머지 주문과 스티커북·진열장 꾸미기를 즐겨요.",
-      playStoreUrl: "",
+      playStoreUrl: "https://play.google.com/store/apps/details?id=com.gachapop.app",
       appStoreUrl: "https://apps.apple.com/kr/app/id6829125344",
       iconUrl: "/icons/gachapop.jpg",
     },
