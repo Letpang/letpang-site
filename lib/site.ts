@@ -48,6 +48,16 @@ export const SITE = {
       appStoreUrl: "https://apps.apple.com/kr/app/id6829125344",
       iconUrl: "/icons/gachapop.jpg",
     },
+    hangulPopTravel: {
+      id: "hangulpop-travel",
+      title: "Hangul Pop Travel",
+      titleKr: "한글팝 트래블",
+      description: "Order coffee, ask for directions, or check in at a hotel in Korean. Listen, build sentences, and practise speaking across 80 travel situations. You can also make a shareable name card in Hangul.",
+      descriptionKr: "카페에서 주문하고, 길을 묻고, 숙소에 체크인할 때 쓰는 한국어를 배워요. 여행 상황 80개에서 대화를 듣고 문장을 만들어 말해 보세요. 내 이름을 한글로 담은 명함도 만들어 공유할 수 있어요.",
+      appStoreUrl: "https://apps.apple.com/kr/app/id6829393248",
+      playStoreUrl: "",
+      iconUrl: "/icons/hangul-pop-travel.png",
+    },
     hangulPop: {
       id: "hangulpop",
       title: "Hangul Pop",

@@ -8,6 +8,7 @@ const presentation: Record<string, { theme: string; category: string; headline: 
   wakppop: { theme: "pink", category: "RELAX / ASMR 놀이터", headline: "톡, 바삭, 말랑.\n손끝으로 쉬어 가요.", screen: "/screens/wakppop/collection-260-ko.webp", word: "pop!" },
   "color-sense": { theme: "peach", category: "PLAY / 고양이 컬러 퍼즐", headline: "다른 색 한 마리,\n찾아볼 고양?", screen: "/screens/cats-puzzle-v2.webp", word: "meow" },
   hangulpop: { theme: "lavender", category: "SPEAK / 상황별 한국어", headline: "외운 한국어를,\n내 말로 만드는 시간.", screen: "/screens/hangul-pop-home-ko.jpg", word: "안녕" },
+  "hangulpop-travel": { theme: "mint", category: "TRAVEL / 여행 한국어", headline: "한국 여행에서\n바로 쓰는 한국어.", screen: "/screens/hangul-pop-travel.jpg", word: "여행" },
   gachapop: { theme: "lime", category: "COLLECT / 캡슐 뽑기 수집", headline: "두근두근 캡슐 속,\n오늘의 친구는?", screen: "/screens/gachapop.jpg", word: "gacha" },
 };
 function StoreIcon({ apple = false }: { apple?: boolean }) {
@@ -19,6 +20,7 @@ export default function GameCard({ game, locale = "ko" }: { game: Game; locale?:
     "hanja-explorer": { category: "LEARN / DAILY HANJA", headline: "Five minutes,\na little more Hanja." },
     wakppop: { category: "RELAX / ASMR PLAYGROUND", headline: "Tap. Crunch. Squish.\nTake a little break." },
     "color-sense": { category: "PLAY / CAT COLOR PUZZLE", headline: "One different cat.\nCan you spot it?" },
+    "hangulpop-travel": { category: "TRAVEL / PRACTICAL KOREAN", headline: "Korean for\nyour next trip." },
     gachapop: { category: "COLLECT / CAPSULE TOYS", headline: "A little surprise.\nWho will you find?" },
     hangulpop: { category: "SPEAK / EVERYDAY KOREAN", headline: "Real situations.\nYour next conversation." },
   };
@@ -29,7 +31,7 @@ export default function GameCard({ game, locale = "ko" }: { game: Game; locale?:
         <span className="game-art-word" aria-hidden="true">{design.word}</span>
         <span className="game-category">{design.category}</span>
         <h3 className="game-art-headline">{design.headline.split("\n").map((line, i) => <span key={i}>{line}</span>)}</h3>
-        <div className="game-poster"><Image src={design.screen} alt={`${game.titleKr} ${en ? "app screenshot" : "실제 앱 화면"}`} width={320} height={game.id === "wakppop" ? 569 : 480} sizes="(max-width: 600px) 140px, 190px" /></div>
+        <div className="game-poster"><Image src={design.screen} alt={`${game.titleKr} ${en ? "app screenshot" : "실제 앱 화면"}`} width={game.id === "hangulpop-travel" ? 393 : 320} height={game.id === "hangulpop-travel" ? 852 : game.id === "wakppop" ? 569 : 480} sizes="(max-width: 600px) 140px, 190px" /></div>
         <div className="game-art-icon"><Image src={game.iconUrl} alt="" width={96} height={96} sizes="96px" /></div>
         <span className="art-circle" aria-hidden="true" />
       </div>
