@@ -6,14 +6,14 @@ import SiteFooter from "@/components/SiteFooter";
 
 export const metadata: Metadata = {
   title: {
-    default: "Letpang Studio — 인디 게임 스튜디오",
+    default: "Letpang Studio",
     template: "%s | Letpang Studio",
   },
   description: "한글팝의 상황별 한국어 대화부터 한자팝, 왁뿌팝, Color Sense까지. 배움과 놀이를 만드는 렛팡 스튜디오의 iOS·Android 앱을 만나보세요.",
-  keywords: ["렛팡", "Letpang", "한글팝", "Hangul Pop", "한국어 학습", "상황별 한국어", "인디 게임", "게임 스튜디오", "한자팝", "한자", "한자 학습 게임", "어린이 한자", "왁뿌팝", "Color Sense: 고양이 색 찾기", "캐주얼 게임", "모바일 게임", "무료 게임"],
+  keywords: ["렛팡", "Letpang", "한글팝", "Hangul Pop", "한국어 학습", "상황별 한국어", "게임 스튜디오", "한자팝", "한자", "한자 학습 게임", "어린이 한자", "왁뿌팝", "Color Sense: 고양이 색 찾기", "캐주얼 게임", "모바일 게임", "무료 게임"],
   metadataBase: new URL("https://www.letpang.com"),
   openGraph: {
-    title: "Letpang Studio — 인디 게임 스튜디오",
+    title: "Letpang Studio",
     description: "한글팝, 한자팝, 왁뿌팝, Color Sense. 배움과 놀이, 작은 즐거움을 만드는 렛팡 스튜디오입니다.",
     url: "https://www.letpang.com",
     siteName: "Letpang Studio",
@@ -21,18 +21,18 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "/art/letpang-world-v1.webp",
-        width: 1536,
-        height: 1024,
+        url: "/art/letpang-garden-share.jpg",
+        width: 1200,
+        height: 630,
         alt: "렛팡 스튜디오의 작은 놀이 세계",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Letpang Studio — 인디 게임 스튜디오",
+    title: "Letpang Studio",
     description: "한글팝, 한자팝, 왁뿌팝, Color Sense. 배움과 놀이, 작은 즐거움을 만드는 렛팡 스튜디오입니다.",
-    images: ["/art/letpang-world-v1.webp"],
+    images: ["/art/letpang-garden-share.jpg"],
   },
   robots: {
     index: true,

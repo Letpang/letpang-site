@@ -10,7 +10,7 @@ export const metadata = {
 export default function AboutPage() {
   return (
     <div className="studio-subpage about-page">
-      <header className="subpage-hero"><div><p className="eyebrow">A SMALL STUDIO / 렛팡 이야기</p><h1>배우고, 놀고,<br /><span>잠깐 쉬어 가는 곳.</span></h1><p className="subpage-lead">렛팡은 일상의 작은 순간을 위한<br />모바일 게임과 앱을 만드는 인디 스튜디오입니다.</p><Link className="button button-dark" href="/#games">렛팡 게임 만나보기<span className="button-arrow"><ArrowUpRight size={20} aria-hidden="true" /></span></Link></div><div className="about-hero-art"><Image src="/art/letpang-world-v1.webp" alt="렛팡의 게임 캐릭터와 소재로 만든 작은 놀이 세계" width={1536} height={1024} sizes="(max-width: 760px) 100vw, 550px" priority /></div></header>
+      <header className="subpage-hero"><div><p className="eyebrow">A SMALL STUDIO / 렛팡 이야기</p><h1>배우고, 놀고,<br /><span>잠깐 쉬어 가는 곳.</span></h1><p className="subpage-lead">렛팡은 일상의 작은 순간을 위한<br />모바일 게임과 앱을 만드는 스튜디오입니다.</p><Link className="button button-dark" href="/#games">렛팡 게임 만나보기<span className="button-arrow"><ArrowUpRight size={20} aria-hidden="true" /></span></Link></div><div className="about-hero-art"><Image src="/art/letpang-world-v1.webp" alt="렛팡의 게임 캐릭터와 소재로 만든 작은 놀이 세계" width={1536} height={1024} sizes="(max-width: 760px) 100vw, 550px" priority /></div></header>
 
       <section className="about-intro" aria-labelledby="about-intro-heading"><p className="eyebrow">WHAT WE MAKE</p><h2 id="about-intro-heading">게임마다 다른 즐거움,<br />그 안에 담긴 같은 마음.</h2><div><p>한글팝에서는 상황별 대화와 말하기로 한국어를 연습하고, 한자팝에서는 한 글자씩 배우는 성취감을 만날 수 있어요.</p><p>왁뿌팝은 손끝으로 즐기는 말랑한 휴식을, Color Sense는 고양이를 찾고 돌보는 컬러 퍼즐의 즐거움을 전합니다.</p><p>서로 다른 게임이지만, 쉽고 즐겁게 시작할 수 있는 경험을 만들고 싶다는 마음은 같습니다.</p></div></section>
 
