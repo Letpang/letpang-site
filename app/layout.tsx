@@ -4,6 +4,8 @@ import type { Metadata } from "next";
 import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
 
+const shareDescription = "한글팝 · 한글팝 트래블 · 한자팝 · 왁뿌팝 · 가챠팝 · 컬러센스";
+
 export const metadata: Metadata = {
   title: {
     default: "Letpang Studio",
@@ -14,7 +16,7 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://www.letpang.com"),
   openGraph: {
     title: "Letpang Studio",
-    description: "한글팝, 한자팝, 왁뿌팝, Color Sense. 배움과 놀이, 작은 즐거움을 만드는 렛팡 스튜디오입니다.",
+    description: shareDescription,
     url: "https://www.letpang.com",
     siteName: "Letpang Studio",
     locale: "ko_KR",
@@ -31,7 +33,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Letpang Studio",
-    description: "한글팝, 한자팝, 왁뿌팝, Color Sense. 배움과 놀이, 작은 즐거움을 만드는 렛팡 스튜디오입니다.",
+    description: shareDescription,
     images: ["/art/letpang-garden-share.jpg"],
   },
   robots: {
