@@ -29,6 +29,18 @@
         "minimumVersion": "2.3.4",
         "storeUrl": "https://play.google.com/store/apps/details?id=com.dh.pastelothello"
       }
+    },
+    "hangulpoptravel": {
+      "ios": {
+        "latestVersion": "1.0.2",
+        "minimumVersion": "1.0.0",
+        "storeUrl": "https://apps.apple.com/app/id6829393248"
+      },
+      "android": {
+        "latestVersion": "1.0.2",
+        "minimumVersion": "1.0.0",
+        "storeUrl": "https://play.google.com/store/apps/details?id=com.letpang.hangulpoptravel"
+      }
     }
   }
 }
