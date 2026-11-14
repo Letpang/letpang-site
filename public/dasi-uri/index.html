@@ -2593,12 +2593,9 @@ function openEdit(draft){
   }
   lookPicker(look);
   var avatarInput=$("e-avatar-photo"), generate=$("e-avatar-generate"), status=$("e-avatar-status");
-  // The hosted web edition has no image generation endpoint.
-  if(location.hostname==="letpang.com"||location.hostname==="www.letpang.com"){
-    avatarInput.hidden=true;
-    generate.hidden=true;
-    status.textContent="사진으로 그림 만들기는 웹에서 사용할 수 없어요.";
-  }
+  var avatarEndpoint = ["letpang.com","www.letpang.com"].includes(location.hostname)
+    ? "https://dasi-uri-pet-avatar.dasi-pet-worker.workers.dev/api/pet-avatar"
+    : "/api/pet-avatar";
   avatarInput.onchange=function(){generate.disabled=!avatarInput.files.length;status.textContent=""};
   generate.onclick=async function(){
     var file=avatarInput.files[0],species=look.sp;
@@ -2611,8 +2608,8 @@ function openEdit(draft){
     closeModal();
     showAvatarNotice("그림을 그리는 중이에요. 동산을 둘러보세요.");
     try{
-      var jpeg=await shrink(file,512);
-      var response=await fetch("/api/pet-avatar",{method:"POST",headers:{"Content-Type":"image/jpeg","X-Pet-Species":species,"X-Pet-Style":style},body:await (await fetch(jpeg)).blob(),signal:AbortSignal.timeout(160000)});
+      var jpeg=await shrink(file,500);
+      var response=await fetch(avatarEndpoint,{method:"POST",headers:{"Content-Type":"image/jpeg","X-Pet-Species":species,"X-Pet-Style":style},body:await (await fetch(jpeg)).blob(),signal:AbortSignal.timeout(160000)});
       var result=await response.json().catch(function(){return {}});
       if(!response.ok||!result.image)throw new Error(result.error||"이미지 생성 서비스에 연결할 수 없어요.");
       var portrait=new Image();
