@@ -347,6 +347,7 @@ input[type=range]{width:100%;accent-color:var(--star)}
 .modal.on{display:flex}
 .sheet{background:var(--paper);width:100%;max-width:480px;max-height:92%;overflow:auto;border-radius:24px 24px 0 0;padding:20px 18px 24px;display:flex;flex-direction:column;gap:12px}
 .sheet h2{font-size:22px}
+.sheet #w-portrait{width:min(100%,220px);height:auto;aspect-ratio:1;object-fit:contain;margin-inline:auto}.sheet #w-portrait:not([hidden]){display:block}
 .sheet img{width:100%;border-radius:14px;box-shadow:0 6px 18px rgba(0,0,0,.12);-webkit-touch-callout:default}
 .sheet .loading{aspect-ratio:4/5;border-radius:14px;background:var(--soft);display:flex;align-items:center;justify-content:center;color:var(--muted)}
 label.f{display:flex;flex-direction:column;gap:4px;font-size:14px;color:var(--muted)}
@@ -2577,7 +2578,9 @@ async function transparentAvatar(source){
   var canvas=document.createElement("canvas");
   var width=canvas.width=512,height=canvas.height=512;
   var context=canvas.getContext("2d",{willReadFrequently:true});
-  context.drawImage(portrait,0,0,width,height);
+  var ratio=Math.min(width/portrait.naturalWidth,height/portrait.naturalHeight);
+  var fittedWidth=Math.round(portrait.naturalWidth*ratio),fittedHeight=Math.round(portrait.naturalHeight*ratio);
+  context.drawImage(portrait,Math.round((width-fittedWidth)/2),Math.round((height-fittedHeight)/2),fittedWidth,fittedHeight);
   var image=context.getImageData(0,0,width,height),pixels=image.data;
   var visited=new Uint8Array(width*height),queue=new Int32Array(width*height);
   var count=0,removed=0;
@@ -2698,13 +2701,14 @@ function openEdit(draft){
     var file=avatarInput.files[0];
     if(!file)return;
     if(file.size>20*1024*1024){status.textContent="20MB 이하 사진을 골라 주세요.";return}
-    if(avatarJob){status.textContent="이미 그림을 만들고 있어요.";return}
+    if(avatarJob?.running){status.textContent="이미 그림을 만들고 있어요.";return}
     var pending={file:file,species:look.sp,look:Object.assign({},look),results:{}};
     captureDraft(pending);
     avatarJob=pending;
     makeAvatar(pending,stylePicker.value);
   };
   async function makeAvatar(pending,style){
+    pending.running=true;
     closeModal();
     showAvatarNotice("그림을 그리는 중이에요. 동산을 둘러보세요.");
     function previewResult(){
@@ -2737,6 +2741,8 @@ function openEdit(draft){
         avatarJob=null;
         showAvatarNotice("그림을 만들지 못했어요 · 다시 시도",function(){showAvatarNotice("");openEdit()});
       }
+    }finally{
+      pending.running=false;
     }
   }
   $("e-photo").onchange=function(){var f=this.files[0];if(!f)return;$("e-photo-st").textContent="사진을 준비하는 중…";shrink(f,700).then(function(u){photo=u;$("e-photo-st").textContent="사진이 들어갔어요"}).catch(function(){$("e-photo-st").textContent="이 사진은 열 수 없어요. 다른 사진을 골라 주세요."})};
@@ -3449,15 +3455,6 @@ window.addEventListener("hashchange",route);
 document.querySelector("nav.tabs").addEventListener("click",function(e){var a=e.target.closest("a[data-tab]");if(!a)return;e.preventDefault();var t=a.dataset.tab;show(t);try{history.replaceState(null,"","#"+t)}catch(err){}});
 function renderAll(){if(outing.active&&!hasCompanion()){outing.active=false;outing.identity=null}renderPark();renderBucket();if(Y.built)yardInit()}
 renderAll();route();loadStudioPet();
-var savedAvatarLook=lookOf(S.pet.breed),savedAvatar=savedAvatarLook.watercolor;
-if(/^data:image\/webp;base64,[A-Za-z0-9+/=]+$/.test(savedAvatar||"")){
-  transparentAvatar(savedAvatar).then(function(cleaned){
-    if(lookOf(S.pet.breed)!==savedAvatarLook||savedAvatarLook.watercolor!==savedAvatar)return;
-    if(cleaned===savedAvatar||!cleaned.startsWith("data:image/webp;"))return;
-    savedAvatarLook.watercolor=cleaned;
-    save();renderAll();loadStudioPet();
-  }).catch(function(){});
-}
 if(!S.onboarded&&S.pet.example)setTimeout(function(){
  openModal('<div class="welcome-intro"><span class="eyebrow">다시 만나는 우리</span><div class="welcome-pet"><img class="welcome-pet-art" src="welcome-puppy.png" alt="" width="122" height="122"></div><h2>마음이 닿는 곳에서,<br>다시 우리.</h2><p>보고 싶은 아이를 기억하고,<br>같이 하고 싶었던 순간을 만들어 가요.<br>서두르지 않아도 괜찮아요.</p><button type="button" class="btn primary" id="intro-start">우리 아이와 시작하기</button><button type="button" class="text-link" id="intro-preview">먼저 천천히 둘러볼게요 →</button></div>');
  $("intro-start").onclick=function(){openWelcome(1)};
