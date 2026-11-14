@@ -541,15 +541,16 @@ h1,h2,h3,h4,p { margin-top: 0; }
 .dasi-scene > img:not(.dasi-landscape) {
   position: absolute;
   height: auto;
-  filter: drop-shadow(0 5px 4px rgb(73 63 43 / 20%));
+  bottom: 17%;
+  filter: drop-shadow(0 2px 1px rgb(73 63 43 / 26%));
 }
-.dasi-guardian { width: 22%; left: 32%; bottom: 23%; }
-.dasi-dog { width: 12%; left: 53%; bottom: 19%; animation: dasi-romp 3.8s ease-in-out infinite; }
-.dasi-cat { width: 12%; right: 18%; bottom: 13%; animation: dasi-romp 4.6s ease-in-out -2s infinite reverse; }
+.dasi-guardian { width: 12%; left: 36%; }
+.dasi-dog { width: 7%; left: 49%; animation: dasi-romp 3.8s ease-in-out infinite; }
+.dasi-cat { width: 7%; left: 60%; animation: dasi-romp 4.6s ease-in-out -2s infinite reverse; }
 @keyframes dasi-romp {
   0%, 100% { transform: translate(0, 0); }
-  36% { transform: translate(18%, -9%) rotate(-5deg); }
-  62% { transform: translate(26%, 0); }
+  36% { transform: translate(9%, -3%) rotate(-2deg); }
+  62% { transform: translate(14%, 0); }
 }
 @media (max-width: 600px) {
   .studio-hero + .dasi-feature { margin-top: 0; }
