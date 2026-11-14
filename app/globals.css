@@ -543,9 +543,9 @@ h1,h2,h3,h4,p { margin-top: 0; }
   height: auto;
   filter: drop-shadow(0 5px 4px rgb(73 63 43 / 20%));
 }
-.dasi-guardian { width: 31%; left: 35%; bottom: 9%; }
-.dasi-dog { width: 20%; left: 16%; bottom: 3%; animation: dasi-romp 3.8s ease-in-out infinite; }
-.dasi-cat { width: 19%; right: 14%; bottom: 5%; animation: dasi-romp 4.6s ease-in-out -2s infinite reverse; }
+.dasi-guardian { width: 22%; left: 32%; bottom: 23%; }
+.dasi-dog { width: 12%; left: 53%; bottom: 19%; animation: dasi-romp 3.8s ease-in-out infinite; }
+.dasi-cat { width: 12%; right: 18%; bottom: 13%; animation: dasi-romp 4.6s ease-in-out -2s infinite reverse; }
 @keyframes dasi-romp {
   0%, 100% { transform: translate(0, 0); }
   36% { transform: translate(18%, -9%) rotate(-5deg); }

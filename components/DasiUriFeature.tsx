@@ -18,8 +18,8 @@ export default function DasiUriFeature({ locale = "ko" }: { locale?: "ko" | "en"
         </div>
       </div>
       <div className="dasi-scene" aria-hidden="true">
-        <Image className="dasi-landscape" src="/art/dasi-uri-garden.webp" alt="" fill sizes="(max-width: 600px) 100vw, 50vw" />
-        <Image className="dasi-guardian" src="/dasi-uri/guardian-cardigan-0.webp" alt="" width={640} height={960} sizes="200px" />
+        <Image className="dasi-landscape" src="/art/dasi-garden-path.webp" alt="" fill sizes="(max-width: 600px) 100vw, 50vw" />
+        <Image className="dasi-guardian" src="/art/dasi-guardian-kneeling.webp" alt="" width={212} height={301} sizes="200px" />
         <Image className="dasi-dog" src="/dasi-uri/pet-painted-maltese-side.webp" alt="" width={386} height={520} sizes="130px" />
         <Image className="dasi-cat" src="/dasi-uri/pet-seated/calico-side.webp" alt="" width={204} height={256} sizes="120px" />
       </div>
