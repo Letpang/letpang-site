@@ -2577,6 +2577,24 @@ function showAvatarNotice(message,action){
   button.onclick=action;
   avatarNotice.appendChild(button);
 }
+async function generatePetArtwork(file,species,style){
+  var avatarEndpoint = ["letpang.com","www.letpang.com"].includes(location.hostname)
+    ? "https://dasi-uri-pet-avatar.dasi-pet-worker.workers.dev/api/pet-avatar"
+    : "/api/pet-avatar";
+      var jpeg=await shrink(file,500);
+      var response=await fetch(avatarEndpoint,{method:"POST",headers:{"Content-Type":"image/jpeg","X-Pet-Species":species,"X-Pet-Style":style},body:await (await fetch(jpeg)).blob(),signal:AbortSignal.timeout(160000)});
+      var result=await response.json().catch(function(){return {}});
+      if(!response.ok||!result.image)throw new Error(result.error||"이미지 생성 서비스에 연결할 수 없어요.");
+      var portrait=new Image();
+      portrait.src="data:image/png;base64,"+result.image;
+      await portrait.decode();
+      var canvas=document.createElement("canvas");
+      canvas.width=canvas.height=512;
+      canvas.getContext("2d").drawImage(portrait,0,0,512,512);
+      var artwork=canvas.toDataURL("image/webp",.88);
+      if(!artwork.startsWith("data:image/webp;"))throw new Error("이 브라우저에서는 그림을 저장할 수 없어요.");
+      return artwork;
+}
 function openEdit(draft){
   if(!draft||!draft.artwork)draft=null;
   var P=S.pet,look=Object.assign({},lookOf(P.breed)),photo=P.photo;
@@ -2593,9 +2611,6 @@ function openEdit(draft){
   }
   lookPicker(look);
   var avatarInput=$("e-avatar-photo"), generate=$("e-avatar-generate"), status=$("e-avatar-status");
-  var avatarEndpoint = ["letpang.com","www.letpang.com"].includes(location.hostname)
-    ? "https://dasi-uri-pet-avatar.dasi-pet-worker.workers.dev/api/pet-avatar"
-    : "/api/pet-avatar";
   avatarInput.onchange=function(){generate.disabled=!avatarInput.files.length;status.textContent=""};
   generate.onclick=async function(){
     var file=avatarInput.files[0],species=look.sp;
@@ -2608,18 +2623,7 @@ function openEdit(draft){
     closeModal();
     showAvatarNotice("그림을 그리는 중이에요. 동산을 둘러보세요.");
     try{
-      var jpeg=await shrink(file,500);
-      var response=await fetch(avatarEndpoint,{method:"POST",headers:{"Content-Type":"image/jpeg","X-Pet-Species":species,"X-Pet-Style":style},body:await (await fetch(jpeg)).blob(),signal:AbortSignal.timeout(160000)});
-      var result=await response.json().catch(function(){return {}});
-      if(!response.ok||!result.image)throw new Error(result.error||"이미지 생성 서비스에 연결할 수 없어요.");
-      var portrait=new Image();
-      portrait.src="data:image/png;base64,"+result.image;
-      await portrait.decode();
-      var canvas=document.createElement("canvas");
-      canvas.width=canvas.height=512;
-      canvas.getContext("2d").drawImage(portrait,0,0,512,512);
-      var artwork=canvas.toDataURL("image/webp",.88);
-      if(!artwork.startsWith("data:image/webp;"))throw new Error("이 브라우저에서는 그림을 저장할 수 없어요.");
+      var artwork=await generatePetArtwork(file,species,style);
       if(avatarJob!==pending)return;
       pending.artwork=artwork;
       pending.look.watercolor=artwork;
@@ -3269,11 +3273,36 @@ function openWelcome(step,draft){
     bindAvEditor(draft.me);$("w-back").onclick=function(){openWelcome(1,draft)};
     $("w-done").onclick=function(){S=defaults();S.pet={name:draft.name,breed:draft.breed,born:draft.born||"2015-01-01",star:draft.star||today(),photo:null,example:false};S.letters=[];S.me=draft.me;S.onboarded=true;save();PC={};closeModal();renderAll();applyMe();ST.petPhoto=null;loadStudioPet();toast(irang(draft.name)+" 다시 만났어요")};return}
   openModal('<div class="wel"><span class="stepn">1 / 2</span><h2>다시 우리에 오신 걸 환영해요</h2><p class="hint">떠나보낸 아이를 기억하고, 함께 하고 싶었던 것을 이뤄 주는 곳이에요. 먼저 우리 아이를 알려 주세요.</p>'+
-    '<label class="f" for="w-name">아이 이름<input id="w-name" maxlength="10" value="'+esc(draft.name)+'" placeholder="예: 콩이"></label><div class="f" style="font-size:14px;color:var(--muted)">어떤 모습인가요? 닮은 걸 골라 주세요</div><div id="lk" class="lk"></div>'+
+    '<label class="f" for="w-name">아이 이름<input id="w-name" maxlength="10" value="'+esc(draft.name)+'" placeholder="예: 콩이"></label><label class="f" for="w-photo">사진으로 그림 만들기<input id="w-photo" type="file" accept="image/*"></label><button type="button" class="btn" id="w-generate" disabled>사진 보내고 그림 만들기</button><p id="w-photo-status" role="status"></p><img id="w-portrait" alt="생성된 반려동물 그림 미리보기" width="140" height="140" hidden><div class="f" style="font-size:14px;color:var(--muted)">어떤 모습인가요? 닮은 걸 골라 주세요</div><div id="lk" class="lk"></div>'+
     '<div class="row">'+dateField("w-born","태어난 날 (선택)",draft.born)+''+dateField("w-star","별이 된 날 (선택)",draft.star)+'</div>'+
     '<button type="button" class="btn star" id="w-next">다음</button><button type="button" class="linkbtn" id="w-skip">예시 아이로 먼저 둘러볼게요</button></div>');
   lookPicker(draft.breed);
-  $("w-next").onclick=function(){var n=$("w-name").value.trim();if(!n){toast("아이 이름을 적어 주세요");$("w-name").focus();return}draft.name=n;draft.born=$("w-born").value;draft.star=$("w-star").value;openWelcome(2,draft)};
+  var input=$("w-photo"), button=$("w-generate"), preview=$("w-portrait"), status=$("w-photo-status");
+  function showPortrait(){
+    preview.hidden=!draft.artwork;
+    if(draft.artwork)preview.src=draft.artwork;
+  }
+  showPortrait();
+  input.onchange=function(){button.disabled=!input.files.length};
+  button.onclick=async function(){
+    var file=input.files[0];
+    if(!file)return;
+    if(file.size>20*1024*1024){status.textContent="20MB 이하 사진을 골라 주세요.";return}
+    input.disabled=button.disabled=$("w-next").disabled=true;
+    status.textContent="그림을 만드는 중이에요.";
+    try{
+      var artwork=await generatePetArtwork(file,draft.breed.sp,"rounded");
+      if(!preview.isConnected)return;
+      draft.artwork=artwork;
+      showPortrait();
+      status.textContent="그림이 완성됐어요.";
+    }catch(error){
+      status.textContent=error.message||"그림을 만들지 못했어요.";
+    }finally{
+      if(preview.isConnected)input.disabled=button.disabled=$("w-next").disabled=false;
+    }
+  };
+  $("w-next").onclick=function(){var n=$("w-name").value.trim();if(!n){toast("아이 이름을 적어 주세요");$("w-name").focus();return}draft.name=n;draft.born=$("w-born").value;draft.star=$("w-star").value;if(draft.artwork)draft.breed.watercolor=draft.artwork;openWelcome(2,draft)};
   $("w-skip").onclick=function(){S.onboarded=true;save();closeModal();toast("언제든 마당 위 '우리 아이 모습'에서 바꿀 수 있어요")};
 }
 
