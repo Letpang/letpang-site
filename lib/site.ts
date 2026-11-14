@@ -56,7 +56,7 @@ export const SITE = {
       descriptionKr: "카페에서 주문하고, 길을 묻고, 숙소에 체크인할 때 쓰는 한국어를 배워요. 여행 상황 80개에서 대화를 듣고 문장을 만들어 말해 보세요. 내 이름을 한글로 담은 명함도 만들어 공유할 수 있어요.",
       appStoreUrl: "https://apps.apple.com/kr/app/id6829393248",
       playStoreUrl: "https://play.google.com/store/apps/details?id=com.letpang.hangulpoptravel",
-      iconUrl: "/icons/hangul-pop-travel.png",
+      iconUrl: "/icons/hangul-pop-travel-v2.png",
     },
     hangulPop: {
       id: "hangulpop",
