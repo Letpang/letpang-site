@@ -2807,7 +2807,7 @@ function buildYard(){
     pet.style.width=pet.style.height="68px";
     pet.setAttribute("aria-hidden","true");
     pet.querySelector(".body-svg").innerHTML=paintedPet(breed,{});
-    o.playmate=Object.assign(yCompanionSpot(o),{el:pet,breed:breed,phase:i*1.7});
+    o.playmate=Object.assign(yCompanionSpot(o),{el:pet,breed:breed,side:i%2===0?1:-1});
     w.appendChild(pet);placeGardenPlaymate(o.playmate);return o});
   Y.built=true;
 }
@@ -2816,17 +2816,10 @@ function placeGardenPlaymate(pet){
   pet.el.style.top=(pet.y-65)+"px";
   pet.el.style.zIndex=Math.round(pet.y);
 }
-function stepGardenPlaymate(guardian,t,dt){
-  var pet=guardian.playmate, angle=t/1250+pet.phase;
-  var spot=yLandPoint(guardian.x+Math.cos(angle)*54,guardian.y+Math.sin(angle)*32+12);
-  var step=yAdvance(pet,spot.x,spot.y,100,dt,5);
-  pet.el.classList.toggle("walk",!!step);
-  if(step&&Math.abs(step.dx)>2)pet.el.classList.toggle("face-right",step.dx>0);
-  var mode=step?"walk":"idle";
-  if(mode!==pet.mode){
-    pet.mode=mode;
-    pet.el.querySelector(".body-svg").innerHTML=paintedPet(pet.breed,step?{facing:"side"}:{});
-  }
+function stepGardenPlaymate(guardian,dt){
+  var pet=guardian.playmate;
+  var spot=yLandPoint(guardian.x+pet.side*46,guardian.y+15);
+  yAdvance(pet,spot.x,spot.y,85,dt,2);
   placeGardenPlaymate(pet);
 }
 function yPlacePet(){if(!Y.pet)return;var p=Y.pet;p.el.style.left=(p.x-40)+"px";p.el.style.top=(p.y-76)+"px";p.el.style.zIndex=yOnBridge(p)?901:Math.round(p.y)}
@@ -2834,15 +2827,7 @@ function yPetStep(dt){
   if(!Y.pet)return;
   var pet=Y.pet,spot=yCompanionSpot(Y.me,!!Y.target);
   var useBridge=!!Y.target?.crossBridge||yOnBridge(pet)||yOnBridge(Y.me);
-  var step=yAdvance(pet,spot.x,spot.y,useBridge?218:190,dt,10,useBridge);
-  pet.el.classList.toggle("walk",!!step);
-  if(step&&Math.abs(step.dx)>2)pet.el.classList.toggle("face-right",step.dx>0);
-  var mode=step?"walk":"idle";
-  if(mode!==pet.mode){
-    pet.mode=mode;
-    renderDog(pet.el,step?{facing:"side"}:{});
-    if(!step)pet.el.classList.remove("face-right");
-  }
+  yAdvance(pet,spot.x,spot.y,useBridge?218:190,dt,10,useBridge);
   yPlacePet();
 }
 function landmarkLabel(place){
@@ -2901,7 +2886,7 @@ function yLoop(t){
       $("ymark").style.display="none";
       Y.target=null;
     }
-    if(!gardenReducedMotion.matches)Y.npcs.forEach(function(o){stepGardenPlaymate(o,t,dt);if(Y.sel===o){o.el.classList.remove("walk");return}if(!o.t){o.wait-=dt;if(o.wait<=0){o.t={x:190+Math.random()*820,y:530+Math.random()*720}}return}if(yStep(o,o.t.x,o.t.y,o.sp,dt)){o.t=null;o.wait=1500+Math.random()*4000}});
+    if(!gardenReducedMotion.matches)Y.npcs.forEach(function(o){stepGardenPlaymate(o,dt);if(Y.sel===o){o.el.classList.remove("walk");return}if(!o.t){o.wait-=dt;if(o.wait<=0){o.t={x:190+Math.random()*820,y:530+Math.random()*720}}return}if(yStep(o,o.t.x,o.t.y,o.sp,dt)){o.t=null;o.wait=1500+Math.random()*4000}});
     yPetStep(dt);yCam();yNear();
     if(destination)runYardAction(destination);
     else if(revealAction&&$("yact").classList.contains("on"))$("yact").scrollIntoView({block:"nearest",behavior:"smooth"});
