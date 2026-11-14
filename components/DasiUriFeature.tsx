@@ -17,7 +17,12 @@ export default function DasiUriFeature({ locale = "ko" }: { locale?: "ko" | "en"
           <a className="button dasi-web-button" href="/dasi-uri/index.html">{english ? "Play on the web" : "웹에서 바로 하기"}</a>
         </div>
       </div>
-      <Image src="/art/dasi-uri-garden.webp" alt="" width={1000} height={667} sizes="(max-width: 600px) 100vw, 50vw" />
+      <div className="dasi-scene" aria-hidden="true">
+        <Image className="dasi-landscape" src="/art/dasi-uri-garden.webp" alt="" fill sizes="(max-width: 600px) 100vw, 50vw" />
+        <Image className="dasi-guardian" src="/dasi-uri/guardian-cardigan-0.webp" alt="" width={640} height={960} sizes="200px" />
+        <Image className="dasi-dog" src="/dasi-uri/pet-painted-maltese-side.webp" alt="" width={386} height={520} sizes="130px" />
+        <Image className="dasi-cat" src="/dasi-uri/pet-seated/calico-side.webp" alt="" width={204} height={256} sizes="120px" />
+      </div>
     </article>
   );
 }
