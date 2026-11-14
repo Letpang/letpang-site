@@ -2,13 +2,14 @@ import Image from "next/image";
 import Link from "next/link";
 import { FaApple, FaGooglePlay } from "react-icons/fa6";
 import { ArrowUpRight } from "lucide-react";
-type Game = { id: string; titleKr: string; descriptionKr: string; iconUrl: string; path?: string; appStoreUrl: string; playStoreUrl: string };
+type Game = { id: string; titleKr: string; descriptionKr: string; iconUrl: string; path?: string; webUrl?: string; appStoreUrl: string; playStoreUrl: string };
 const presentation: Record<string, { theme: string; category: string; headline: string; screen: string; word: string }> = {
   "hanja-explorer": { theme: "mint", category: "LEARN / 한자 학습", headline: "하루 5분,\n한자가 쌓입니다.", screen: "/screens/hanja.jpg", word: "學" },
   wakppop: { theme: "pink", category: "RELAX / ASMR 놀이터", headline: "톡, 바삭, 말랑.\n손끝으로 쉬어 가요.", screen: "/screens/wakppop/collection-260-ko.webp", word: "pop!" },
   "color-sense": { theme: "peach", category: "PLAY / 고양이 컬러 퍼즐", headline: "다른 색 한 마리,\n찾아볼 고양?", screen: "/screens/cats-puzzle-v2.webp", word: "meow" },
   hangulpop: { theme: "lavender", category: "SPEAK / 상황별 한국어", headline: "외운 한국어를,\n내 말로 만드는 시간.", screen: "/screens/hangul-pop-home-ko.jpg", word: "안녕" },
   "hangulpop-travel": { theme: "mint", category: "TRAVEL / 여행 한국어", headline: "한국 여행에서\n바로 쓰는 한국어.", screen: "/screens/hangul-pop-travel.jpg", word: "여행" },
+  "dasi-uri": { theme: "mint", category: "반려동물 추모", headline: "별빛 동산에서\n다시 만나는 우리", screen: "/screens/dasi-uri.webp", word: "" },
   gachapop: { theme: "lime", category: "COLLECT / 캡슐 뽑기 수집", headline: "두근두근 캡슐 속,\n오늘의 친구는?", screen: "/screens/gachapop.jpg", word: "gacha" },
 };
 function StoreIcon({ apple = false }: { apple?: boolean }) {
@@ -21,6 +22,7 @@ export default function GameCard({ game, locale = "ko" }: { game: Game; locale?:
     wakppop: { category: "RELAX / ASMR PLAYGROUND", headline: "Tap. Crunch. Squish.\nTake a little break." },
     "color-sense": { category: "PLAY / CAT COLOR PUZZLE", headline: "One different cat.\nCan you spot it?" },
     "hangulpop-travel": { category: "TRAVEL / PRACTICAL KOREAN", headline: "Korean for\nyour next trip." },
+    "dasi-uri": { category: "PET MEMORIAL", headline: "A quiet garden\nto remember them" },
     gachapop: { category: "COLLECT / CAPSULE TOYS", headline: "A little surprise.\nWho will you find?" },
     hangulpop: { category: "SPEAK / EVERYDAY KOREAN", headline: "Real situations.\nYour next conversation." },
   };
@@ -43,6 +45,7 @@ export default function GameCard({ game, locale = "ko" }: { game: Game; locale?:
           <p className="game-note">말하기 일치율은 원어민 발음 점수가 아닌, 음성으로 인식된 문장과 목표 문장의 비교 결과입니다. 무료·유료 기능을 제공합니다.</p>
         </>}
         {!game.appStoreUrl && !game.playStoreUrl ? <div className="store-links"><span className="store-coming">{en ? "Coming soon" : "출시 준비 중"}</span></div> : <div className="store-links">
+          {game.webUrl && <Link href={game.webUrl}>{en ? "Play on the web" : "웹에서 해보기"} <span><ArrowUpRight aria-hidden="true" /></span></Link>}
           {game.appStoreUrl && <a href={game.appStoreUrl} target="_blank" rel="noopener noreferrer" aria-label={en ? `Download ${game.titleKr} on the App Store` : `${game.titleKr} App Store에서 다운로드`}><StoreIcon apple /> App Store <span><ArrowUpRight aria-hidden="true" /></span></a>}
           {game.playStoreUrl && <a href={game.playStoreUrl} target="_blank" rel="noopener noreferrer" aria-label={en ? `Get ${game.titleKr} on Google Play` : `${game.titleKr} Google Play에서 다운로드`}><StoreIcon /> Google Play <span><ArrowUpRight aria-hidden="true" /></span></a>}
         </div>}

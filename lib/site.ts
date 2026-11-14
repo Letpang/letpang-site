@@ -4,6 +4,17 @@ export const SITE = {
   description: "감성적인 캐주얼 모바일 게임을 만드는 인디 게임 스튜디오",
   email: "hello@letpang.com",
   games: {
+    dasiUri: {
+      id: "dasi-uri",
+      title: "Rainbow Bridge: Pet Memorial",
+      titleKr: "무지개다리: 다시, 우리 (펫로스 추모)",
+      description: "Remember your dog or cat in a quiet garden. Light a candle, write a letter, and save moments together.",
+      descriptionKr: "그리운 강아지와 고양이를 별빛 동산에서 다시 만나요. 촛불을 밝히고, 편지를 쓰고, 함께한 순간을 사진으로 남겨요.",
+      playStoreUrl: "https://play.google.com/store/apps/details?id=com.letpang.dasiuri",
+      appStoreUrl: "",
+      iconUrl: "/icons/dasi-uri.png",
+      webUrl: "/dasi-uri/index.html",
+    },
     hanja: {
       id: "hanja-explorer",
       title: "Hanja Pop",
