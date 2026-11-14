@@ -25,6 +25,7 @@ export default function HomePage() {
           <figcaption><span className="status-dot" /> LITTLE WORLDS, ONE HAPPY PLACE.</figcaption>
         </figure>
       </section>
+      <DasiUriFeature />
       <div className="studio-strip" aria-label="렛팡이 만드는 즐거움">
         <div className="strip-item"><ClayIcon kind="book" /><div><span>LEARN A LITTLE</span><p>조금씩 배우고</p></div></div>
         <div className="strip-item"><ClayIcon kind="play" /><div><span>PLAY A LOT</span><p>마음껏 놀고</p></div></div>
@@ -32,7 +33,7 @@ export default function HomePage() {
       </div>
       <section className="portfolio-section" id="games" aria-labelledby="games-heading">
         <div className="section-heading"><div><p className="eyebrow">01 / OUR LITTLE WORLDS</p><h2 id="games-heading">취향대로 골라요.<br /><span>즐거움은 여러 가지니까.</span></h2></div><p className="section-note">배우고 싶은 날도, 쉬고 싶은 날도.<br />지금의 기분에 맞는 게임을 만나보세요.</p></div>
-        <div className="portfolio-grid">{games.map(game => <GameCard key={game.id} game={game} />)}<DasiUriFeature /></div>
+        <div className="portfolio-grid">{games.map(game => <GameCard key={game.id} game={game} />)}</div>
       </section>
       <section className="studio-story" aria-labelledby="story-heading">
         <div className="story-intro"><p className="eyebrow">02 / THE WAY WE MAKE</p><h2 id="story-heading">작지만,<br />마음은 가득.</h2><Link href="/about" className="text-link">렛팡 이야기 더 보기 <span>↗</span></Link></div>

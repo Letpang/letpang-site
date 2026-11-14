@@ -534,3 +534,5 @@ h1,h2,h3,h4,p { margin-top: 0; }
 
 .dasi-actions { display: flex; flex-wrap: wrap; gap: 10px; }
 .dasi-web-button { background: #fffdf8; color: #49366e; border: 1px solid #c6bcdc; }
+
+.studio-hero + .dasi-feature { margin-block: 24px 48px; }

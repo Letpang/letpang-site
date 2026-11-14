@@ -162,6 +162,7 @@ textarea{width:100%;min-height:96px;border:1px solid var(--line);border-radius:1
 .av{width:44px;height:66px;pointer-events:none}
 .av .fl{width:100%;height:100%}
 .av.left .fl{transform:scaleX(-1)}
+.world .garden-playmate{pointer-events:none}
 .av.walk .fl > *{animation:bob .28s ease-in-out infinite alternate}
 .av .tag{position:absolute;left:50%;top:-14px;transform:translateX(-50%);font-family:var(--display);font-size:12px;background:rgba(255,255,255,.92);color:var(--ink);padding:0 7px;border-radius:99px;white-space:nowrap;box-shadow:0 1px 2px rgba(0,0,0,.15)}
 .av.me .tag{background:var(--star);color:#3a2a06}
@@ -2751,6 +2752,7 @@ function yCompanionSpot(me,followTrail){
   return {x:me.x,y:me.y};
 }
 
+var gardenReducedMotion=matchMedia("(prefers-reduced-motion: reduce)");
 var Y={overview:false,k:1,cam:{x:0,y:0},me:null,npcs:[],target:null,sel:null,near:null,built:false,last:0,shown:null};
 function yBg(){
   return DreamGarden.background()+[[917,849],[924,866],[932,883]].map(function(point){
@@ -2799,8 +2801,33 @@ function buildYard(){
   STRUCTS.forEach(function(s){var d=document.createElement("div");d.className="st";d.id="st-"+s.id;d.style.cssText="left:"+(s.x-s.w/2)+"px;top:"+(s.y-s.h)+"px;width:"+s.w+"px;height:"+s.h+"px;z-index:"+s.y;d.innerHTML=stSVG(s.id)+landmarkLabel(s);w.appendChild(d)});
   var mk=document.createElement("div");mk.className="marker";mk.id="ymark";mk.style.display="none";w.appendChild(mk);
   Y.me={x:600,y:915,el:avEl(ME(),"나",true)};w.appendChild(Y.me.el);yPlace(Y.me);
-  Y.npcs=SAMPLE.slice(0,5).map(function(p,i){var o={p:p,x:240+(i*163)%720,y:600+(i*157)%600,el:avEl(LOOKS[1+i%7],p.name+" 보호자",false,i),t:null,wait:Math.random()*3000,sp:26+Math.random()*18};Object.assign(o,yLandPoint(o.x,o.y));w.appendChild(o.el);yPlace(o);return o});
+  Y.npcs=SAMPLE.slice(0,5).map(function(p,i){var starts=[[440,856],[726,895],[554,1037],[850,1030],[370,1010]],start=starts[i];var o={p:p,x:start[0],y:start[1],el:avEl(LOOKS[1+i%7],p.name+" 보호자",false,i),t:null,wait:Math.random()*3000,sp:26+Math.random()*18};Object.assign(o,yLandPoint(o.x,o.y));w.appendChild(o.el);yPlace(o);
+    var pet=makeDog(),breed=i%2===1?Object.keys(PRESETS).filter(function(key){return PRESETS[key].sp==="cat"})[Math.floor(i/2)]||p.breed:p.breed;
+    pet.classList.add("garden-companion","garden-playmate");
+    pet.style.width=pet.style.height="68px";
+    pet.setAttribute("aria-hidden","true");
+    pet.querySelector(".body-svg").innerHTML=paintedPet(breed,{});
+    o.playmate=Object.assign(yCompanionSpot(o),{el:pet,breed:breed,phase:i*1.7});
+    w.appendChild(pet);placeGardenPlaymate(o.playmate);return o});
   Y.built=true;
+}
+function placeGardenPlaymate(pet){
+  pet.el.style.left=(pet.x-34)+"px";
+  pet.el.style.top=(pet.y-65)+"px";
+  pet.el.style.zIndex=Math.round(pet.y);
+}
+function stepGardenPlaymate(guardian,t,dt){
+  var pet=guardian.playmate, angle=t/1250+pet.phase;
+  var spot=yLandPoint(guardian.x+Math.cos(angle)*54,guardian.y+Math.sin(angle)*32+12);
+  var step=yAdvance(pet,spot.x,spot.y,100,dt,5);
+  pet.el.classList.toggle("walk",!!step);
+  if(step&&Math.abs(step.dx)>2)pet.el.classList.toggle("face-right",step.dx>0);
+  var mode=step?"walk":"idle";
+  if(mode!==pet.mode){
+    pet.mode=mode;
+    pet.el.querySelector(".body-svg").innerHTML=paintedPet(pet.breed,step?{facing:"side"}:{});
+  }
+  placeGardenPlaymate(pet);
 }
 function yPlacePet(){if(!Y.pet)return;var p=Y.pet;p.el.style.left=(p.x-40)+"px";p.el.style.top=(p.y-76)+"px";p.el.style.zIndex=yOnBridge(p)?901:Math.round(p.y)}
 function yPetStep(dt){
@@ -2874,7 +2901,7 @@ function yLoop(t){
       $("ymark").style.display="none";
       Y.target=null;
     }
-    Y.npcs.forEach(function(o){if(Y.sel===o){o.el.classList.remove("walk");return}if(!o.t){o.wait-=dt;if(o.wait<=0){o.t={x:190+Math.random()*820,y:530+Math.random()*720}}return}if(yStep(o,o.t.x,o.t.y,o.sp,dt)){o.t=null;o.wait=1500+Math.random()*4000}});
+    if(!gardenReducedMotion.matches)Y.npcs.forEach(function(o){stepGardenPlaymate(o,t,dt);if(Y.sel===o){o.el.classList.remove("walk");return}if(!o.t){o.wait-=dt;if(o.wait<=0){o.t={x:190+Math.random()*820,y:530+Math.random()*720}}return}if(yStep(o,o.t.x,o.t.y,o.sp,dt)){o.t=null;o.wait=1500+Math.random()*4000}});
     yPetStep(dt);yCam();yNear();
     if(destination)runYardAction(destination);
     else if(revealAction&&$("yact").classList.contains("on"))$("yact").scrollIntoView({block:"nearest",behavior:"smooth"});
