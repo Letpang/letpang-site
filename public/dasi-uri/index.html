@@ -264,7 +264,13 @@ textarea{width:100%;min-height:96px;border:1px solid var(--line);border-radius:1
 #studio-canvas{width:100%;height:auto;display:block;border-radius:12px;touch-action:none}
 .row{display:flex;gap:8px}
 .row>*{flex:1}
-.pet-watercolor [hidden]{display:none!important}
+.pet-watercolor{display:grid;gap:12px;margin:16px 0 20px;padding:14px;background:#f8f7ef;border:1px solid var(--line);border-radius:16px;min-width:0}
+.pet-watercolor>.hint,.pet-watercolor>.f{margin:0}
+.pet-watercolor>.hint:empty,.pet-watercolor [hidden]{display:none!important}
+.pet-watercolor>.f:focus-within{outline:none}
+.pet-watercolor select{display:block;width:100%;box-sizing:border-box;margin-top:6px;min-height:44px;padding:8px 12px;border:1px solid var(--line);border-radius:12px;background:var(--paper,#fffdf8);color:inherit;font:inherit}
+.pet-watercolor select:focus-visible{outline:2px solid var(--star);outline-offset:2px}
+#e-avatar-generate{width:100%;margin:0}
 .avatar-choices .btn{min-width:0;overflow-wrap:anywhere}
 .avatar-choices .btn[aria-pressed="true"]{outline:2px solid currentColor;outline-offset:-2px}
 .filebtn{position:relative;display:flex;align-items:center;justify-content:center;border-radius:14px;padding:13px 8px;background:var(--soft);font-family:var(--display);font-size:15px;cursor:pointer;text-align:center}
