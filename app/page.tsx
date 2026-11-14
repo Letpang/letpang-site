@@ -5,7 +5,7 @@ import GameCard from "@/components/GameCard";
 import { ArrowIcon, ClayIcon } from "@/components/StudioIcon";
 import { SITE } from "@/lib/site";
 
-const games = [SITE.games.hangulPop, SITE.games.hangulPopTravel, SITE.games.hanja, SITE.games.wakppop, SITE.games.gachaPop, SITE.games.colorSense, SITE.games.dasiUri];
+const games = [SITE.games.hangulPop, SITE.games.hangulPopTravel, SITE.games.hanja, SITE.games.wakppop, SITE.games.gachaPop, SITE.games.colorSense];
 function Spark({ className = "" }: { className?: string }) {
   return <svg className={className} viewBox="0 0 40 40" fill="none" aria-hidden="true"><path d="M20 0C20 14 26 20 40 20C26 20 20 26 20 40C20 26 14 20 0 20C14 20 20 14 20 0Z" fill="currentColor" /></svg>;
 }

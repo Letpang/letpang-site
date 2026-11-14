@@ -2625,7 +2625,7 @@ function showAvatarNotice(message,action){
   avatarNotice.appendChild(button);
 }
 async function generatePetArtwork(jpeg,species,style){
-  var avatarEndpoint = ["letpang.com","www.letpang.com"].includes(location.hostname)
+  var avatarEndpoint = ["letpang.com","www.letpang.com"].includes(location.hostname) || window.Capacitor?.isNativePlatform?.()
     ? "https://dasi-uri-pet-avatar.dasi-pet-worker.workers.dev/api/pet-avatar"
     : "/api/pet-avatar";
   var response=await fetch(avatarEndpoint,{method:"POST",headers:{"Content-Type":"image/jpeg","X-Pet-Species":species,"X-Pet-Style":style},body:jpeg,signal:AbortSignal.timeout(160000)});

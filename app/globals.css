@@ -524,7 +524,9 @@ h1,h2,h3,h4,p { margin-top: 0; }
   background: #f0f1fa;
 }
 .dasi-copy { align-self: center; padding: clamp(24px, 5vw, 56px); color: #29283e; }
-.dasi-copy h3 { margin: 8px 0 12px; font-size: clamp(2rem, 4vw, 3.5rem); line-height: 1.1; }
+.dasi-title-row { display: flex; align-items: center; gap: 16px; margin: 12px 0 16px; }
+.dasi-app-icon { flex: none; width: clamp(48px, 6vw, 72px); height: auto; border-radius: 22%; }
+.dasi-copy h3 { margin: 0; font-size: clamp(1.35rem, 3vw, 2.7rem); line-height: 1.2; word-break: keep-all; overflow-wrap: anywhere; }
 .dasi-copy > p:not(.eyebrow) { max-width: 34ch; margin: 0 0 22px; line-height: 1.65; }
 
 @media (max-width: 600px) {

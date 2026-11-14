@@ -8,10 +8,13 @@ export default function DasiUriFeature({ locale = "ko" }: { locale?: "ko" | "en"
     <article className="dasi-feature" aria-labelledby="dasi-title">
       <div className="dasi-copy" lang={locale}>
         <p className="eyebrow">{english ? "A GARDEN OF MEMORIES" : "반려동물 추모 게임"}</p>
-        <h3 id="dasi-title">{english ? "Dasi Uri" : "다시 우리"}</h3>
+        <div className="dasi-title-row">
+          <Image className="dasi-app-icon" src="/icons/dasi-uri.png" alt="" width={72} height={72} />
+          <h3 id="dasi-title">{english ? "Rainbow Bridge: Pet Memorial" : "무지개다리: 다시, 우리 (펫로스 추모)"}</h3>
+        </div>
         <p>{english
-          ? "Meet a beloved pet again in a starlit garden. Light a candle, walk together, and keep the moments you miss in photos and letters."
-          : "별빛 동산에서 그리운 반려동물을 다시 만나요. 촛불을 밝히고 함께 산책하며, 오래 간직하고 싶은 순간을 사진과 편지로 남겨요."}</p>
+          ? "Turn a photo of your dog or cat into a watercolor portrait and choose between two styles. Light a candle, walk together in the starlit garden, and save your favorite moments in the album."
+          : "강아지나 고양이 사진 한 장으로 두 가지 수채화 그림체를 만들어 골라 보세요. 촛불을 밝히면 별빛 동산에서 아이를 다시 만나 함께 산책하고, 추억을 앨범에 남길 수 있어요."}</p>
         <div className="dasi-actions">
           <a className="button button-dark" href={playUrl}>{english ? "Get it on Google Play" : "Google Play에서 받기"}</a>
           <a className="button dasi-web-button" href="/dasi-uri/index.html">{english ? "Play on the web" : "웹에서 바로 하기"}</a>
