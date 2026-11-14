@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>다시 우리 — 다시 만나는 우리</title>
+<title>무지개다리: 다시, 우리 (펫로스 추모)</title>
 <meta name="theme-color" content="#f8f7f2">
 <meta name="description" content="보고 싶은 마음이 머무는 자리. 우리 아이를 기억하고, 함께하고 싶었던 순간을 만들어 가요.">
 <style>
@@ -264,6 +264,9 @@ textarea{width:100%;min-height:96px;border:1px solid var(--line);border-radius:1
 #studio-canvas{width:100%;height:auto;display:block;border-radius:12px;touch-action:none}
 .row{display:flex;gap:8px}
 .row>*{flex:1}
+.pet-watercolor [hidden]{display:none!important}
+.avatar-choices .btn{min-width:0;overflow-wrap:anywhere}
+.avatar-choices .btn[aria-pressed="true"]{outline:2px solid currentColor;outline-offset:-2px}
 .filebtn{position:relative;display:flex;align-items:center;justify-content:center;border-radius:14px;padding:13px 8px;background:var(--soft);font-family:var(--display);font-size:15px;cursor:pointer;text-align:center}
 .filebtn input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%}
 .layersel{display:flex;gap:8px;align-items:center;font-size:14px;color:var(--muted)}
@@ -2561,6 +2564,40 @@ function lookPicker(L,cb){
   return function(){view="front";draw()};
 }
 var avatarJob=null;
+async function transparentAvatar(source){
+  var portrait=new Image();
+  portrait.src=source;
+  await portrait.decode();
+  var canvas=document.createElement("canvas");
+  var width=canvas.width=512,height=canvas.height=512;
+  var context=canvas.getContext("2d",{willReadFrequently:true});
+  context.drawImage(portrait,0,0,width,height);
+  var image=context.getImageData(0,0,width,height),pixels=image.data;
+  var visited=new Uint8Array(width*height),queue=new Int32Array(width*height);
+  var count=0,removed=0;
+  function visit(index){
+    if(visited[index])return;
+    visited[index]=1;
+    var p=index*4,min=Math.min(pixels[p],pixels[p+1],pixels[p+2]);
+    var max=Math.max(pixels[p],pixels[p+1],pixels[p+2]);
+    if(pixels[p+3]!==0&&(min<235||max-min>16))return;
+    queue[count++]=index;
+    if(pixels[p+3])removed++;
+    pixels[p+3]=0;
+  }
+  for(var x=0;x<width;x++){visit(x);visit((height-1)*width+x)}
+  for(var y=1;y<height-1;y++){visit(y*width);visit(y*width+width-1)}
+  for(var i=0;i<count;i++){
+    var index=queue[i],column=index%width;
+    if(column>0)visit(index-1);
+    if(column<width-1)visit(index+1);
+    if(index>=width)visit(index-width);
+    if(index<width*(height-1))visit(index+width);
+  }
+  if(!removed&&source.startsWith("data:image/webp;"))return source;
+  if(count<width*height*.98)context.putImageData(image,0,0);
+  return canvas.toDataURL("image/webp",.88);
+}
 var avatarNotice=document.createElement("div");
 avatarNotice.setAttribute("role","status");
 avatarNotice.style.cssText="position:fixed;top:max(12px,env(safe-area-inset-top));left:50%;transform:translateX(-50%);z-index:59;width:max-content;max-width:92vw;padding:8px 14px;border:1px solid #d7dfcf;border-radius:18px;background:#faf8ee;color:#30483c;box-shadow:0 4px 16px #30483c26";
@@ -2577,68 +2614,124 @@ function showAvatarNotice(message,action){
   button.onclick=action;
   avatarNotice.appendChild(button);
 }
-async function generatePetArtwork(file,species,style){
+async function generatePetArtwork(jpeg,species,style){
   var avatarEndpoint = ["letpang.com","www.letpang.com"].includes(location.hostname)
     ? "https://dasi-uri-pet-avatar.dasi-pet-worker.workers.dev/api/pet-avatar"
     : "/api/pet-avatar";
-      var jpeg=await shrink(file,500);
-      var response=await fetch(avatarEndpoint,{method:"POST",headers:{"Content-Type":"image/jpeg","X-Pet-Species":species,"X-Pet-Style":style},body:await (await fetch(jpeg)).blob(),signal:AbortSignal.timeout(160000)});
-      var result=await response.json().catch(function(){return {}});
-      if(!response.ok||!result.image)throw new Error(result.error||"이미지 생성 서비스에 연결할 수 없어요.");
-      var portrait=new Image();
-      portrait.src="data:image/png;base64,"+result.image;
-      await portrait.decode();
-      var canvas=document.createElement("canvas");
-      canvas.width=canvas.height=512;
-      canvas.getContext("2d").drawImage(portrait,0,0,512,512);
-      var artwork=canvas.toDataURL("image/webp",.88);
-      if(!artwork.startsWith("data:image/webp;"))throw new Error("이 브라우저에서는 그림을 저장할 수 없어요.");
-      return artwork;
+  var response=await fetch(avatarEndpoint,{method:"POST",headers:{"Content-Type":"image/jpeg","X-Pet-Species":species,"X-Pet-Style":style},body:jpeg,signal:AbortSignal.timeout(160000)});
+  var result=await response.json().catch(function(){return {}});
+  if(!response.ok||!result.image)throw new Error(result.error||"이미지 생성 서비스에 연결할 수 없어요.");
+  var artwork=await transparentAvatar("data:image/png;base64,"+result.image);
+  if(!artwork.startsWith("data:image/webp;"))throw new Error("이 브라우저에서는 그림을 저장할 수 없어요.");
+  return artwork;
 }
 function openEdit(draft){
   if(!draft||!draft.artwork)draft=null;
   var P=S.pet,look=Object.assign({},lookOf(P.breed)),photo=P.photo;
   if(draft){look=Object.assign({},draft.look);photo=draft.photo}
   openModal('<div class="pet-editor"><h2>우리 아이 정보</h2><label class="f" for="e-name">이름<input id="e-name" maxlength="10" value="'+esc(P.example?"":P.name)+'" placeholder="예: 콩이"></label><div class="f" style="font-size:14px;color:var(--muted)">어떤 모습인가요?</div><div id="lk" class="lk"></div><div class="pet-watercolor"><label class="filebtn">사진으로 수채화 그리기<input type="file" accept="image/*" id="e-avatar-photo"></label><p class="hint">우리 아이의 얼굴과 털무늬가 잘 보이는 사진 한 장을 골라 주세요. 사진은 그림을 만드는 서버로 전송돼요.</p><label class="f" for="e-avatar-style">그림체<select id="e-avatar-style"><option value="rounded">동글동글한 동화 수채화</option><option value="natural">사진 느낌의 수채화</option></select></label><button type="button" class="btn" id="e-avatar-generate" disabled>사진 보내고 그림 만들기</button><p class="hint" id="e-avatar-status" role="status"></p></div><div class="row">'+dateField("e-born","태어난 날",draft?draft.born:P.born)+''+dateField("e-star","별이 된 날",draft?draft.star:P.star)+'</div><label class="filebtn">추모 사진 넣기 (선택)<input type="file" accept="image/*" id="e-photo"></label><p class="hint" id="e-photo-st">'+(photo?"사진이 들어가 있어요":"사진이 없으면 고른 모습의 그림이 보여요")+'</p><button type="button" class="btn primary" id="e-save">저장하기</button><button type="button" class="linkbtn" id="e-reset">처음 상태(예시)로 되돌리기</button></div>');
+  var redraw=lookPicker(look);
+  var avatarInput=$("e-avatar-photo"), generate=$("e-avatar-generate"), status=$("e-avatar-status");
+  var stylePicker=$("e-avatar-style");
+  var styleNames={rounded:"동글동글한 동화 수채화",natural:"사진 느낌의 수채화"};
   if(draft){
     $("e-name").value=draft.name;
-    $("e-avatar-status").textContent="새 그림을 미리 보고 저장해 주세요.";
+    avatarInput.closest("label").hidden=true;
+    avatarInput.closest("label").nextElementSibling.hidden=true;
+    stylePicker.closest("label").hidden=true;
+    generate.hidden=true;
+    status.textContent=draft.failed ? "다른 그림을 만들지 못했어요. 다시 시도할 수 있어요." : "마음에 드는 그림을 골라 저장해 주세요.";
+    var choices=document.createElement("div");
+    choices.className="row avatar-choices";
+    status.after(choices);
+    Object.keys(draft.results).forEach(function(style){
+      var button=document.createElement("button");
+      button.type="button";
+      button.className="btn";
+      button.setAttribute("aria-pressed",String(style===draft.style));
+      var preview=new Image();
+      preview.src=draft.results[style];
+      preview.alt="";
+      preview.style.cssText="display:block;width:100%;max-width:96px;margin:auto";
+      button.append(preview,styleNames[style]);
+      button.onclick=function(){
+        draft.style=style;
+        draft.artwork=draft.results[style];
+        draft.look.watercolor=look.watercolor=draft.artwork;
+        Array.from(choices.children).forEach(function(choice){choice.setAttribute("aria-pressed",String(choice===button))});
+        redraw();
+      };
+      choices.appendChild(button);
+    });
+    var otherStyle=draft.style==="rounded"?"natural":"rounded";
+    if(!draft.results[otherStyle]){
+      var alternate=document.createElement("button");
+      alternate.type="button";
+      alternate.className="btn";
+      alternate.textContent="다른 그림체로도 만들기";
+      alternate.onclick=function(){
+        captureDraft(draft);
+        makeAvatar(draft,otherStyle);
+      };
+      choices.after(alternate);
+    }
     var discard=document.createElement("button");
-    discard.type="button";discard.className="linkbtn";discard.textContent="새 그림 버리기";
+    discard.type="button";
+    discard.className="linkbtn";
+    discard.textContent="새 그림 버리기";
     discard.onclick=function(){avatarJob=null;showAvatarNotice("");openEdit()};
-    $("e-avatar-status").after(discard);
+    choices.parentNode.appendChild(discard);
     $("sheet").scrollTop=0;
   }
-  lookPicker(look);
-  var avatarInput=$("e-avatar-photo"), generate=$("e-avatar-generate"), status=$("e-avatar-status");
+  function captureDraft(pending){
+    Object.assign(pending,{originalPet:S.pet,name:$("e-name").value,born:$("e-born").value,star:$("e-star").value,photo:photo});
+  }
   avatarInput.onchange=function(){generate.disabled=!avatarInput.files.length;status.textContent=""};
-  generate.onclick=async function(){
-    var file=avatarInput.files[0],species=look.sp;
+  generate.onclick=function(){
+    var file=avatarInput.files[0];
     if(!file)return;
     if(file.size>20*1024*1024){status.textContent="20MB 이하 사진을 골라 주세요.";return}
     if(avatarJob){status.textContent="이미 그림을 만들고 있어요.";return}
-    var style=$("e-avatar-style").value;
-    var pending={originalPet:S.pet,name:$("e-name").value,born:$("e-born").value,star:$("e-star").value,look:Object.assign({},look),photo:photo};
+    var pending={file:file,species:look.sp,look:Object.assign({},look),results:{}};
+    captureDraft(pending);
     avatarJob=pending;
+    makeAvatar(pending,stylePicker.value);
+  };
+  async function makeAvatar(pending,style){
     closeModal();
     showAvatarNotice("그림을 그리는 중이에요. 동산을 둘러보세요.");
+    function previewResult(){
+      if(S.pet!==pending.originalPet){
+        pending.name=S.pet.name;pending.born=S.pet.born;pending.star=S.pet.star;pending.photo=S.pet.photo;
+      }
+      openEdit(pending);
+    }
     try{
-      var artwork=await generatePetArtwork(file,species,style);
+      if(!pending.jpeg){
+        var jpeg=await shrink(pending.file,512);
+        pending.jpeg=await (await fetch(jpeg)).blob();
+        pending.file=null;
+      }
+      var artwork=await generatePetArtwork(pending.jpeg,pending.species,style);
       if(avatarJob!==pending)return;
+      pending.results[style]=artwork;
+      pending.style=style;
       pending.artwork=artwork;
       pending.look.watercolor=artwork;
-      showAvatarNotice("우리 아이 그림이 도착했어요 · 미리 보기",function(){
-        if(S.pet!==pending.originalPet){
-          pending.name=S.pet.name;pending.born=S.pet.born;pending.star=S.pet.star;pending.photo=S.pet.photo;
-        }
-        openEdit(pending);
-      });
+      pending.failed=false;
+      if(Object.keys(pending.results).length===2)pending.jpeg=null;
+      showAvatarNotice("우리 아이 그림이 도착했어요 · 미리 보기",previewResult);
     }catch(error){
       if(avatarJob!==pending)return;
-      avatarJob=null;
-      showAvatarNotice("그림을 만들지 못했어요 · 다시 시도",function(){showAvatarNotice("");openEdit()});
+      if(pending.artwork){
+        pending.failed=true;
+        showAvatarNotice("다른 그림을 만들지 못했어요 · 미리 보기",previewResult);
+      }else{
+        avatarJob=null;
+        showAvatarNotice("그림을 만들지 못했어요 · 다시 시도",function(){showAvatarNotice("");openEdit()});
+      }
     }
-  };
+  }
   $("e-photo").onchange=function(){var f=this.files[0];if(!f)return;$("e-photo-st").textContent="사진을 준비하는 중…";shrink(f,700).then(function(u){photo=u;$("e-photo-st").textContent="사진이 들어갔어요"}).catch(function(){$("e-photo-st").textContent="이 사진은 열 수 없어요. 다른 사진을 골라 주세요."})};
   $("e-save").onclick=function(){var nm=$("e-name").value.trim();if(!nm){toast("이름을 적어 주세요");return}
     S.pet={name:nm,breed:look,born:$("e-born").value,star:$("e-star").value,photo:photo,example:false};
@@ -3291,7 +3384,8 @@ function openWelcome(step,draft){
     input.disabled=button.disabled=$("w-next").disabled=true;
     status.textContent="그림을 만드는 중이에요.";
     try{
-      var artwork=await generatePetArtwork(file,draft.breed.sp,"rounded");
+      var jpeg=await shrink(file,500);
+      var artwork=await generatePetArtwork(await (await fetch(jpeg)).blob(),draft.breed.sp,"rounded");
       if(!preview.isConnected)return;
       draft.artwork=artwork;
       showPortrait();
@@ -3348,6 +3442,15 @@ window.addEventListener("hashchange",route);
 document.querySelector("nav.tabs").addEventListener("click",function(e){var a=e.target.closest("a[data-tab]");if(!a)return;e.preventDefault();var t=a.dataset.tab;show(t);try{history.replaceState(null,"","#"+t)}catch(err){}});
 function renderAll(){if(outing.active&&!hasCompanion()){outing.active=false;outing.identity=null}renderPark();renderBucket();if(Y.built)yardInit()}
 renderAll();route();loadStudioPet();
+var savedAvatarLook=lookOf(S.pet.breed),savedAvatar=savedAvatarLook.watercolor;
+if(/^data:image\/webp;base64,[A-Za-z0-9+/=]+$/.test(savedAvatar||"")){
+  transparentAvatar(savedAvatar).then(function(cleaned){
+    if(lookOf(S.pet.breed)!==savedAvatarLook||savedAvatarLook.watercolor!==savedAvatar)return;
+    if(cleaned===savedAvatar||!cleaned.startsWith("data:image/webp;"))return;
+    savedAvatarLook.watercolor=cleaned;
+    save();renderAll();loadStudioPet();
+  }).catch(function(){});
+}
 if(!S.onboarded&&S.pet.example)setTimeout(function(){
  openModal('<div class="welcome-intro"><span class="eyebrow">다시 만나는 우리</span><div class="welcome-pet"><img class="welcome-pet-art" src="welcome-puppy.png" alt="" width="122" height="122"></div><h2>마음이 닿는 곳에서,<br>다시 우리.</h2><p>보고 싶은 아이를 기억하고,<br>같이 하고 싶었던 순간을 만들어 가요.<br>서두르지 않아도 괜찮아요.</p><button type="button" class="btn primary" id="intro-start">우리 아이와 시작하기</button><button type="button" class="text-link" id="intro-preview">먼저 천천히 둘러볼게요 →</button></div>');
  $("intro-start").onclick=function(){openWelcome(1)};
