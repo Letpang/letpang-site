@@ -2797,3 +2797,142 @@ painted-guardian > svg,painted-guardian > img {display:block;width:100%;height:1
 @media(prefers-reduced-motion:reduce){
   .camp-lit :is(.camp-flame,.camp-embers),.star.next:has(.camp-star-halo) {animation:none}
 }
+
+/* Keep the guardian grounded as the illustrated pose changes. */
+.person .pf {
+  position: relative;
+  transform-origin: 50% 95%;
+}
+.person-contact {
+  position: absolute;
+  left: 22%;
+  right: 22%;
+  bottom: 2%;
+  height: 5%;
+  border-radius: 50%;
+  background: #3a3923;
+  opacity: .17;
+  filter: blur(2px);
+}
+.ball-scene .person.welcoming .pf {
+  transform: translate(4%, 1%) rotate(4deg) scaleY(.96);
+}
+.person.walk .pf > * {
+  animation: guardian-step .44s ease-in-out infinite;
+  transform-origin: 50% 94%;
+}
+@keyframes guardian-step {
+  0%, 100% { transform: translateY(0) rotate(-2deg); }
+  25%, 75% { transform: translateY(-2.5%) rotate(0); }
+  50% { transform: translateY(0) rotate(2deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .person.walk .pf > *, .person.throw .pf { animation: none; }
+}
+
+/* Painted gestures already contain the bend. Keep the feet in place. */
+.guardian-reaching .pf {
+  animation: guardian-weight-shift .42s ease-in-out alternate 2;
+}
+@keyframes guardian-weight-shift {
+  to { transform: translateX(1.5%) scaleY(.985); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .guardian-reaching .pf { animation: none; }
+}
+
+.walking-art { display:none; position:absolute; inset:0; }
+.walking-art > div { position:absolute; inset:0; }
+.walk-torso { clip-path:inset(0 0 23%); }
+.walk-leg.near {
+  clip-path:inset(76% 50% 0 0);
+  transform:translate(var(--stride-x, 0px),var(--near-lift, 0px));
+}
+.walk-leg.far {
+  clip-path:inset(76% 0 0 50%);
+  transform:translate(calc(-1 * var(--stride-x, 0px)),var(--far-lift, 0px));
+}
+@media (prefers-reduced-motion:no-preference) {
+  .person.walk:has(.walking-art) .pf { visibility:hidden; }
+  .person.walk .walking-art { display:block; }
+  .person.walk.left .walking-art { transform:scaleX(-1); }
+}
+@media (prefers-reduced-motion:no-preference) {
+  .person.walk:not(.tracked-stride) .walk-leg.near { animation: guardian-foot .46s ease-in-out infinite; }
+  .person.walk:not(.tracked-stride) .walk-leg.far { animation: guardian-foot .46s ease-in-out -.23s infinite; }
+}
+@keyframes guardian-foot {
+  0%, 100% { transform:translate(-4%,0); }
+  50% { transform:translate(4%,-4%); }
+}
+
+.profile-walk {
+  background-image:url("guardian-walk-profile.webp");
+  background-repeat:no-repeat;
+  background-size:400% 200%;
+  background-position:calc(var(--walk-frame, 0) * 100% / 3) 0;
+}
+.profile-walk.long-hair { background-position-y:100%; }
+@media (prefers-reduced-motion:no-preference) {
+  .person.walk:not(.tracked-stride) .profile-walk { animation:profile-stride .68s steps(1) infinite; }
+}
+@keyframes profile-stride {
+  0% { background-position-x:0; }
+  25% { background-position-x:33.333%; }
+  50% { background-position-x:66.667%; }
+  75% { background-position-x:100%; }
+}
+
+/* Keep the wardrobe portrait above the animated stride. */
+.walking-art .walk-profile-top {
+  z-index:1;
+  clip-path:inset(0 0 53%);
+}
+.walking-art .profile-walk {
+  clip-path:inset(70% 0 0);
+}
+.walking-art .profile-walk {
+  background-color:var(--walk-color);
+  background-blend-mode:luminosity;
+  mask: url("guardian-walk-profile.webp") no-repeat;
+  mask-size:400% 200%;
+  mask-position:calc(var(--walk-frame, 0) * 100% / 3) 0;
+}
+@media (prefers-reduced-motion:no-preference) {
+  .person.walk:not(.tracked-stride) .profile-walk { animation:profile-colored-stride .68s steps(1) infinite; }
+}
+@keyframes profile-colored-stride {
+  0% { background-position-x:0; mask-position-x:0; }
+  25% { background-position-x:33.333%; mask-position-x:33.333%; }
+  50% { background-position-x:66.667%; mask-position-x:66.667%; }
+  75% { background-position-x:100%; mask-position-x:100%; }
+}
+
+.walking-art .walk-shirt { clip-path:inset(46% 0 30%); }
+.walking-art .walk-pants { clip-path:inset(70% 0 0); }
+.person.profile-rest:not(.walk) .profile-walk {
+  background-position-x:0;
+  mask-position-x:0;
+}
+@media (prefers-reduced-motion:no-preference) {
+  .person.profile-rest:not(.walk) .pf { visibility:hidden; }
+  .person.profile-rest:not(.walk) .walking-art { display:block; }
+  .person.profile-rest.left .walking-art { transform:scaleX(-1); }
+}
+
+.walking-art .walk-profile-top {
+  clip-path:polygon(0 0,100% 0,100% 47%,44% 47%,44% 60%,0 60%);
+}
+.walking-art .walk-shirt {
+  transform-origin:54% 49%;
+  transform:rotate(var(--arm-swing, 0deg));
+}
+.person.profile-rest:not(.walk) .walk-shirt { transform:none; }
+.person.profile-rest:not(.walk) .walk-pants {
+  background-position-x:100%;
+  mask-position-x:100%;
+}
+.person.profile-rest:not(.walk) .walk-shirt {
+  background-position-x:100%;
+  mask-position-x:100%;
+}

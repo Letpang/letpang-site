@@ -1,0 +1,89 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><style>body{margin:0;background:#eceefa;font-family:sans-serif}
+.g{display:grid;grid-template-columns:repeat(9,90px);gap:4px;padding:8px}.c{background:#fff;border-radius:8px}.c svg{width:90px;height:90px;display:block}
+h3{margin:8px;font-size:14px}</style></head><body><div id="o"></div><script>function catMarkup(B,o){
+  var ink="#2b2233",ln=B.dark?"#fbf8f2":ink,light=B.patch||"rgba(255,255,255,.45)",ol=' stroke="rgba(43,34,51,.14)" stroke-width="2"',s="";
+  s+='<path class="tail" d="M140 166 C176 168 186 132 170 104 C166 96 158 98 162 106 C172 128 166 152 138 154" fill="'+B.fur+'"'+ol+'/>';
+  s+='<ellipse cx="100" cy="146" rx="46" ry="40" fill="'+B.fur+'"'+ol+'/>';
+  s+='<ellipse cx="100" cy="140" rx="22" ry="27" fill="'+light+'"/>';
+  if(B.calico)s+='<ellipse cx="128" cy="150" rx="16" ry="12" fill="#e9a35a"/><ellipse cx="76" cy="160" rx="12" ry="9" fill="#3b3742"/>';
+  if(B.spots)s+='<ellipse cx="126" cy="150" rx="13" ry="10" fill="'+B.spots+'"/><ellipse cx="76" cy="160" rx="9" ry="7" fill="'+B.spots+'"/>';
+  if(B.stripe)s+='<path d="M64 138 q8 4 4 14 M136 138 q-8 4 -4 14 M70 160 q8 2 6 12 M130 160 q-8 2 -6 12" stroke="'+B.stripe+'" stroke-width="5" fill="none" stroke-linecap="round"/>';
+  s+='<ellipse cx="80" cy="182" rx="14" ry="8" fill="'+(B.tux?"#fbf8f2":B.fur)+'"'+ol+'/><ellipse cx="120" cy="182" rx="14" ry="8" fill="'+(B.tux?"#fbf8f2":B.fur)+'"'+ol+'/>';
+  s+='<path d="M66 118 Q100 136 134 118" stroke="#e8566b" stroke-width="7" stroke-linecap="round" fill="none"/><circle cx="100" cy="130" r="5" fill="#f4b740"/>';
+  if(B.ear==="fold")s+='<path d="M60 62 Q66 40 94 50 Q80 58 60 62Z" fill="'+shade(B.fur,.9)+'"'+ol+'/><path d="M140 62 Q134 40 106 50 Q120 58 140 62Z" fill="'+shade(B.fur,.9)+'"'+ol+'/>';
+  else s+='<path d="M60 70 L64 24 L96 50Z" fill="'+B.fur+'"'+ol+'/><path d="M140 70 L136 24 L104 50Z" fill="'+B.fur+'"'+ol+'/><path d="M67 62 L69 36 L87 50Z" fill="#f2b3a3"/><path d="M133 62 L131 36 L113 50Z" fill="#f2b3a3"/>';
+  s+='<ellipse cx="100" cy="84" rx="46" ry="41" fill="'+B.fur+'"'+ol+'/>';
+  if(B.calico)s+='<path d="M60 74 Q66 46 92 46 Q84 66 70 92Z" fill="#e9a35a"/><path d="M140 70 Q134 48 112 46 Q118 62 132 80Z" fill="#3b3742"/>';
+  if(B.stripe)s+='<path d="M90 48 v12 M100 46 v14 M110 48 v12" stroke="'+B.stripe+'" stroke-width="4.5" stroke-linecap="round"/>';
+  if(B.spots)s+='<ellipse cx="124" cy="66" rx="12" ry="10" fill="'+B.spots+'"/>';
+  if(B.patch&&B.tux)s+='<path d="M100 70 Q78 86 80 104 Q100 118 120 104 Q122 86 100 70Z" fill="'+B.patch+'"/>';
+  else s+='<ellipse cx="100" cy="100" rx="20" ry="13" fill="'+light+'"/>';
+  s+='<circle cx="72" cy="96" r="7" fill="#f4a3b0" opacity=".45"/><circle cx="128" cy="96" r="7" fill="#f4a3b0" opacity=".45"/>';
+  if(o.eyes==="happy")s+='<path d="M74 82 Q81 73 88 82" stroke="'+ln+'" stroke-width="3.5" stroke-linecap="round" fill="none"/><path d="M112 82 Q119 73 126 82" stroke="'+ln+'" stroke-width="3.5" stroke-linecap="round" fill="none"/>';
+  else s+='<ellipse cx="81" cy="80" rx="7" ry="8" fill="'+(B.eye||"#f4cf6b")+'"/><ellipse cx="119" cy="80" rx="7" ry="8" fill="'+(B.eye||"#f4cf6b")+'"/><ellipse cx="81" cy="81" rx="2.6" ry="6.5" fill="'+ink+'"/><ellipse cx="119" cy="81" rx="2.6" ry="6.5" fill="'+ink+'"/><circle cx="83" cy="77" r="1.8" fill="#fff"/><circle cx="121" cy="77" r="1.8" fill="#fff"/>';
+  s+='<path d="M95 93 L105 93 L100 99Z" fill="#f08a9a"/>';
+  if(o.tongue)s+='<path d="M96 104 Q100 112 104 104Z" fill="#f08a9a"/>';
+  s+='<path d="M100 99 Q95 106 89 102 M100 99 Q105 106 111 102" stroke="'+ln+'" stroke-width="2.4" stroke-linecap="round" fill="none"/>';
+  s+='<path d="M62 96 L38 92 M62 102 L38 104 M138 96 L162 92 M138 102 L162 104" stroke="'+ln+'" stroke-width="1.6" stroke-linecap="round" opacity=".55"/>';
+  return s;
+}
+var FURS=[["#fbf8f2","흰색"],["#f2e3c6","크림"],["#e2b48a","살구"],["#eeb064","황금"],["#b07a4f","갈색"],["#6e4b38","초코"],["#a3a6ad","회색"],["#8e9cb0","푸른 회색"],["#3b3742","검정"]];
+var EARS={dog:["up","fold","drop","curly"],cat:["up","fold"]};
+var PATS={dog:["none","mask","spots","stripe","tux","saddle","blaze"],cat:["none","mask","stripe","spots","tux","calico"]};
+var PRESETS={
+  maltese:{sp:"dog",ear:"drop",fur:"#fbf8f2",pat:"none"},poodle:{sp:"dog",ear:"curly",fur:"#e2b48a",pat:"none"},shiba:{sp:"dog",ear:"up",fur:"#eeb064",pat:"mask"},
+  corgi:{sp:"dog",ear:"up",fur:"#eeb064",pat:"tux"},jindo:{sp:"dog",ear:"up",fur:"#f2e3c6",pat:"none"},mix:{sp:"dog",ear:"drop",fur:"#b07a4f",pat:"mask"},
+  d7:{sp:"dog",ear:"drop",fur:"#3b3742",pat:"tux"},d8:{sp:"dog",ear:"fold",fur:"#a3a6ad",pat:"none"},d9:{sp:"dog",ear:"drop",fur:"#6e4b38",pat:"none"},
+  d10:{sp:"dog",ear:"up",fur:"#fbf8f2",pat:"none"},d11:{sp:"dog",ear:"fold",fur:"#eeb064",pat:"none"},d12:{sp:"dog",ear:"drop",fur:"#fbf8f2",pat:"spots"},
+  d13:{sp:"dog",ear:"curly",fur:"#fbf8f2",pat:"none"},d15:{sp:"dog",ear:"up",fur:"#eeb064",pat:"saddle"},d16:{sp:"dog",ear:"fold",fur:"#3b3742",pat:"blaze"},d17:{sp:"dog",ear:"up",fur:"#a3a6ad",pat:"blaze"},d18:{sp:"dog",ear:"fold",fur:"#6e4b38",pat:"blaze"},d14:{sp:"dog",ear:"fold",fur:"#b07a4f",pat:"stripe"},
+  cheese:{sp:"cat",ear:"up",fur:"#eeb064",pat:"stripe"},mackerel:{sp:"cat",ear:"up",fur:"#a3a6ad",pat:"stripe"},russian:{sp:"cat",ear:"up",fur:"#8e9cb0",pat:"none"},
+  calico:{sp:"cat",ear:"up",fur:"#fbf8f2",pat:"calico"},tuxedo:{sp:"cat",ear:"up",fur:"#3b3742",pat:"tux"},
+  c6:{sp:"cat",ear:"up",fur:"#fbf8f2",pat:"none"},c7:{sp:"cat",ear:"up",fur:"#3b3742",pat:"none"},c8:{sp:"cat",ear:"fold",fur:"#a3a6ad",pat:"none"},
+  c9:{sp:"cat",ear:"up",fur:"#e2b48a",pat:"mask"},c10:{sp:"cat",ear:"fold",fur:"#f2e3c6",pat:"stripe"},c11:{sp:"cat",ear:"up",fur:"#b07a4f",pat:"stripe"}
+};
+function lookOf(b){if(b&&typeof b==="object")return b;return PRESETS[b]||PRESETS.maltese}
+function shade(hex,k){var n=parseInt(hex.slice(1),16),c=[n>>16,n>>8&255,n&255].map(function(v){return Math.max(0,Math.min(255,Math.round(v*k))).toString(16).padStart(2,"0")});return "#"+c.join("")}
+function lum(hex){var n=parseInt(hex.slice(1),16);return((n>>16)*.299+(n>>8&255)*.587+(n&255)*.114)/255}
+function dogMarkup(breed,o){
+  o=o||{};var L=lookOf(breed),dark=lum(L.fur)<.35,light2=lum(L.fur)>.85,spotC=lum(L.fur)>.75?"#8a6a4f":shade(L.fur,.6);
+  if(L.sp==="cat")return catMarkup({fur:L.fur,dark:dark,ear:L.ear,tux:L.pat==="tux",patch:(L.pat==="mask"||L.pat==="tux")?"#fbf8f2":null,stripe:L.pat==="stripe"?shade(L.fur,.7):null,calico:L.pat==="calico",spots:L.pat==="spots"?spotC:null,eye:L.fur==="#8e9cb0"?"#9fd06a":lum(L.fur)>.9?"#8cc4f0":null},o);
+  var B={fur:L.fur,ear:shade(L.fur,light2?.93:.86),ears:{up:"pointy",drop:"floppy",curly:"curly",fold:"fold"}[L.ear],patch:(L.pat==="mask"||L.pat==="tux")?(light2?"#ffffff":"#fff6ea"):null};
+  if(L.pat==="blaze")B.patch="#fbf8f2";
+  var ink="#2b2233",ln=dark?"#fbf8f2":ink,light=B.patch||"rgba(255,255,255,.4)",s="",paw=(L.pat==="tux"||L.pat==="blaze")?"#fbf8f2":B.fur,sad=lum(L.fur)>.45?"#3b3742":shade(L.fur,.45);
+  var outline=' stroke="rgba(43,34,51,.12)" stroke-width="2"';
+  s+='<path class="tail" d="M146 152 C170 146 176 124 168 108" stroke="'+(L.pat==="saddle"?sad:B.fur)+'" stroke-width="15" stroke-linecap="round" fill="none"/>';
+  if(L.pat==="blaze")s+='<circle class="tail" cx="168" cy="110" r="7" fill="#fbf8f2"/>';
+  s+='<ellipse cx="100" cy="142" rx="52" ry="44" fill="'+B.fur+'"'+outline+'/>';
+  if(L.pat==="saddle")s+='<path d="M50 150 Q50 104 100 100 Q150 104 150 150 Q148 176 134 182 Q124 146 100 144 Q76 146 66 182 Q52 176 50 150Z" fill="'+sad+'"/><ellipse cx="100" cy="136" rx="27" ry="32" fill="'+B.fur+'"/>';
+  if(L.pat==="spots")s+='<ellipse cx="72" cy="148" rx="11" ry="9" fill="'+spotC+'"/><ellipse cx="128" cy="158" rx="13" ry="10" fill="'+spotC+'"/><ellipse cx="114" cy="174" rx="7" ry="5" fill="'+spotC+'"/>';
+  if(L.pat==="stripe")s+='<path d="M60 132 q10 6 6 18 M70 156 q10 4 8 16 M140 132 q-10 6 -6 18 M130 156 q-10 4 -8 16" stroke="'+shade(L.fur,.68)+'" stroke-width="5" fill="none" stroke-linecap="round"/>';
+  s+='<ellipse cx="100" cy="134" rx="26" ry="30" fill="'+light+'"/>';
+  s+='<ellipse cx="78" cy="182" rx="15" ry="9" fill="'+paw+'"'+outline+'/><ellipse cx="122" cy="182" rx="15" ry="9" fill="'+paw+'"'+outline+'/>';
+  s+='<path d="M64 114 Q100 134 136 114" stroke="#e8566b" stroke-width="7" stroke-linecap="round" fill="none"/><circle cx="100" cy="127" r="5" fill="#f4b740"/>';
+  if(B.ears==="pointy"){var eo=L.pat==="saddle"?shade(L.fur,.6):B.fur;s+='<path d="M60 56 L66 14 L96 40Z" fill="'+eo+'"'+outline+'/><path d="M140 56 L134 14 L104 40Z" fill="'+eo+'"'+outline+'/><path d="M68 48 L71 28 L88 40Z" fill="#f2b3a3"/><path d="M132 48 L129 28 L112 40Z" fill="#f2b3a3"/>'}
+  if(B.ears==="curly"){s+='<circle cx="100" cy="36" r="22" fill="'+B.fur+'"/><circle cx="84" cy="40" r="15" fill="'+B.fur+'"/><circle cx="116" cy="40" r="15" fill="'+B.fur+'"/>'}
+  s+='<circle cx="100" cy="78" r="46" fill="'+B.fur+'"'+outline+'/>';
+  if(B.ears==="fold"){s+='<path d="M58 50 Q70 30 96 40 L76 70Z" fill="'+B.ear+'"'+outline+'/><path d="M142 50 Q130 30 104 40 L124 70Z" fill="'+B.ear+'"'+outline+'/>'}
+  if(B.ears==="floppy"){s+='<ellipse cx="57" cy="84" rx="16" ry="30" transform="rotate(18 57 84)" fill="'+B.ear+'"/><ellipse cx="143" cy="84" rx="16" ry="30" transform="rotate(-18 143 84)" fill="'+B.ear+'"/>'}
+  if(B.ears==="curly"){s+='<circle cx="56" cy="80" r="17" fill="'+B.ear+'"/><circle cx="54" cy="102" r="14" fill="'+B.ear+'"/><circle cx="144" cy="80" r="17" fill="'+B.ear+'"/><circle cx="146" cy="102" r="14" fill="'+B.ear+'"/>'}
+  if(L.pat==="spots")s+='<ellipse cx="121" cy="72" rx="15" ry="12" fill="'+spotC+'"/>';
+  if(L.pat==="stripe")s+='<path d="M90 42 v10 M100 40 v12 M110 42 v10" stroke="'+shade(L.fur,.68)+'" stroke-width="4" stroke-linecap="round"/>';
+  if(L.pat==="tux")s+='<path d="M100 60 Q84 74 82 96 Q100 112 118 96 Q116 74 100 60Z" fill="'+B.patch+'"/>';
+  if(L.pat==="blaze")s+='<path d="M94 34 Q100 32 106 34 L110 84 Q100 90 90 84Z" fill="#fbf8f2"/>';
+  s+='<ellipse cx="100" cy="98" rx="25" ry="18" fill="'+light+'"/>';
+  if(L.pat==="mask"){s+='<ellipse cx="72" cy="94" rx="12" ry="9" fill="'+B.patch+'"/><ellipse cx="128" cy="94" rx="12" ry="9" fill="'+B.patch+'"/>'}
+  s+='<circle cx="72" cy="94" r="7" fill="#f4a3b0" opacity=".5"/><circle cx="128" cy="94" r="7" fill="#f4a3b0" opacity=".5"/>';
+  if(o.eyes==="happy"){s+='<path d="M75 79 Q82 70 89 79" stroke="'+ln+'" stroke-width="3.5" stroke-linecap="round" fill="none"/><path d="M111 79 Q118 70 125 79" stroke="'+ln+'" stroke-width="3.5" stroke-linecap="round" fill="none"/>'}
+  else{if(dark)s+='<circle cx="82" cy="76" r="8.5" fill="#fbf8f2"/><circle cx="118" cy="76" r="8.5" fill="#fbf8f2"/>';s+='<circle cx="82" cy="76" r="6" fill="'+ink+'"/><circle cx="118" cy="76" r="6" fill="'+ink+'"/><circle cx="84" cy="74" r="2" fill="#fff"/><circle cx="120" cy="74" r="2" fill="#fff"/>'}
+  if(L.pat==="saddle")s+='<ellipse cx="100" cy="94" rx="15" ry="11" fill="'+sad+'" opacity=".85"/><path d="M76 66 Q82 60 88 66 M112 66 Q118 60 124 66" stroke="'+sad+'" stroke-width="3" fill="none" opacity=".6"/>';
+  s+='<ellipse cx="100" cy="90" rx="7.5" ry="5.5" fill="'+ink+'"/>';
+  if(o.tongue){s+='<path d="M94 101 Q100 116 106 101Z" fill="#f08a9a"/>'}
+  s+='<path d="M100 95 Q94 103 88 100 M100 95 Q106 103 112 100" stroke="'+ink+'" stroke-width="2.5" stroke-linecap="round" fill="none"/>';
+  return s;
+}
+
+var o=document.getElementById("o"),h="";
+[["dog",EARS.dog,PATS.dog],["cat",EARS.cat,PATS.cat]].forEach(function(r){var sp=r[0];
+ h+="<h3>"+sp+": 귀 x 털색 (무늬 없음)</h3><div class=g>";r[1].forEach(function(e){FURS.forEach(function(f){h+="<div class=c><svg viewBox='0 0 200 200'>"+dogMarkup({sp:sp,ear:e,fur:f[0],pat:"none"},{})+"</svg></div>"})});h+="</div>";
+ h+="<h3>"+sp+": 무늬 x 털색 (기본 귀)</h3><div class=g>";r[2].forEach(function(t){FURS.forEach(function(f){h+="<div class=c><svg viewBox='0 0 200 200'>"+dogMarkup({sp:sp,ear:sp==="dog"?"drop":"up",fur:f[0],pat:t},{})+"</svg></div>"})});h+="</div>";});
+o.innerHTML=h;</script></body></html>

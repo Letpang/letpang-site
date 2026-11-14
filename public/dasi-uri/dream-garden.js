@@ -425,7 +425,7 @@
     return {x:left,y:top,width,height,footX:left+width*footX,footY:top+height*footY};
   }
 
-  function reachPlacement(look, pose, x, y, floor) {
+  function reachPlacement(look, pose, x, y, floor, maxHeight = Infinity) {
     const low = pose === 'low';
     const index = (low ? 2 : 0) + Number(!!look.long);
     const style = alternativeStyle(look);
@@ -433,7 +433,7 @@
       ? [reachAnchors[index][0],reachAnchors[index][1],reachFeet[index],reachAnchors[index][2]]
       : alternativeAnchors[style][pose]);
     const idealHeight = (floor - y) / (footY - handY);
-    const height = Math.max(low ? 116 : 145, Math.min(low ? 152 : 188, idealHeight));
+    const height = Math.min(maxHeight, Math.max(low ? 116 : 145, Math.min(low ? 152 : 188, idealHeight)));
     const width = height * 224 / 320;
     const left = x - width * handX, top = y - height * handY;
     return {x:left, y:top, width, height, footX:left + width * footX, footY:top + height * footY, pose};
