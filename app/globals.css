@@ -532,7 +532,17 @@ h1,h2,h3,h4,p { margin-top: 0; }
 
 }
 
-.dasi-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+.dasi-actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  max-width: 360px;
+}
+.dasi-actions .button {
+  padding: 8px 12px;
+  text-align: center;
+  line-height: 1.35;
+}
 .dasi-web-button { background: #fffdf8; color: #49366e; border: 1px solid #c6bcdc; }
 
 .studio-hero + .dasi-feature { margin-block: -8px 48px; }
