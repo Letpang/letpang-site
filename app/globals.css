@@ -531,3 +531,6 @@ h1,h2,h3,h4,p { margin-top: 0; }
   .dasi-feature { grid-template-columns: 1fr; }
   .dasi-feature > img { height: auto; min-height: 0; aspect-ratio: 16 / 9; }
 }
+
+.dasi-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+.dasi-web-button { background: #fffdf8; color: #49366e; border: 1px solid #c6bcdc; }
