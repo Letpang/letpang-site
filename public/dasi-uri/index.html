@@ -2580,7 +2580,7 @@ async function transparentAvatar(source){
     visited[index]=1;
     var p=index*4,min=Math.min(pixels[p],pixels[p+1],pixels[p+2]);
     var max=Math.max(pixels[p],pixels[p+1],pixels[p+2]);
-    if(pixels[p+3]!==0&&(min<235||max-min>16))return;
+    if(pixels[p+3]!==0&&(min<225||max-min>22))return;
     queue[count++]=index;
     if(pixels[p+3])removed++;
     pixels[p+3]=0;
@@ -2595,7 +2595,8 @@ async function transparentAvatar(source){
     if(index<width*(height-1))visit(index+width);
   }
   if(!removed&&source.startsWith("data:image/webp;"))return source;
-  if(count<width*height*.98)context.putImageData(image,0,0);
+  // Keep small portraits even when nearly all other pixels are background.
+  if(count<width*height)context.putImageData(image,0,0);
   return canvas.toDataURL("image/webp",.88);
 }
 var avatarNotice=document.createElement("div");
