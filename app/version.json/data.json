@@ -1,5 +1,5 @@
 {
-  "android": "2.9.31",
+  "android": "2.9.32",
   "ios": "2.9.32",
   "storeUrlIos": "https://apps.apple.com/app/id6762037956",
   "storeUrlAndroid": "https://play.google.com/store/apps/details?id=com.soujinne.hanjaexplorer",
@@ -8,12 +8,12 @@
   "apps": {
     "hangeulpop": {
       "ios": {
-        "latestVersion": "2.0.26",
+        "latestVersion": "2.0.27",
         "minimumVersion": "2.0.26",
         "storeUrl": "https://apps.apple.com/app/id6793157518"
       },
       "android": {
-        "latestVersion": "2.0.25",
+        "latestVersion": "2.0.27",
         "minimumVersion": "2.0.25",
         "storeUrl": "https://play.google.com/store/apps/details?id=com.dh.hangulstreet"
       }
