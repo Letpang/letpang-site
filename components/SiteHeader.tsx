@@ -8,9 +8,10 @@ import { useEffect } from "react";
 export default function SiteHeader() {
   const pathname = usePathname();
   const english = pathname === "/en" || pathname.startsWith("/en/");
+  const japanese = pathname === "/ja/games/wakppop";
   const base = english ? "/en" : "";
-  const switchPath = english ? (pathname.slice(3) || "/") : `/en${pathname === "/" ? "" : pathname}`;
-  useEffect(() => { document.documentElement.lang = english ? "en" : "ko"; }, [english]);
+  const switchPath = english ? (pathname.slice(3) || "/") : japanese ? "/en/games/wakppop" : `/en${pathname === "/" ? "" : pathname}`;
+  useEffect(() => { document.documentElement.lang = japanese ? "ja" : english ? "en" : "ko"; }, [english, japanese]);
   
   const navItems = [
     { href: `${base}/#games`, label: english ? "Games" : "게임" },
@@ -52,6 +53,7 @@ export default function SiteHeader() {
           </a>
         ))}
         <Link href={switchPath} className="language-switch" lang={english ? "ko" : "en"} aria-label={english ? "한국어로 보기" : "View in English"}>{english ? "KO" : "EN"}</Link>
+        <Link href={japanese ? "/games/wakppop" : "/ja/games/wakppop"} className="language-switch" lang={japanese ? "ko" : "ja"} aria-label={japanese ? "왁뿌팝 한국어 소개" : "ワップポップの日本語紹介"}>{japanese ? "KO" : "JP"}</Link>
       </nav>
     </div>
   );
