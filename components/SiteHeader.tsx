@@ -8,15 +8,15 @@ import { useEffect } from "react";
 export default function SiteHeader() {
   const pathname = usePathname();
   const english = pathname === "/en" || pathname.startsWith("/en/");
-  const japanese = pathname === "/ja/games/wakppop";
-  const base = english ? "/en" : "";
-  const switchPath = english ? (pathname.slice(3) || "/") : japanese ? "/en/games/wakppop" : `/en${pathname === "/" ? "" : pathname}`;
+  const japanese = pathname === "/ja" || pathname.startsWith("/ja/");
+  const base = japanese ? "/ja" : english ? "/en" : "";
+  const switchPath = english ? (pathname.slice(3) || "/") : japanese ? pathname.replace(/^\/ja/, "/en") : `/en${pathname === "/" ? "" : pathname}`;
   useEffect(() => { document.documentElement.lang = japanese ? "ja" : english ? "en" : "ko"; }, [english, japanese]);
   
   const navItems = [
-    { href: `${base}/#games`, label: english ? "Games" : "게임" },
-    { href: `${base}/about`, label: english ? "About" : "소개" },
-    { href: `${base}/support`, label: english ? "Support" : "고객지원" },
+    { href: `${base}/#games`, label: japanese ? "ゲーム" : english ? "Games" : "게임" },
+    { href: `${base}/about`, label: japanese ? "紹介" : english ? "About" : "소개" },
+    { href: `${base}/support`, label: japanese ? "サポート" : english ? "Support" : "고객지원" },
   ];
 
   const externalItems = [
@@ -53,7 +53,7 @@ export default function SiteHeader() {
           </a>
         ))}
         <Link href={switchPath} className="language-switch" lang={english ? "ko" : "en"} aria-label={english ? "한국어로 보기" : "View in English"}>{english ? "KO" : "EN"}</Link>
-        <Link href={japanese ? "/games/wakppop" : "/ja/games/wakppop"} className="language-switch" lang={japanese ? "ko" : "ja"} aria-label={japanese ? "왁뿌팝 한국어 소개" : "ワップポップの日本語紹介"}>{japanese ? "KO" : "JP"}</Link>
+        <Link href={japanese ? pathname.slice(3) || "/" : pathname.includes("/games/wakppop") ? "/ja/games/wakppop" : "/ja"} className="language-switch" lang={japanese ? "ko" : "ja"} aria-label={japanese ? "한국어로 보기" : "日本語で見る"}>{japanese ? "KO" : "JP"}</Link>
       </nav>
     </div>
   );

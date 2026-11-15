@@ -62,6 +62,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
       return Object.values(languages).map(url => ({ ...page, url, alternates: { languages } }));
     }
     const englishUrl = `${baseUrl}/en${path}`;
+    if (["", "/about", "/support"].includes(path)) {
+      const japaneseUrl = `${baseUrl}/ja${path}`;
+      const alternates = { languages: { ko: page.url, en: englishUrl, ja: japaneseUrl } };
+      return [page.url, englishUrl, japaneseUrl].map(url => ({ ...page, url, alternates }));
+    }
     const alternates = { languages: { ko: page.url, en: englishUrl } };
     return [{ ...page, alternates }, { ...page, url: englishUrl, alternates }];
   });
