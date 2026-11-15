@@ -2522,10 +2522,13 @@ function petPresetFor(breed){
     return preset.sp===breed.sp&&preset.ear===breed.ear&&preset.pat===breed.pat&&preset.fur===breed.fur;
   })||null;
 }
+function isPetArtwork(value){
+  return /^data:image\/(?:webp|png);base64,[A-Za-z0-9+/=]+$/.test(value||"");
+}
 function paintedPet(breed,options){
   options=options||{};
   var look=lookOf(breed),key=options.key||petPresetFor(breed),facing=options.facing||"front";
-  if(facing==="front"&&!options.tile&&/^data:image\/webp;base64,[A-Za-z0-9+/=]+$/.test(look.watercolor||"")){
+  if(facing==="front"&&!options.tile&&isPetArtwork(look.watercolor)){
     return '<svg class="painted-pet" viewBox="0 0 100 100" aria-hidden="true"><image href="'+look.watercolor+'" x="5" y="5" width="90" height="90" preserveAspectRatio="xMidYMax meet"/></svg>';
   }
   var fitted=options.editor||options.tile;
@@ -2632,14 +2635,14 @@ async function generatePetArtwork(jpeg,species,style){
   var result=await response.json().catch(function(){return {}});
   if(!response.ok||!result.image)throw new Error(result.error||"이미지 생성 서비스에 연결할 수 없어요.");
   var artwork=await transparentAvatar("data:image/png;base64,"+result.image);
-  if(!artwork.startsWith("data:image/webp;"))throw new Error("이 브라우저에서는 그림을 저장할 수 없어요.");
+  if(!isPetArtwork(artwork))throw new Error("이 브라우저에서는 그림을 저장할 수 없어요.");
   return artwork;
 }
 function openEdit(draft){
   if(!draft||!draft.artwork)draft=null;
   var P=S.pet,look=Object.assign({},lookOf(P.breed)),photo=P.photo;
   if(draft){look=Object.assign({},draft.look);photo=draft.photo}
-  openModal('<div class="pet-editor"><h2>우리 아이 정보</h2><label class="f" for="e-name">이름<input id="e-name" maxlength="10" value="'+esc(P.example?"":P.name)+'" placeholder="예: 콩이"></label><div class="f" style="font-size:14px;color:var(--muted)">어떤 모습인가요?</div><div id="lk" class="lk"></div><div class="pet-watercolor"><label class="filebtn">사진으로 수채화 그리기<input type="file" accept="image/*" id="e-avatar-photo"></label><p class="hint">우리 아이의 얼굴과 털무늬가 잘 보이는 사진 한 장을 골라 주세요. 사진은 그림을 만드는 서버로 전송돼요.</p><label class="f" for="e-avatar-style">그림체<select id="e-avatar-style"><option value="rounded">동글동글한 동화 수채화</option><option value="natural">사진 느낌의 수채화</option></select></label><button type="button" class="btn" id="e-avatar-generate" disabled>사진 보내고 그림 만들기</button><p class="hint" id="e-avatar-status" role="status"></p></div><div class="row">'+dateField("e-born","태어난 날",draft?draft.born:P.born)+''+dateField("e-star","별이 된 날",draft?draft.star:P.star)+'</div><label class="filebtn">추모 사진 넣기 (선택)<input type="file" accept="image/*" id="e-photo"></label><p class="hint" id="e-photo-st">'+(photo?"사진이 들어가 있어요":"사진이 없으면 고른 모습의 그림이 보여요")+'</p><button type="button" class="btn primary" id="e-save">저장하기</button><button type="button" class="linkbtn" id="e-reset">처음 상태(예시)로 되돌리기</button></div>');
+  openModal('<div class="pet-editor"><h2>우리 아이 정보</h2><label class="f" for="e-name">이름<input id="e-name" maxlength="10" value="'+esc(P.example?"":P.name)+'" placeholder="예: 콩이"></label><div class="f" style="font-size:14px;color:var(--muted)">어떤 모습인가요?</div><div id="lk" class="lk"></div><div class="pet-watercolor"><label class="filebtn">사진으로 수채화 그리기<input type="file" accept="image/*" id="e-avatar-photo"></label><p class="hint">우리 아이의 얼굴과 털무늬가 잘 보이는 사진 한 장을 골라 주세요. 사진은 그림을 만드는 서버로 전송돼요.</p><label class="f" for="e-avatar-style">그림체<select id="e-avatar-style"><option value="rounded">동글동글한 동화 수채화</option><option value="natural">사진 느낌의 수채화</option></select></label><button type="button" class="btn" id="e-avatar-generate">사진 보내고 그림 만들기</button><p class="hint" id="e-avatar-status" role="status"></p></div><div class="row">'+dateField("e-born","태어난 날",draft?draft.born:P.born)+''+dateField("e-star","별이 된 날",draft?draft.star:P.star)+'</div><label class="filebtn">추모 사진 넣기 (선택)<input type="file" accept="image/*" id="e-photo"></label><p class="hint" id="e-photo-st">'+(photo?"사진이 들어가 있어요":"사진이 없으면 고른 모습의 그림이 보여요")+'</p><button type="button" class="btn primary" id="e-save">저장하기</button><button type="button" class="linkbtn" id="e-reset">처음 상태(예시)로 되돌리기</button></div>');
   var redraw=lookPicker(look);
   var avatarInput=$("e-avatar-photo"), generate=$("e-avatar-generate"), status=$("e-avatar-status");
   var stylePicker=$("e-avatar-style");
@@ -2696,10 +2699,14 @@ function openEdit(draft){
   function captureDraft(pending){
     Object.assign(pending,{originalPet:S.pet,name:$("e-name").value,born:$("e-born").value,star:$("e-star").value,photo:photo});
   }
-  avatarInput.onchange=function(){generate.disabled=!avatarInput.files.length;status.textContent=""};
+  avatarInput.onchange=function(){status.textContent=avatarInput.files.length?"사진을 골랐어요. 아래 버튼을 눌러 그림을 만들어 주세요.":""};
   generate.onclick=function(){
     var file=avatarInput.files[0];
-    if(!file)return;
+    if(!file){
+      status.textContent="수채화로 만들 사진을 먼저 골라 주세요.";
+      avatarInput.click();
+      return;
+    }
     if(file.size>20*1024*1024){status.textContent="20MB 이하 사진을 골라 주세요.";return}
     if(avatarJob?.running){status.textContent="이미 그림을 만들고 있어요.";return}
     var pending={file:file,species:look.sp,look:Object.assign({},look),results:{}};
