@@ -1,5 +1,6 @@
 // app/sitemap.ts
 import type { MetadataRoute } from "next";
+import { wakppopPath, wakppopPaths } from "@/lib/wakppop";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = "https://www.letpang.com";
@@ -56,6 +57,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
   ];
   return pages.flatMap(page => {
     const path = page.url.slice(baseUrl.length);
+    if (path === wakppopPath) {
+      const languages = Object.fromEntries(Object.entries(wakppopPaths).map(([language, route]) => [language, `${baseUrl}${route}`]));
+      return Object.values(languages).map(url => ({ ...page, url, alternates: { languages } }));
+    }
     const englishUrl = `${baseUrl}/en${path}`;
     const alternates = { languages: { ko: page.url, en: englishUrl } };
     return [{ ...page, alternates }, { ...page, url: englishUrl, alternates }];

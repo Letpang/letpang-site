@@ -3,7 +3,7 @@ import Link from "next/link";
 import { FaApple, FaGooglePlay } from "react-icons/fa6";
 import { ArrowIcon, ClayIcon } from "./StudioIcon";
 import { SITE } from "@/lib/site";
-import { wakppopFaq, wakppopStructuredData, type WakppopLocale } from "@/lib/wakppop";
+import { wakppopDescriptions, wakppopFaq, wakppopNames, wakppopPaths, wakppopStructuredData, type WakppopLocale } from "@/lib/wakppop";
 import styles from "./WakppopPage.module.css";
 
 const media = "/screens/wakppop/";
@@ -12,6 +12,10 @@ const game = SITE.games.wakppop;
 export default function WakppopPage({ locale }: { locale: WakppopLocale }) {
   const en = locale === "en";
   const base = en ? "/en" : "";
+  const languageLinks = <div className={styles.bottomLinks}>{Object.entries({ ko: "한국어", en: "English", ja: "日本語" }).map(([code, label]) => {
+    const language = code as WakppopLocale;
+    return <Link key={language} href={wakppopPaths[language]} hrefLang={language} lang={language} aria-current={language === locale ? "page" : undefined} className="text-link">{label}</Link>;
+  })}</div>;
   const toys = [
     { image: "ice.webp", title: en ? "A little squish" : "꾹 누르는 말랑이", description: en ? "Press an ice cube, marshmallow, or pudding-shaped toy. Watch it squish and spring back." : "얼음·마시멜로·푸딩 모양을 꾹. 눌렸다가 돌아오는 움직임을 즐겨요.", alt: en ? "Real gameplay: an ice-shaped squishy toy" : "얼음 모양 말랑이를 누르는 실제 플레이 화면", theme: "ice" },
     { image: "slime.webp", title: en ? "A satisfying stretch" : "쭉 늘리는 슬라임", description: en ? "Stretch and gather slime with two fingers. Pick a soda or melon-inspired color and shape." : "소다나 멜론처럼 마음에 드는 슬라임을 골라 두 손가락으로 늘리고 모아봐요.", alt: en ? "Real gameplay: soda slime being stretched" : "소다 슬라임을 늘리는 실제 플레이 화면", theme: "slime" },
@@ -19,8 +23,33 @@ export default function WakppopPage({ locale }: { locale: WakppopLocale }) {
   ];
   const miniGames = en ? ["Wakppop Merge", "Wakppop Bubble", "Keycap Rhythm", "Wakppop Run", "Wakppop Fly", "Wakppop Sky", "Squishy Drag Merge", "Squishy Order Shop"] : ["왁뿌 머지", "왁뿌 버블", "키캡 리듬", "왁뿌 런", "왁뿌 플라이", "왁뿌 스카이", "말랑 드래그 머지", "말랑 주문소"];
   const downloadButtons = <div className={styles.actions}>
-    <a href={game.appStoreUrl} className="button button-dark" target="_blank" rel="noopener noreferrer" aria-label={en ? "Download Wakppop on the App Store" : "왁뿌팝 App Store에서 다운로드"}><FaApple className={styles.storeIcon} aria-hidden="true" />App Store<span className="button-arrow"><ArrowIcon diagonal /></span></a>
+    <a href={en ? "https://apps.apple.com/us/app/id6755481318" : game.appStoreUrl} className="button button-dark" target="_blank" rel="noopener noreferrer" aria-label={en ? "Download Wakppop on the App Store" : "왁뿌팝 App Store에서 다운로드"}><FaApple className={styles.storeIcon} aria-hidden="true" />App Store<span className="button-arrow"><ArrowIcon diagonal /></span></a>
     <a href={game.playStoreUrl} className={`button ${styles.lightButton}`} target="_blank" rel="noopener noreferrer" aria-label={en ? "Get Wakppop on Google Play" : "왁뿌팝 Google Play에서 다운로드"}><FaGooglePlay className={styles.storeIcon} aria-hidden="true" />Google Play<span className="button-arrow"><ArrowIcon diagonal /></span></a>
+  </div>;
+
+  if (locale === "ja") return <div className={styles.page} lang="ja">
+    <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(wakppopStructuredData(locale)).replace(/</g, "\\u003c") }} />
+    <nav className={styles.breadcrumb} aria-label="パンくずリスト"><Link href="/">Letpang Studio</Link><span aria-hidden="true">/</span><span>{wakppopNames.ja}</span></nav>
+    <section className={styles.hero}>
+      <div className={styles.heroCopy}>
+        <div className={styles.appIdentity}><Image src={game.iconUrl} alt="" width={52} height={52} priority /><p>ワップポップ<span>BY LETPANG STUDIO</span></p></div>
+        <h1>スクイーズ・スライム<br /><span>ASMRゲーム</span></h1>
+        <p className={styles.lead}>{wakppopDescriptions.ja}</p>
+        <div className={styles.actions}>
+          <a href="https://apps.apple.com/jp/app/id6755481318" className="button button-dark"><FaApple className={styles.storeIcon} aria-hidden="true" />App Store</a>
+          <a href={`${game.playStoreUrl}&hl=ja`} className={`button ${styles.lightButton}`}><FaGooglePlay className={styles.storeIcon} aria-hidden="true" />Google Play</a>
+        </div>
+        {languageLinks}
+        <p className={styles.fineprint}>無料ダウンロード · 広告と任意のアプリ内課金あり</p>
+      </div>
+      <figure className={styles.heroArt}>
+        <div className={styles.screenPair}><Image className={styles.phoneLeft} src={`${media}ice.webp`} alt="氷の形のスクイーズ" width={480} height={854} priority /><Image className={styles.phoneRight} src={`${media}slime.webp`} alt="スライムを伸ばすプレイ画面" width={480} height={854} priority /></div>
+        <figcaption>実際のプレイ画面</figcaption>
+      </figure>
+    </section>
+    <section className={styles.intro}><h2>パリッ、ぷにっ、トントン。</h2><p>ワックスボールの殻を割ったり、スライムを指で伸ばしたり。食べ物の形をしたキーキャップをタップして音を楽しめます。デザートを合体させるゲームや、ウサギのジャンプなど、8種類のミニゲームもあります。</p></section>
+    <section className={styles.faq}><h2>よくある質問</h2><div className="support-faq">{wakppopFaq.ja.map(({ q, a }) => <details key={q}><summary>{q}</summary><p>{a}</p></details>)}</div></section>
+    <div className={styles.bottomLinks}><Link href="/#games" className="text-link">レットパンスタジオのゲーム</Link><Link href="/en/privacy" className="text-link">プライバシーポリシー（英語）</Link><Link href="/en/support" className="text-link">サポート（英語）</Link></div>
   </div>;
 
   return <div className={styles.page} lang={locale}>
@@ -32,8 +61,9 @@ export default function WakppopPage({ locale }: { locale: WakppopLocale }) {
         <p className="eyebrow"><span className="status-dot" /> {en ? "WHAT’S NEW · VERSION 2.6.0" : "새로운 업데이트 · 2.6.0"}</p>
         <div className={styles.appIdentity}><Image src={game.iconUrl} alt="" width={52} height={52} priority /><p>{en ? "Wakppop" : "왁뿌팝"}<span>BY LETPANG STUDIO</span></p></div>
         <h1 id="wakppop-title">{en ? <>Squish. Stretch.<br /><span>A little world of play.</span></> : <>꾹, 쭉, 톡.<br /><span>손끝으로 즐기는<br />작은 놀이터.</span></>}</h1>
+        <p className={styles.lead}>{wakppopDescriptions[locale]}</p>
         <p className={styles.lead}>{en ? "Choose from 220 toys, explore themed backgrounds, and listen to a different sound with each keycap. Then fill orders in the redesigned Squishy Order Shop." : "장난감 220종을 골라 테마 배경에서 즐기고, 키캡마다 다른 소리를 들어보세요. 새로워진 말랑 주문소에서는 말랑이를 합쳐 손님의 주문을 완성해요."}</p>
-        {downloadButtons}<p className={styles.fineprint}>{en ? "Check your store for update availability. Free download with ads and optional in-app purchases." : "업데이트 제공 여부는 스토어에서 확인해 주세요. 무료 다운로드 · 광고 및 선택형 인앱 구매 포함"}</p>
+        {downloadButtons}{languageLinks}<p className={styles.fineprint}>{en ? "Check your store for update availability. Free download with ads and optional in-app purchases." : "업데이트 제공 여부는 스토어에서 확인해 주세요. 무료 다운로드 · 광고 및 선택형 인앱 구매 포함"}</p>
       </div>
       <figure className={styles.heroArt}>
         <span className={styles.heroWord} aria-hidden="true">squish!</span>

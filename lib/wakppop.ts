@@ -1,8 +1,11 @@
 import type { Metadata } from "next";
 import { SITE } from "./site";
 
-export type WakppopLocale = "ko" | "en";
+export type WakppopLocale = "ko" | "en" | "ja";
 export const wakppopPath = "/games/wakppop";
+export const wakppopPaths = { ko: wakppopPath, en: `/en${wakppopPath}`, ja: `/ja${wakppopPath}` };
+export const wakppopNames = { ko: "왁뿌팝", en: "Wakppop", ja: "ワップポップ" };
+const locales = { ko: "ko_KR", en: "en_US", ja: "ja_JP" };
 export const wakppopOrigin = "https://www.letpang.com";
 export const wakppopFaq = {
   ko: [
@@ -19,31 +22,45 @@ export const wakppopFaq = {
     { q: "Can I adjust sound and vibration?", a: "Sound volume and vibration can be adjusted in the app settings. Vibration support depends on your device. These are digital toys enjoyed through touch controls and sound." },
     { q: "Does ad removal also remove rewarded ads?", a: "Permanent ad removal removes banner and regular interstitial ads. Optional rewarded ads for extra coins and rubies remain available. Non-consumable purchases support restoration." },
   ],
+  ja: [
+    { q: "ワップポップはどんなアプリですか？", a: "レットパンスタジオのASMRゲームです。ワックスボール、スクイーズ、スライム、キーキャップで遊べるほか、ビー玉集めや8種類のミニゲームも楽しめます。" },
+    { q: "無料でダウンロードできますか？", a: "無料でダウンロードできます。広告と任意のアプリ内課金が含まれます。" },
+    { q: "iPhoneとAndroidで遊べますか？", a: "App StoreとGoogle Playで配信しています。対応機種は各ストアをご確認ください。" },
+    { q: "音や振動は調整できますか？", a: "アプリの設定で調整できます。振動の対応状況は端末によって異なります。" },
+    { q: "広告を削除するとリワード広告も消えますか？", a: "広告削除の購入でバナー広告と通常の全画面広告が消えます。追加報酬を受け取る任意のリワード広告は引き続き利用できます。" },
+  ],
 } as const;
 
+export const wakppopDescriptions = {
+  ko: "왁뿌볼을 깨고 말랑이를 누르고 슬라임을 늘려 보세요. 키캡 소리까지 즐기는 왁뿌 게임, 왁뿌팝.",
+  en: "Crack wax balls, stretch slime, squeeze squishies, and tap colorful keycaps in Wakppop, an interactive ASMR game.",
+  ja: "ワックスボールをパリッと割って、スライムを伸ばそう。スクイーズやキーキャップの音も楽しめるASMRゲーム、ワップポップ。",
+};
+
 export function wakppopMetadata(locale: WakppopLocale): Metadata {
-  const en = locale === "en";
-  const path = `${en ? "/en" : ""}${wakppopPath}`;
-  const title = en ? "Wakppop — Slime, Squishy ASMR & Mini-games" : "왁뿌팝 — 말랑이·슬라임 ASMR과 미니게임";
-  const description = en
-    ? "Meet Wakppop by Letpang Studio: squish toys, stretch slime, click food-shaped keycaps, collect marbles, and play eight mini-games. See real gameplay and download for iOS or Android."
-    : "렛팡의 왁뿌팝에서 왁뿌볼·말랑이·슬라임·키캡 ASMR과 구슬 수집, 디저트 머지·토끼 점프 등 8가지 미니게임을 만나보세요. 실제 플레이와 광고·구매 안내, iPhone·Android 설치 링크를 확인하세요.";
-  const image = { url: "/screens/wakppop/og.jpg", width: 1200, height: 630, alt: en ? "Wakppop: real squishy, slime and rabbit-run gameplay" : "말랑이·슬라임·토끼 런 실제 플레이와 왁뿌팝 아이콘" };
+  const path = wakppopPaths[locale];
+  const title = {
+    ko: "왁뿌팝 — 왁뿌볼 게임·말랑이·슬라임 ASMR",
+    en: "Wakppop — Squishy & Slime ASMR Game, Wax Balls",
+    ja: "ワップポップ — スクイーズ・スライム ASMRゲーム",
+  }[locale];
+  const description = wakppopDescriptions[locale];
+  const image = { url: "/screens/wakppop/og.jpg", width: 1200, height: 630, alt: title };
   return {
     title, description,
-    alternates: { canonical: path, languages: { ko: wakppopPath, en: `/en${wakppopPath}` } },
-    openGraph: { title, description, url: path, siteName: SITE.name, locale: en ? "en_US" : "ko_KR", alternateLocale: [en ? "ko_KR" : "en_US"], type: "website", images: [image] },
+    alternates: { canonical: path, languages: wakppopPaths },
+    openGraph: { title, description, url: path, siteName: SITE.name, locale: locales[locale], alternateLocale: Object.values(locales).filter(value => value !== locales[locale]), type: "website", images: [image] },
     twitter: { card: "summary_large_image", title, description, images: [image.url] },
   };
 }
 
 export function wakppopStructuredData(locale: WakppopLocale) {
   const en = locale === "en";
-  const url = `${wakppopOrigin}${en ? "/en" : ""}${wakppopPath}`;
+  const url = `${wakppopOrigin}${wakppopPaths[locale]}`;
   return { "@context": "https://schema.org", "@graph": [
     { "@type": "Organization", "@id": `${wakppopOrigin}/#organization`, name: "Letpang Studio", alternateName: "렛팡 스튜디오", url: wakppopOrigin, logo: `${wakppopOrigin}/art/letpang-logo-v2.webp`, sameAs: ["https://clip.naver.com/@letpang_studio"] },
-    { "@type": "SoftwareApplication", "@id": `${url}#app`, name: en ? "Wakppop" : "왁뿌팝", alternateName: en ? "왁뿌팝" : "Wakppop", url, image: `${wakppopOrigin}/icons/wakppop.jpg`, applicationCategory: "GameApplication", operatingSystem: "Android, iOS, iPadOS", author: { "@id": `${wakppopOrigin}/#organization` }, description: wakppopFaq[locale][0].a, installUrl: [SITE.games.wakppop.appStoreUrl, SITE.games.wakppop.playStoreUrl], offers: { "@type": "Offer", price: "0", priceCurrency: "KRW", description: en ? "Free download with ads and optional in-app purchases." : "무료 다운로드. 광고와 선택형 인앱 구매 포함." } },
-    { "@type": "FAQPage", "@id": `${url}#faq`, inLanguage: en ? "en" : "ko", mainEntity: wakppopFaq[locale].map(({ q, a }) => ({ "@type": "Question", name: q, acceptedAnswer: { "@type": "Answer", text: a } })) },
-    { "@type": "BreadcrumbList", itemListElement: [{ "@type": "ListItem", position: 1, name: SITE.name, item: `${wakppopOrigin}${en ? "/en" : "/"}` }, { "@type": "ListItem", position: 2, name: en ? "Wakppop" : "왁뿌팝", item: url }] },
+    { "@type": "SoftwareApplication", "@id": `${url}#app`, name: wakppopNames[locale], alternateName: en ? "왁뿌팝" : "Wakppop", url, image: `${wakppopOrigin}/icons/wakppop.jpg`, applicationCategory: "GameApplication", operatingSystem: "Android, iOS, iPadOS", author: { "@id": `${wakppopOrigin}/#organization` }, description: wakppopFaq[locale][0].a, installUrl: [SITE.games.wakppop.appStoreUrl, SITE.games.wakppop.playStoreUrl], offers: { "@type": "Offer", price: "0", priceCurrency: "KRW", description: wakppopFaq[locale][1].a } },
+    { "@type": "FAQPage", "@id": `${url}#faq`, inLanguage: locale, mainEntity: wakppopFaq[locale].map(({ q, a }) => ({ "@type": "Question", name: q, acceptedAnswer: { "@type": "Answer", text: a } })) },
+    { "@type": "BreadcrumbList", itemListElement: [{ "@type": "ListItem", position: 1, name: SITE.name, item: `${wakppopOrigin}${en ? "/en" : "/"}` }, { "@type": "ListItem", position: 2, name: wakppopNames[locale], item: url }] },
   ] };
 }

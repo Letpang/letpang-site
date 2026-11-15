@@ -1,3 +1,4 @@
+import { wakppopPaths } from "@/lib/wakppop";
 import Image from "next/image";
 import Link from "next/link";
 import { FaApple, FaGooglePlay } from "react-icons/fa6";
@@ -38,6 +39,7 @@ export default function GameCard({ game, locale = "ko" }: { game: Game; locale?:
       <div className="game-info">
         <div className="game-name-row"><h4>{game.path ? <Link href={game.path}>{game.titleKr}</Link> : game.titleKr}</h4>{game.path && <Link href={game.path} className="game-detail-link" aria-label={en ? `More about ${game.titleKr}` : `${game.titleKr} 자세히 보기`}><ArrowUpRight size={19} strokeWidth={1.8} aria-hidden="true" /></Link>}</div>
         <p>{game.descriptionKr}</p>
+        {game.id === "wakppop" && <Link href={wakppopPaths.ja} hrefLang="ja" lang="ja" className="text-link">日本語で見る <ArrowUpRight aria-hidden="true" /></Link>}
         {!en && game.id === "hangulpop" && <>
           <ul className="game-tags">{["상황별 대화", "활용형 연습", "말하기·단어 복습"].map(item => <li key={item}>{item}</li>)}</ul>
           <p className="game-note">말하기 일치율은 원어민 발음 점수가 아닌, 음성으로 인식된 문장과 목표 문장의 비교 결과입니다. 무료·유료 기능을 제공합니다.</p>
