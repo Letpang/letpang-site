@@ -28,11 +28,14 @@ export default function JapaneseHome() {
       </div>
       <figure className="hero-world"><Image src="/art/letpang-home-garden-v4.webp" alt="ソウルをイメージした庭に集まるレットパンのキャラクター" width={1536} height={1024} sizes="(max-width: 760px) 100vw, 60vw" priority /></figure>
     </section>
+    <section className="studio-story">
+      <div className="story-intro"><Image src="/icons/dasi-uri.png" alt="" width={72} height={72} /><h2>虹の橋：また会おう</h2><p>ペットロス・ペット追悼アプリ</p><p>大切なペットをしのび、写真から水彩画を作ったり、手紙を残したりできる場所です。</p><a className="text-link" href="https://play.google.com/store/apps/details?id=com.letpang.dasiuri&hl=ja">Google Play</a> <Link href="/dasi-uri/index.html" className="text-link">ウェブ版を開く（韓国語）</Link></div>
+    </section>
     <section className="portfolio-section" id="games">
       <div className="section-heading"><h2>ゲーム・アプリ</h2></div>
       <div className="portfolio-grid">{englishGames.map((game, index) => <article key={game.id} className="portfolio-card">
         <div className="game-info">
-          <Image src={game.iconUrl} alt="" width={72} height={72} />
+          <Image src={game.iconUrl} alt="" width={72} height={72} style={{ borderRadius: 16 }} />
           <h3>{titles[index]}</h3><p>{descriptions[index]}</p>
           {game.id === "wakppop" && <Link href="/ja/games/wakppop" className="text-link">詳しく見る</Link>}
           <div className="store-links">
@@ -41,9 +44,6 @@ export default function JapaneseHome() {
           </div>
         </div>
       </article>)}</div>
-    </section>
-    <section className="studio-story">
-      <div className="story-intro"><h2>虹の橋：また会おう</h2><p>大切なペットをしのび、写真から水彩画を作ったり、手紙を残したりできる場所です。</p><Link href="/dasi-uri/index.html" className="text-link">ウェブ版を開く（韓国語）</Link></div>
     </section>
   </div>;
 }
