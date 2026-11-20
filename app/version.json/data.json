@@ -8,12 +8,12 @@
   "apps": {
     "hangeulpop": {
       "ios": {
-        "latestVersion": "2.0.27",
+        "latestVersion": "2.0.31",
         "minimumVersion": "2.0.26",
         "storeUrl": "https://apps.apple.com/app/id6793157518"
       },
       "android": {
-        "latestVersion": "2.0.30",
+        "latestVersion": "2.0.31",
         "minimumVersion": "2.0.25",
         "storeUrl": "https://play.google.com/store/apps/details?id=com.dh.hangulstreet"
       }
