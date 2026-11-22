@@ -41,6 +41,18 @@
         "minimumVersion": "1.0.0",
         "storeUrl": "https://play.google.com/store/apps/details?id=com.letpang.hangulpoptravel"
       }
+    },
+    "gachapop": {
+      "ios": {
+        "latestVersion": "1.1.0",
+        "minimumVersion": "1.0.0",
+        "storeUrl": "https://apps.apple.com/app/id6829125344"
+      },
+      "android": {
+        "latestVersion": "1.1.0",
+        "minimumVersion": "1.0.0",
+        "storeUrl": "https://play.google.com/store/apps/details?id=com.gachapop.app"
+      }
     }
   }
 }
